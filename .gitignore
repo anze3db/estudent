@@ -27,3 +27,7 @@ local.properties
 # eclipse
 
 .metadata/
+
+# sqlite
+
+*.db
