@@ -25,7 +25,9 @@ gen/
 local.properties
 
 # eclipse
-
+.project
+.pydevproject
+.classpath
 .metadata/
 
 # sqlite
