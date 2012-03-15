@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        
-    (r'^admin/', include(admin.site.urls)),
+    (r'', include(admin.site.urls)),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),
