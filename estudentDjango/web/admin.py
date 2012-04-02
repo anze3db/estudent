@@ -12,7 +12,6 @@ class CountryAdmin(admin.ModelAdmin):
 
     def admin_update_countries(self, request):
         
-        messages.error(request, "The message")
         csv_data = urlopen(self.UPDATE_URL, data=urlencode(
 				{'__EVENTTARGET':'lbtnCSV',
 				 '__VIEWSTATE':'/wEPDwUKMTE0NzM0NDIwOA8WAh4IRmlsZU5hbWUFDERSWkFWRV8yMDA3YRYCAgUPZBYCAgEPDxYCHgRUZXh0BUZEUlpBVkUgLSBEcsW+YXZlIGluIGRydWdhIG96ZW1samEgLSBzbG92ZW5za2kgc3RhbmRhcmQgSVNPIDMxNjYsIDIwMDdhZGRkGIb41rYrP0v4AjxvttSQlHzBYkKrRV1AnnRqhWi3Khc=',
@@ -28,6 +27,7 @@ class CountryAdmin(admin.ModelAdmin):
             #c.descriptor = l[2]
             c.descriptor_english = l[3]
             c.save()
+        messages.success(request, "Countries added successfully")
         
         return redirect('/web/country')
 
