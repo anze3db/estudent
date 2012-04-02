@@ -7,4 +7,7 @@ class Country(models.Model):
 	descriptor_english = models.CharField(max_length=255)
 	
 	def __unicode__(self):
-		return self.descriptor_english
+		return self.descriptor
+	
+	
+		

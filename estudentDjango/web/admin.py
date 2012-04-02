@@ -4,11 +4,16 @@ from django.shortcuts import redirect
 from urllib import urlopen
 from urllib import urlencode
 from web.models import Country
+from django.utils.encoding import smart_unicode
 
 class CountryAdmin(admin.ModelAdmin):
 
     UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
     model = Country
+    
+    list_display = ('descriptor',)
+    ordering = ('-descriptor',)
+    search_fields = ('descriptor',)
 
     def admin_update_countries(self, request):
         
@@ -19,14 +24,19 @@ class CountryAdmin(admin.ModelAdmin):
 						
 				}))
         csv_data.readline()
+        
+        # remove all the data from the table:
+        Country.objects.all().delete();
+        
         for line in csv_data.readlines():
             l = line.split(';')
             c = Country()
-            #print l[1], str(l[2]), l[3]
+            print l[1], str(l[2]), l[3]
             c.category_code = l[1]
-            #c.descriptor = l[2]
+            c.descriptor = smart_unicode(l[2], encoding='windows-1250', strings_only=False, errors='strict')
             c.descriptor_english = l[3]
             c.save()
+            
         messages.success(request, "Countries added successfully")
         
         return redirect('/web/country')
