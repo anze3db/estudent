@@ -32,9 +32,9 @@ class CountryAdmin(admin.ModelAdmin):
             l = line.split(';')
             c = Country()
             print l[1], str(l[2]), l[3]
-            c.category_code = l[1]
-            c.descriptor = smart_unicode(l[2], encoding='windows-1250', strings_only=False, errors='strict')
-            c.descriptor_english = l[3]
+            c.category_code = l[1].strip()
+            c.descriptor = smart_unicode(l[2].strip(), encoding='windows-1250', strings_only=False, errors='strict')
+            c.descriptor_english = l[3].strip()
             c.save()
             
         messages.success(request, "Countries added successfully")
