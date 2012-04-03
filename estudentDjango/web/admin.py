@@ -12,7 +12,7 @@ class CountryAdmin(admin.ModelAdmin):
     model = Country
     
     list_display = ('descriptor',)
-    ordering = ('-descriptor',)
+    ordering = ('descriptor',)
     search_fields = ('descriptor',)
 
     def admin_update_countries(self, request):
