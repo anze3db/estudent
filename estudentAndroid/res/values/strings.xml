@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, LoginActivity!</string>
     <string name="app_name">eStudent</string>
+    <string name="username">Username: </string>
+    <string name="password">Password: </string>
+    <string name="confirm">Confirm</string>
+    
+    <string name="error_required">required</string>
+    <string name="error_wrongUP">Wrong username or password</string>
 
 </resources>
