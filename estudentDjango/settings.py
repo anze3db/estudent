@@ -34,7 +34,7 @@ TIME_ZONE = 'Europe/Ljubljana'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'si'
+LANGUAGE_CODE = 'sl'
 
 SITE_ID = 1
 
@@ -149,3 +149,4 @@ LOGGING = {
     }
 }
 STATIC_DOC_ROOT = PROJECT_PATH + '/site_media'
+

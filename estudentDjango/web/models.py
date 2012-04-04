@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import ugettext as _
+
 
 # Create your models here.
 class Country(models.Model):
@@ -6,6 +8,10 @@ class Country(models.Model):
 	descriptor    = models.CharField(max_length=255)
 	descriptor_english = models.CharField(max_length=255)
 	
+	class Meta:
+		verbose_name_plural = _("countries")
+		verbose_name = _("country")
+		
 	def __unicode__(self):
 		return self.descriptor
 	
