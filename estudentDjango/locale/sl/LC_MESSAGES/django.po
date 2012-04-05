@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 16:11+0200\n"
+"POT-Creation-Date: 2012-04-05 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3)\n"
+
+#: codelist/admin.py:41
+msgid "Countries added successfully"
+msgstr "Države so bile uspešno dodane"
+
+#: codelist/models.py:12
+msgid "countries"
+msgstr "države"
+
+#: codelist/models.py:13
+msgid "country"
+msgstr "državo"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"
@@ -130,7 +142,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/admin/change_list.html:64
-#: templates/admin/web/country/change_list.html:5
+#: templates/admin/codelist/country/change_list.html:5
 #, python-format
 msgid "Add %(name)s"
 msgstr ""
@@ -331,6 +343,10 @@ msgstr ""
 msgid "Enter the same password as above, for verification."
 msgstr ""
 
+#: templates/admin/codelist/country/change_list.html:10
+msgid "Update all"
+msgstr "Posodobi vse"
+
 #: templates/admin/edit_inline/stacked.html:67
 #: templates/admin/edit_inline/tabular.html:113
 #, python-format
@@ -346,14 +362,5 @@ msgstr ""
 msgid "Delete?"
 msgstr ""
 
-#: templates/admin/web/country/change_list.html:10
-msgid "Update all"
-msgstr "Posodobi vse"
-
-#: web/models.py:12
-msgid "countries"
-msgstr "države"
-
-#: web/models.py:13
-msgid "country"
-msgstr "državo"
+#~ msgid "codelist"
+#~ msgstr "šifranti"

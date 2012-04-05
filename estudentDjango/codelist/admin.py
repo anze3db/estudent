@@ -3,8 +3,9 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect
 from urllib import urlopen
 from urllib import urlencode
-from web.models import Country
+from codelist.models import Country
 from django.utils.encoding import smart_unicode
+from django.utils.translation import ugettext as _
 
 class CountryAdmin(admin.ModelAdmin):
 
@@ -37,9 +38,9 @@ class CountryAdmin(admin.ModelAdmin):
             c.descriptor_english = l[3].strip()
             c.save()
             
-        messages.success(request, "Countries added successfully")
+        messages.success(request, _("Countries added successfully"))
         
-        return redirect('/web/country')
+        return redirect('/codelist/country')
 
     # override the get_urls to add a custom view:
     def get_urls(self):
