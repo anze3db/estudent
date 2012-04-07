@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-07 14:06+0200\n"
+"POT-Creation-Date: 2012-04-07 18:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,9 +51,45 @@ msgstr "Naziv v angleščini"
 msgid "countries"
 msgstr "države"
 
-#: codelist/models.py:15
+#: codelist/models.py:15 student/models.py:16
 msgid "country"
 msgstr "državo"
+
+#: student/models.py:6
+msgid "enrollment number"
+msgstr "vpisna številka"
+
+#: student/models.py:7
+msgid "name"
+msgstr "ime"
+
+#: student/models.py:8
+msgid "surname"
+msgstr "priimek"
+
+#: student/models.py:9
+msgid "social security number"
+msgstr "EMŠO"
+
+#: student/models.py:10
+msgid "tax number"
+msgstr "davčna številka"
+
+#: student/models.py:11
+msgid "address"
+msgstr "Naslov stalnega bivališča"
+
+#: student/models.py:12
+msgid "temporary address"
+msgstr "Naslov začasnega bivališča"
+
+#: student/models.py:15
+msgid "street"
+msgstr "Ulica (naselje) in hišna številka"
+
+#: student/models.py:19
+msgid "student"
+msgstr "Študent"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"
