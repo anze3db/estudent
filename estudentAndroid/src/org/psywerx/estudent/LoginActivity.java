@@ -1,68 +1,69 @@
 package org.psywerx.estudent;
 
+import com.google.gson.Gson;
+
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 
-	private Context mContext;
-	private EditText eUsername;
-	private EditText ePassword;
-	private Button btnConfirm;
+	private EditText mEditUsername;
+	private EditText mEditPassword;
+	private Button mBtnConfirm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		mContext = this;
-
+		Gson g = new Gson();
 		init();
 	}
-	
+
 	private void init() {
-		eUsername = (EditText) findViewById(R.id.eUsername);
-		ePassword = (EditText) findViewById(R.id.ePassword);
-		btnConfirm = (Button) findViewById(R.id.btnConfirm);
+		mEditUsername = (EditText) findViewById(R.id.eUsername);
+		mEditPassword = (EditText) findViewById(R.id.ePassword);
+		mBtnConfirm = (Button) findViewById(R.id.btnConfirm);
 		setListeners();
 	}
-	
+
 	private void setListeners(){
-		eUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		mEditUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean focus) {
-				changeInputFeeldFocus((EditText) v,focus,getString(R.string.edit_text_username),false);
+				changedFocus((EditText) v,focus,getString(R.string.edit_text_username),false);
 			}
 		});
-		ePassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		mEditPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean focus) {
-				changeInputFeeldFocus((EditText) v,focus,getString(R.string.edit_text_password),true);
+				changedFocus((EditText) v,focus,getString(R.string.edit_text_password),true);
 			}
 		});
-		
-		btnConfirm.setOnClickListener(new View.OnClickListener() {
+
+		mBtnConfirm.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (eUsername.length() == 0 ) {
-					eUsername.setError(getText(R.string.error_required));
+				String username = mEditUsername.getText().toString();
+				String password = mEditPassword.getText().toString();
+				if (username.equals(getString(R.string.edit_text_username)) || 
+						mEditUsername.length() == 0 ) {
+					mEditUsername.setError(getText(R.string.error_required));
 					return;
 				}
-				if (ePassword.length() == 0) {
-					ePassword.setError(getText(R.string.error_required));
+				if (password.equals(getString(R.string.edit_text_password)) ||
+						mEditPassword.length() == 0 ) {
+					mEditPassword.setError(getText(R.string.error_required));
 					return;
 				}
-				Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).
-						show();
+				LoginAsyncTask lat = new LoginAsyncTask();
+				lat.execute(username,password);
+				//Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).show();
 			}
 		});
-		
 	}
 
-	protected void changeInputFeeldFocus(EditText v, boolean hasFocus, String message, boolean isPassword) {
+	protected void changedFocus(EditText v, boolean hasFocus, String message, boolean isPassword) {
 		if (hasFocus){
 			if (v.getText().toString().equals(message)){
 				v.setText("");
