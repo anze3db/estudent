@@ -9,4 +9,8 @@
     <string name="error_required">required</string>
     <string name="error_wrongUP">Wrong username or password</string>
 
+    
+    <string name="edit_text_username">Ime </string>
+    <string name="edit_text_password">Geslo </string>
+    
 </resources>

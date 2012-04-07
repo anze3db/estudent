@@ -1,4 +1,6 @@
+<resources>
 
-    <resources>
-        <color name="black">#000000</color>
-    </resources>
+    <color name="black">#000000</color>
+	<color name="gray">#808080</color>
+    
+</resources>
