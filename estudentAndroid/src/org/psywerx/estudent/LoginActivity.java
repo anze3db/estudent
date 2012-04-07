@@ -46,20 +46,23 @@ public class LoginActivity extends Activity {
 
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (eUsername.getText().toString().equals(getString(R.string.edit_text_username)) || 
+				String username = eUsername.getText().toString();
+				String password = ePassword.getText().toString();
+				if (username.equals(getString(R.string.edit_text_username)) || 
 						eUsername.length() == 0 ) {
 					eUsername.setError(getText(R.string.error_required));
 					return;
 				}
-				if (ePassword.getText().toString().equals(getString(R.string.edit_text_password)) ||
+				if (password.equals(getString(R.string.edit_text_password)) ||
 						ePassword.length() == 0 ) {
 					ePassword.setError(getText(R.string.error_required));
 					return;
 				}
-				Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).show();
+				LoginAsyncTask lat = new LoginAsyncTask();
+				lat.execute(username,password);
+				//Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).show();
 			}
 		});
-
 	}
 
 	protected void changedFocus(EditText v, boolean hasFocus, String message, boolean isPassword) {
