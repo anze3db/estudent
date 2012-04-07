@@ -1,7 +1,5 @@
 package org.psywerx.estudent;
 
-import com.google.gson.Gson;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,7 +17,6 @@ public class LoginActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		Gson g = new Gson();
 		init();
 	}
 
