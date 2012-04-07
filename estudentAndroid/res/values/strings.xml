@@ -2,12 +2,10 @@
 <resources>
 
     <string name="app_name">eStudent</string>
-    <string name="username">Username: </string>
-    <string name="password">Password: </string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Prijava</string>
     
-    <string name="error_required">required</string>
-    <string name="error_wrongUP">Wrong username or password</string>
+    <string name="error_required">Obvezno polje</string>
+    <string name="error_wrongUP">Napacno Ime ali Geslo</string>
 
     
     <string name="edit_text_username">Ime </string>

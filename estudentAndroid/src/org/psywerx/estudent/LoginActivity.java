@@ -2,7 +2,6 @@ package org.psywerx.estudent;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -25,44 +24,45 @@ public class LoginActivity extends Activity {
 
 		init();
 	}
-	
+
 	private void init() {
 		eUsername = (EditText) findViewById(R.id.eUsername);
 		ePassword = (EditText) findViewById(R.id.ePassword);
 		btnConfirm = (Button) findViewById(R.id.btnConfirm);
 		setListeners();
 	}
-	
+
 	private void setListeners(){
 		eUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean focus) {
-				changeInputFeeldFocus((EditText) v,focus,getString(R.string.edit_text_username),false);
+				changedFocus((EditText) v,focus,getString(R.string.edit_text_username),false);
 			}
 		});
 		ePassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean focus) {
-				changeInputFeeldFocus((EditText) v,focus,getString(R.string.edit_text_password),true);
+				changedFocus((EditText) v,focus,getString(R.string.edit_text_password),true);
 			}
 		});
-		
+
 		btnConfirm.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (eUsername.length() == 0 ) {
+				if (eUsername.getText().toString().equals(getString(R.string.edit_text_username)) || 
+						eUsername.length() == 0 ) {
 					eUsername.setError(getText(R.string.error_required));
 					return;
 				}
-				if (ePassword.length() == 0) {
+				if (ePassword.getText().toString().equals(getString(R.string.edit_text_password)) ||
+						ePassword.length() == 0 ) {
 					ePassword.setError(getText(R.string.error_required));
 					return;
 				}
-				Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).
-						show();
+				Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+
 	}
 
-	protected void changeInputFeeldFocus(EditText v, boolean hasFocus, String message, boolean isPassword) {
+	protected void changedFocus(EditText v, boolean hasFocus, String message, boolean isPassword) {
 		if (hasFocus){
 			if (v.getText().toString().equals(message)){
 				v.setText("");
