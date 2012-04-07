@@ -4,31 +4,15 @@
     android:layout_height="fill_parent"
     android:background="@drawable/background_login" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/eUsername"
-        android:layout_toLeftOf="@+id/eUsername"
-        android:text="@string/username"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/eUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="text" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ePassword"
-        android:layout_toLeftOf="@+id/ePassword"
-        android:text="@string/password"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+        android:inputType="text"
+        android:text="@string/edit_text_username"
+        android:textColor="@color/gray" />
 
     <EditText
         android:id="@+id/ePassword"
@@ -37,7 +21,9 @@
         android:layout_alignLeft="@+id/eUsername"
         android:layout_alignRight="@+id/eUsername"
         android:layout_below="@+id/eUsername"
-        android:inputType="textPassword" />
+        android:inputType="text"
+        android:text="@string/edit_text_password"
+        android:textColor="@color/gray" />
 
     <Button
         android:id="@+id/btnConfirm"
