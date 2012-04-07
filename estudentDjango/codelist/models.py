@@ -6,9 +6,9 @@ from urllib import urlopen, urlencode
 
 # Create your models here.
 class Country(models.Model):
-    category_code = models.CharField(max_length=3)
-    descriptor = models.CharField(max_length=255)
-    descriptor_english = models.CharField(max_length=255)
+    category_code = models.CharField(_("country code"), max_length=3)
+    descriptor = models.CharField(_("country name"), max_length=255)
+    descriptor_english = models.CharField(_("country name original"), max_length=255)
     
     class Meta:
         verbose_name_plural = _("countries")
