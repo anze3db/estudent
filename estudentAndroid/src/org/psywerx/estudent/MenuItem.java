@@ -2,19 +2,34 @@ package org.psywerx.estudent;
 
 public class MenuItem {
 	   
-    private String orderName;
-    private String orderStatus;
-   
-    public String getOrderName() {
-        return orderName;
+    private String itemName;
+    private String itemDescription;
+    private int action;
+
+    public MenuItem() {
+	}
+    public MenuItem(String itemName, String itemDescription, int action) {
+    	this.itemName = itemName;
+    	this.itemDescription = itemDescription;
+    	this.action = action;
+	}
+    
+    public String getItemName() {
+        return itemName;
     }
-    public void setOrderName(String orderName) {
-        this.orderName = orderName;
+    public void setItemName(String orderName) {
+        this.itemName = orderName;
     }
-    public String getOrderStatus() {
-        return orderStatus;
+    public String getItemDescription() {
+        return itemDescription;
     }
-    public void setOrderStatus(String orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setItemDescription(String orderStatus) {
+        this.itemDescription = orderStatus;
     }
+    public int getAction() {
+		return action;
+	}
+    public void setAction(int action) {
+		this.action = action;
+	}
 }
