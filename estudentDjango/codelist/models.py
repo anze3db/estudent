@@ -39,3 +39,32 @@ class Country(models.Model):
             c.descriptor = smart_unicode(l[2].strip(), encoding='windows-1250', strings_only=False, errors='strict')
             c.descriptor_english = l[3].strip()
             c.save()
+            
+class StudyProgram(models.Model):
+    program_code = models.CharField(_("program code"), max_length=5)
+    descriptor = models.CharField(_("program name"), max_length=255)
+    
+    class Meta:
+        verbose_name_plural = _("study programs")
+        verbose_name = _("study program")
+        
+    def __unicode__(self):
+        return self.descriptor
+    
+    @classmethod
+    def updateAll(cls):
+        UPDATE_FILE = 'programSmerIzbirnaSkupina.txt'
+        
+        csv_file = open(UPDATE_FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        # remove all the data from the table:
+        StudyProgram.objects.all().delete();
+        
+        for line in csv_data:
+            l = line.split('\t')
+            c = StudyProgram()
+            c.program_code = l[0].strip()
+            c.descriptor = smart_unicode(l[1].strip(), encoding='windows-1250', strings_only=False, errors='strict')
+            c.save()

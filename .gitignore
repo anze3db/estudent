@@ -33,3 +33,5 @@ local.properties
 # sqlite
 
 *.db
+
+*~
