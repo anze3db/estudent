@@ -3,19 +3,20 @@ package org.psywerx.estudent;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MenuActivity extends ListActivity{
 
-	private ProgressDialog m_ProgressDialog = null;
+	private static final int ACTION_LOGOUT = 0;
+	private static final int ACTION_DISPLAY_MY_EXAMS = 1;
+
 	private ArrayList<MenuItem> mMenuItemsList = null;
 	private MenuAdapter mMenuAdapter;
 
@@ -29,20 +30,16 @@ public class MenuActivity extends ListActivity{
 
 		fillMenuItems();
 	}
-	
+
 	private void fillMenuItems(){
 		mMenuItemsList = new ArrayList<MenuItem>();
-		MenuItem o1 = new MenuItem();
-		o1.setOrderName("User: lolIme");
-		o1.setOrderStatus("logout");
-		MenuItem o2 = new MenuItem();
-		o2.setOrderName("izpiti");
-		o2.setOrderStatus("pregled in odjava");
+		MenuItem o1 = new MenuItem("odjava","odjava iz sistema",ACTION_LOGOUT);
+		MenuItem o2 = new MenuItem("izpis","izpis mojih izpitov",ACTION_DISPLAY_MY_EXAMS);
 		mMenuItemsList.add(o1);
 		mMenuItemsList.add(o2);
-		
+
 		D.dbgi("Menu items: "+ mMenuItemsList.size());
-		
+
 		if(mMenuItemsList != null && mMenuItemsList.size() > 0){
 			mMenuAdapter.notifyDataSetChanged();
 			for(int i=0;i<mMenuItemsList.size();i++)
@@ -50,7 +47,28 @@ public class MenuActivity extends ListActivity{
 		}
 		mMenuAdapter.notifyDataSetChanged();
 	}
-	
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		MenuItem item = mMenuItemsList.get(position);
+		if (item != null){
+			D.dbgv("menu item pos: "+position+"  ime: "+item.getItemName());
+			switch (item.getAction()) {
+			case ACTION_LOGOUT:
+
+				break;
+			case ACTION_DISPLAY_MY_EXAMS:
+
+				break;
+
+			default:
+				break;
+			}
+		}else{
+			super.onListItemClick(l, v, position, id);
+		}
+	}
+
 	private class MenuAdapter extends ArrayAdapter<MenuItem> {
 
 		private ArrayList<MenuItem> items;
@@ -71,9 +89,9 @@ public class MenuActivity extends ListActivity{
 				TextView tt = (TextView) v.findViewById(R.id.toptext);
 				TextView bt = (TextView) v.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText(o.getOrderName());                            }
+					tt.setText(o.getItemName());                            }
 				if(bt != null){
-					bt.setText(o.getOrderStatus());
+					bt.setText(o.getItemDescription());
 				}
 			}
 			return v;

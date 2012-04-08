@@ -53,11 +53,11 @@ public class AppliedExamsActivity extends ListActivity {
 		try{
 			m_orders = new ArrayList<MenuItem>();
 			MenuItem o1 = new MenuItem();
-			o1.setOrderName("SF services");
-			o1.setOrderStatus("Pending");
+			o1.setItemName("SF services");
+			o1.setItemDescription("Pending");
 			MenuItem o2 = new MenuItem();
-			o2.setOrderName("SF Advertisement");
-			o2.setOrderStatus("Completed");
+			o2.setItemName("SF Advertisement");
+			o2.setItemDescription("Completed");
 			m_orders.add(o1);
 			m_orders.add(o2);
 			Thread.sleep(5000);
@@ -87,9 +87,9 @@ public class AppliedExamsActivity extends ListActivity {
 				TextView tt = (TextView) v.findViewById(R.id.toptext);
 				TextView bt = (TextView) v.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText("Name: "+o.getOrderName());                            }
+					tt.setText("Name: "+o.getItemName());                            }
 				if(bt != null){
-					bt.setText("Status: "+ o.getOrderStatus());
+					bt.setText("Status: "+ o.getItemDescription());
 				}
 			}
 			return v;
