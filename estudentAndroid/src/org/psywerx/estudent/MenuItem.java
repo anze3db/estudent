@@ -1,10 +1,15 @@
 package org.psywerx.estudent;
 
 public class MenuItem {
-	   
+	
+	public static final int LOGOUT_ICON = 0;
+	public static final int NOTEPAD_ICON = 1;
+	
+	
     private String itemName;
     private String itemDescription;
     private int action;
+    private int icon;
 
     public MenuItem() {
 	}
@@ -31,5 +36,11 @@ public class MenuItem {
 	}
     public void setAction(int action) {
 		this.action = action;
+	}
+    public void setIcon(int icon) {
+		this.icon = icon;
+	}
+    public int getIcon() {
+		return icon;
 	}
 }

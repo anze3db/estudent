@@ -4,6 +4,7 @@ public class User {
 	protected String firstname;
 	protected String lastname;
 	protected boolean login;
+	protected boolean locked;
 	
 	public String getFirstname() {
 		return firstname;
@@ -22,5 +23,11 @@ public class User {
 	}
 	public void setLogin(boolean login) {
 		this.login = login;
+	}
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+	public boolean getLocked() {
+		return locked;
 	}
 }

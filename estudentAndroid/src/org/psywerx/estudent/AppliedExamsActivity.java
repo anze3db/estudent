@@ -60,7 +60,7 @@ public class AppliedExamsActivity extends ListActivity {
 			o2.setItemDescription("Completed");
 			m_orders.add(o1);
 			m_orders.add(o2);
-			Thread.sleep(5000);
+			Thread.sleep(1500);
 			Log.i("ARRAY", ""+ m_orders.size());
 		} catch (Exception e) {
 			Log.e("BACKGROUND_PROC", e.getMessage());
