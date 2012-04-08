@@ -68,3 +68,32 @@ class StudyProgram(models.Model):
             c.program_code = l[0].strip()
             c.descriptor = smart_unicode(l[1].strip(), encoding='windows-1250', strings_only=False, errors='strict')
             c.save()
+            
+class Post(models.Model):
+    post_code = models.CharField(_("post code"), max_length=5)
+    descriptor = models.CharField(_("post name"), max_length=255)
+    
+    class Meta:
+        verbose_name_plural = _("posts")
+        verbose_name = _("post")
+        
+    def __unicode__(self):
+        return self.descriptor
+    
+    @classmethod
+    def updateAll(cls):
+        UPDATE_FILE = 'poste.txt'
+        
+        csv_file = open(UPDATE_FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        # remove all the data from the table:
+        Post.objects.all().delete();
+        
+        for line in csv_data:
+            l = line.split('\t')
+            c = Post()
+            c.post_code = l[0].strip()
+            c.descriptor = l[1].strip()
+            c.save()

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-08 19:42+0200\n"
+"POT-Creation-Date: 2012-04-08 20:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,14 +31,19 @@ msgstr "Strani"
 msgid "Auth"
 msgstr "Avtentikacija"
 
-#: codelist/admin.py:20
+#: codelist/admin.py:19
 msgid "Countries added successfully"
 msgstr "Države so bile uspešno dodane"
 
-#: codelist/admin.py:49
+#: codelist/admin.py:48
 #, fuzzy
 msgid "Study Programs added successfully"
 msgstr "Studijski programi so bili uspešno dodani"
+
+#: codelist/admin.py:77
+#, fuzzy
+msgid "Post added successfully"
+msgstr "Poste so bile uspešno dodane"
 
 #: codelist/models.py:9
 msgid "country code"
@@ -75,6 +80,24 @@ msgstr "Studijski programi"
 #: codelist/models.py:49
 msgid "study program"
 msgstr "Studijski program"
+
+#: codelist/models.py:73
+#, fuzzy
+msgid "post code"
+msgstr "Postna stevilka"
+
+#: codelist/models.py:74
+#, fuzzy
+msgid "post name"
+msgstr "Naziv poste"
+
+#: codelist/models.py:77
+msgid "posts"
+msgstr "poste"
+
+#: codelist/models.py:78
+msgid "post"
+msgstr "posta"
 
 #: student/models.py:6
 msgid "enrollment number"

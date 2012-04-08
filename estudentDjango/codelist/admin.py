@@ -14,7 +14,6 @@ class CountryAdmin(admin.ModelAdmin):
     search_fields = ('descriptor',)
 
     def admin_update_countries(self, request):
-        
         Country.updateAll()
             
         messages.success(request, _("Countries added successfully"))
@@ -64,3 +63,32 @@ class StudyProgramAdmin(admin.ModelAdmin):
 
 
 admin.site.register(StudyProgram, StudyProgramAdmin)
+
+class PostAdmin(admin.ModelAdmin):
+    model = Post
+    
+    list_display = ('descriptor',)
+    ordering = ('descriptor',)
+    search_fields = ('descriptor',)
+
+    def admin_update_posts(self, request):
+        Post.updateAll()
+            
+        messages.success(request, _("Post added successfully"))
+        
+        return redirect('/codelist/post')
+
+    # override the get_urls to add a custom view:
+    def get_urls(self):
+        urls = super(PostAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_posts),
+                name='admin_update_posts',
+            ),
+        )
+        return my_urls + urls
+
+
+admin.site.register(Post, PostAdmin)
