@@ -30,6 +30,7 @@ public class LoginActivity extends Activity implements ResponseListener{
 		mEditUsername = (EditText) findViewById(R.id.eUsername);
 		mEditPassword = (EditText) findViewById(R.id.ePassword);
 		mBtnConfirm = (Button) findViewById(R.id.btnConfirm);
+		mBtnConfirm.requestFocus();
 		setListeners();
 	}
 
@@ -102,6 +103,12 @@ public class LoginActivity extends Activity implements ResponseListener{
 			User user = (User) o;
 			if (user.getLogin()){
 				Intent intent = new Intent(this, MenuActivity.class);
+			    Bundle bundle = new Bundle();
+			    bundle.putString("firstname", user.getFirstname());
+			    bundle.putString("lastname", user.getLastname());
+			    bundle.putString("username", mEditUsername.getText().toString());
+			    bundle.putString("password", mEditPassword.getText().toString());
+			    intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		}

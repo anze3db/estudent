@@ -26,6 +26,10 @@
             android:name=".MenuActivity"
             android:label="@string/app_name" >
         </activity>
-    </application>
+        <activity
+            android:name=".AppliedExamsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        </application>
 
 </manifest>

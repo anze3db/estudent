@@ -18,4 +18,8 @@
     <string name="applied_exams">Seznam prijavljanih izpitov</string>
     <string name="menu_no_items">nimamo se nic za pokazati</string>
     
+    <!-- opisi slik -->
+    
+    <string name="menu_item_picture">slika</string>
+    
 </resources>
