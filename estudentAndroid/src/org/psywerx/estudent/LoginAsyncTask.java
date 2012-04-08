@@ -22,10 +22,13 @@ class LoginAsyncTask extends AsyncTask<String, Void, User> {
 
 	private static final String SERVER_URL = "http://192.168.1.4/user.json";
 	
+	private ResponseListener loginActivityListener;
+	
 	/**
 	 * Class constructor 
 	 */
-	protected LoginAsyncTask() {
+	protected LoginAsyncTask(ResponseListener r) {
+		loginActivityListener = r;
 	}
 
 	protected User doInBackground(String... userData) {
@@ -95,6 +98,7 @@ class LoginAsyncTask extends AsyncTask<String, Void, User> {
 		if (result != null){
 			D.dbgv("ime: "+result.getFirstname());
 			D.dbgv("priimek: "+result.getLastname());
+			loginActivityListener.onServerResponse(result);
 		}else{
 			D.dbge("result is null");
 		}

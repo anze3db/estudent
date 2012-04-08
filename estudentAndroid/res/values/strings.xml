@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- oznake za login formo -->
+    
     <string name="app_name">eStudent</string>
     <string name="confirm">Prijava</string>
     
@@ -10,5 +12,10 @@
     
     <string name="edit_text_username">Ime </string>
     <string name="edit_text_password">Geslo </string>
+    
+    <!-- oznake za glavni menu -->
+    
+    <string name="applied_exams">Seznam prijavljanih izpitov</string>
+    <string name="menu_no_items">nimamo se nic za pokazati</string>
     
 </resources>
