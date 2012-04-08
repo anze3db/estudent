@@ -36,14 +36,12 @@ msgid "Countries added successfully"
 msgstr "Države so bile uspešno dodane"
 
 #: codelist/admin.py:48
-#, fuzzy
 msgid "Study Programs added successfully"
-msgstr "Studijski programi so bili uspešno dodani"
+msgstr "Študijski programi so bili uspešno dodani"
 
 #: codelist/admin.py:77
-#, fuzzy
 msgid "Post added successfully"
-msgstr "Poste so bile uspešno dodane"
+msgstr "Pošte so bile uspešno dodane"
 
 #: codelist/models.py:9
 msgid "country code"
@@ -71,33 +69,31 @@ msgstr "Koda studijskega programa"
 
 #: codelist/models.py:45
 msgid "program name"
-msgstr "Ime studijskega"
+msgstr "Ime študijskega"
 
 #: codelist/models.py:48
 msgid "study programs"
-msgstr "Studijski programi"
+msgstr "Študijski programi"
 
 #: codelist/models.py:49
 msgid "study program"
-msgstr "Studijski program"
+msgstr "Študijski program"
 
 #: codelist/models.py:73
-#, fuzzy
 msgid "post code"
-msgstr "Postna stevilka"
+msgstr "Poštna številka"
 
 #: codelist/models.py:74
-#, fuzzy
 msgid "post name"
-msgstr "Naziv poste"
+msgstr "Naziv pošte"
 
 #: codelist/models.py:77
 msgid "posts"
-msgstr "poste"
+msgstr "pošte"
 
 #: codelist/models.py:78
 msgid "post"
-msgstr "posta"
+msgstr "pošto"
 
 #: student/models.py:6
 msgid "enrollment number"
