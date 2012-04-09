@@ -1,0 +1,463 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-08 20:07+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3)\n"
+
+#: codelist/__init__.py:2
+msgid "Codelist"
+msgstr "Šifranti"
+
+#: codelist/__init__.py:3
+msgid "Sites"
+msgstr "Strani"
+
+#: codelist/__init__.py:4
+msgid "Auth"
+msgstr "Avtentikacija"
+
+#: codelist/admin.py:19
+msgid "Countries added successfully"
+msgstr "Države so bile uspešno dodane"
+
+#: codelist/admin.py:48
+msgid "Study Programs added successfully"
+msgstr "Študijski programi so bili uspešno dodani"
+
+#: codelist/admin.py:77
+msgid "Post added successfully"
+msgstr "Pošte so bile uspešno dodane"
+
+#: codelist/models.py:9
+msgid "country code"
+msgstr "Šifra države"
+
+#: codelist/models.py:10
+msgid "country name"
+msgstr "Naziv države"
+
+#: codelist/models.py:11
+msgid "country name original"
+msgstr "Naziv v angleščini"
+
+#: codelist/models.py:14
+msgid "countries"
+msgstr "države"
+
+#: codelist/models.py:15 student/models.py:16
+msgid "country"
+msgstr "državo"
+
+#: codelist/models.py:44
+msgid "program code"
+msgstr "Koda studijskega programa"
+
+#: codelist/models.py:45
+msgid "program name"
+msgstr "Ime študijskega"
+
+#: codelist/models.py:48
+msgid "study programs"
+msgstr "Študijski programi"
+
+#: codelist/models.py:49
+msgid "study program"
+msgstr "Študijski program"
+
+#: codelist/models.py:73
+msgid "post code"
+msgstr "Poštna številka"
+
+#: codelist/models.py:74
+msgid "post name"
+msgstr "Naziv pošte"
+
+#: codelist/models.py:77
+msgid "posts"
+msgstr "pošte"
+
+#: codelist/models.py:78
+msgid "post"
+msgstr "pošto"
+
+#: student/models.py:6
+msgid "enrollment number"
+msgstr "vpisna številka"
+
+#: student/models.py:7
+msgid "name"
+msgstr "ime"
+
+#: student/models.py:8
+msgid "surname"
+msgstr "priimek"
+
+#: student/models.py:9
+msgid "social security number"
+msgstr "EMŠO"
+
+#: student/models.py:10
+msgid "tax number"
+msgstr "davčna številka"
+
+#: student/models.py:11
+msgid "address"
+msgstr "Naslov stalnega bivališča"
+
+#: student/models.py:12
+msgid "temporary address"
+msgstr "Naslov začasnega bivališča"
+
+#: student/models.py:15
+msgid "street"
+msgstr "Ulica (naselje) in hišna številka"
+
+#: student/models.py:19
+msgid "student"
+msgstr "Študent"
+
+#: templates/admin/404.html:4 templates/admin/404.html.py:8
+msgid "Page not found"
+msgstr ""
+
+#: templates/admin/404.html:10
+msgid "We're sorry, but the requested page could not be found."
+msgstr ""
+
+#: templates/admin/500.html:4 templates/admin/app_index.html:8
+#: templates/admin/base.html:55 templates/admin/change_form.html:19
+#: templates/admin/change_list.html:42
+#: templates/admin/delete_confirmation.html:6
+#: templates/admin/delete_selected_confirmation.html:6
+#: templates/admin/invalid_setup.html:4 templates/admin/object_history.html:6
+#: templates/admin/auth/user/change_password.html:12
+msgid "Home"
+msgstr ""
+
+#: templates/admin/500.html:4
+msgid "Server error"
+msgstr ""
+
+#: templates/admin/500.html:6
+msgid "Server error (500)"
+msgstr ""
+
+#: templates/admin/500.html:9
+msgid "Server Error <em>(500)</em>"
+msgstr ""
+
+#: templates/admin/500.html:10
+msgid ""
+"There's been an error. It's been reported to the site administrators via e-"
+"mail and should be fixed shortly. Thanks for your patience."
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Run the selected action"
+msgstr ""
+
+#: templates/admin/actions.html:4
+msgid "Go"
+msgstr ""
+
+#: templates/admin/actions.html:11
+msgid "Click here to select the objects across all pages"
+msgstr ""
+
+#: templates/admin/actions.html:11
+#, python-format
+msgid "Select all %(total_count)s %(module_name)s"
+msgstr ""
+
+#: templates/admin/actions.html:13
+msgid "Clear selection"
+msgstr ""
+
+#: templates/admin/app_index.html:10
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: templates/admin/base.html:28
+msgid "Welcome,"
+msgstr ""
+
+#: templates/admin/base.html:33
+msgid "Documentation"
+msgstr ""
+
+#: templates/admin/base.html:41
+#: templates/admin/auth/user/change_password.html:16
+#: templates/admin/auth/user/change_password.html:49
+msgid "Change password"
+msgstr ""
+
+#: templates/admin/base.html:48
+msgid "Log out"
+msgstr ""
+
+#: templates/admin/base_site.html:4
+msgid "eStudent admin"
+msgstr ""
+
+#: templates/admin/base_site.html:7
+msgid "eStudent administration"
+msgstr ""
+
+#: templates/admin/change_form.html:22 templates/admin/index.html:29
+msgid "Add"
+msgstr ""
+
+#: templates/admin/change_form.html:31 templates/admin/object_history.html:10
+msgid "History"
+msgstr ""
+
+#: templates/admin/change_form.html:32
+#: templates/admin/edit_inline/stacked.html:9
+#: templates/admin/edit_inline/tabular.html:28
+msgid "View on site"
+msgstr ""
+
+#: templates/admin/change_form.html:43 templates/admin/change_list.html:73
+#: templates/admin/login.html:17
+#: templates/admin/auth/user/change_password.html:25
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/change_list.html:64
+#: templates/admin/codelist/country/change_list.html:5
+#, python-format
+msgid "Add %(name)s"
+msgstr ""
+
+#: templates/admin/change_list.html:84
+msgid "Filter"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:10
+#: templates/admin/submit_line.html:4
+msgid "Delete"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:17
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:25
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:33
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+
+#: templates/admin/delete_confirmation.html:38
+#: templates/admin/delete_selected_confirmation.html:43
+msgid "Yes, I'm sure"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:9
+msgid "Delete multiple objects"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:16
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:24
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+
+#: templates/admin/delete_selected_confirmation.html:32
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+
+#: templates/admin/filter.html:2
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#: templates/admin/index.html:18
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr ""
+
+#: templates/admin/index.html:35
+msgid "Change"
+msgstr ""
+
+#: templates/admin/index.html:45
+msgid "You don't have permission to edit anything."
+msgstr ""
+
+#: templates/admin/index.html:53
+msgid "Recent Actions"
+msgstr ""
+
+#: templates/admin/index.html:54
+msgid "My Actions"
+msgstr ""
+
+#: templates/admin/index.html:58
+msgid "None available"
+msgstr ""
+
+#: templates/admin/index.html:72
+msgid "Unknown content"
+msgstr ""
+
+#: templates/admin/invalid_setup.html:7
+msgid ""
+"Something's wrong with your database installation. Make sure the appropriate "
+"database tables have been created, and make sure the database is readable by "
+"the appropriate user."
+msgstr ""
+
+#: templates/admin/login.html:33
+msgid "Username:"
+msgstr ""
+
+#: templates/admin/login.html:37
+msgid "Password:"
+msgstr ""
+
+#: templates/admin/login.html:42
+msgid "Log in"
+msgstr ""
+
+#: templates/admin/object_history.html:22
+msgid "Date/time"
+msgstr ""
+
+#: templates/admin/object_history.html:23
+msgid "User"
+msgstr ""
+
+#: templates/admin/object_history.html:24
+msgid "Action"
+msgstr ""
+
+#: templates/admin/object_history.html:38
+msgid ""
+"This object doesn't have a change history. It probably wasn't added via this "
+"admin site."
+msgstr ""
+
+#: templates/admin/pagination.html:10
+msgid "Show all"
+msgstr ""
+
+#: templates/admin/pagination.html:11 templates/admin/submit_line.html:3
+msgid "Save"
+msgstr ""
+
+#: templates/admin/search_form.html:8
+msgid "Search"
+msgstr ""
+
+#: templates/admin/search_form.html:10
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/search_form.html:10
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#: templates/admin/submit_line.html:5
+msgid "Save as new"
+msgstr ""
+
+#: templates/admin/submit_line.html:6
+msgid "Save and add another"
+msgstr ""
+
+#: templates/admin/submit_line.html:7
+msgid "Save and continue editing"
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:6
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:8
+msgid "Enter a username and password."
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:29
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:36
+msgid "Password"
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:42
+msgid "Password (again)"
+msgstr ""
+
+#: templates/admin/auth/user/change_password.html:43
+msgid "Enter the same password as above, for verification."
+msgstr ""
+
+#: templates/admin/codelist/country/change_list.html:10
+msgid "Update all"
+msgstr "Posodobi vse"
+
+#: templates/admin/edit_inline/stacked.html:67
+#: templates/admin/edit_inline/tabular.html:113
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr ""
+
+#: templates/admin/edit_inline/stacked.html:70
+#: templates/admin/edit_inline/tabular.html:116
+msgid "Remove"
+msgstr ""
+
+#: templates/admin/edit_inline/tabular.html:15
+msgid "Delete?"
+msgstr ""

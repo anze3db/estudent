@@ -34,7 +34,7 @@ TIME_ZONE = 'Europe/Ljubljana'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'si'
+LANGUAGE_CODE = 'sl'
 
 SITE_ID = 1
 
@@ -120,7 +120,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'web'
+    'codelist',
+    'student'
     # Uncomment the next line to enable the admin:
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -149,3 +150,4 @@ LOGGING = {
     }
 }
 STATIC_DOC_ROOT = PROJECT_PATH + '/site_media'
+

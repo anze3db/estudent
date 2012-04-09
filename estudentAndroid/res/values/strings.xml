@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">eStudent</string>
-    <string name="username">Username: </string>
-    <string name="password">Password: </string>
-    <string name="confirm">Confirm</string>
+    <!-- oznake za login formo -->
     
-    <string name="error_required">required</string>
-    <string name="error_wrongUP">Wrong username or password</string>
+    <string name="app_name">eStudent</string>
+    <string name="confirm">Prijava</string>
+    
+    <string name="error_required">Obvezno polje</string>
+    <string name="error_wrongUP">Napacno Ime ali Geslo</string>
 
+    
+    <string name="edit_text_username">Ime </string>
+    <string name="edit_text_password">Geslo </string>
+    
+    <!-- oznake za glavni menu -->
+    
+    <string name="applied_exams">Seznam prijavljanih izpitov</string>
+    <string name="menu_no_items">nimamo se nic za pokazati</string>
+    
+    <!-- opisi slik -->
+    
+    <string name="menu_item_picture">slika</string>
+    
 </resources>
