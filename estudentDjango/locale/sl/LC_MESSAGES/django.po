@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-08 20:07+0200\n"
+"POT-Creation-Date: 2012-04-10 15:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,12 +24,24 @@ msgid "Codelist"
 msgstr "Šifranti"
 
 #: codelist/__init__.py:3
+msgid "codelist"
+msgstr "Šifranti"
+
+#: codelist/__init__.py:4
 msgid "Sites"
 msgstr "Strani"
 
-#: codelist/__init__.py:4
+#: codelist/__init__.py:5
+msgid "sites"
+msgstr "Strani"
+
+#: codelist/__init__.py:6
 msgid "Auth"
 msgstr "Avtentikacija"
+
+#: codelist/__init__.py:7
+msgid "auth"
+msgstr "avtentikacija"
 
 #: codelist/admin.py:19
 msgid "Countries added successfully"
@@ -43,57 +55,65 @@ msgstr "Študijski programi so bili uspešno dodani"
 msgid "Post added successfully"
 msgstr "Pošte so bile uspešno dodane"
 
-#: codelist/models.py:9
+#: codelist/models.py:11
 msgid "country code"
 msgstr "Šifra države"
 
-#: codelist/models.py:10
+#: codelist/models.py:12
 msgid "country name"
 msgstr "Naziv države"
 
-#: codelist/models.py:11
+#: codelist/models.py:13
 msgid "country name original"
 msgstr "Naziv v angleščini"
 
-#: codelist/models.py:14
+#: codelist/models.py:16
 msgid "countries"
 msgstr "države"
 
-#: codelist/models.py:15 student/models.py:16
+#: codelist/models.py:17 student/models.py:20
 msgid "country"
 msgstr "državo"
 
-#: codelist/models.py:44
+#: codelist/models.py:46
 msgid "program code"
 msgstr "Koda studijskega programa"
 
-#: codelist/models.py:45
+#: codelist/models.py:47
 msgid "program name"
 msgstr "Ime študijskega"
 
-#: codelist/models.py:48
+#: codelist/models.py:50
 msgid "study programs"
 msgstr "Študijski programi"
 
-#: codelist/models.py:49
+#: codelist/models.py:51
 msgid "study program"
 msgstr "Študijski program"
 
-#: codelist/models.py:73
+#: codelist/models.py:75
 msgid "post code"
 msgstr "Poštna številka"
 
-#: codelist/models.py:74
+#: codelist/models.py:76
 msgid "post name"
 msgstr "Naziv pošte"
 
-#: codelist/models.py:77
+#: codelist/models.py:79
 msgid "posts"
 msgstr "pošte"
 
-#: codelist/models.py:78
+#: codelist/models.py:80
 msgid "post"
 msgstr "pošto"
+
+#: student/__init__.py:2
+msgid "Student"
+msgstr "Študent"
+
+#: student/__init__.py:3 student/models.py:16 student/models.py:27
+msgid "student"
+msgstr "študent"
 
 #: student/models.py:6
 msgid "enrollment number"
@@ -115,7 +135,7 @@ msgstr "EMŠO"
 msgid "tax number"
 msgstr "davčna številka"
 
-#: student/models.py:11
+#: student/models.py:11 student/models.py:24
 msgid "address"
 msgstr "Naslov stalnega bivališča"
 
@@ -124,12 +144,20 @@ msgid "temporary address"
 msgstr "Naslov začasnega bivališča"
 
 #: student/models.py:15
+msgid "students"
+msgstr "študent"
+
+#: student/models.py:19
 msgid "street"
 msgstr "Ulica (naselje) in hišna številka"
 
-#: student/models.py:19
-msgid "student"
-msgstr "Študent"
+#: student/models.py:23
+msgid "addresses"
+msgstr "Naslovi"
+
+#: student/models.py:29 student/models.py:30
+msgid "enrollment"
+msgstr "vpis"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"
@@ -242,7 +270,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/admin/change_list.html:64
-#: templates/admin/codelist/country/change_list.html:5
+#: templates/admin/codelist/change_list.html:5
 #, python-format
 msgid "Add %(name)s"
 msgstr ""
@@ -443,7 +471,7 @@ msgstr ""
 msgid "Enter the same password as above, for verification."
 msgstr ""
 
-#: templates/admin/codelist/country/change_list.html:10
+#: templates/admin/codelist/change_list.html:10
 msgid "Update all"
 msgstr "Posodobi vse"
 
@@ -461,3 +489,6 @@ msgstr ""
 #: templates/admin/edit_inline/tabular.html:15
 msgid "Delete?"
 msgstr ""
+
+#~ msgid "adress"
+#~ msgstr "Naslov"
