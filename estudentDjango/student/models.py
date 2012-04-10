@@ -11,9 +11,21 @@ class Student(models.Model):
     address = models.OneToOneField("Address", related_name=("address"), verbose_name=_('address'))
     temp_address = models.OneToOneField("Address", related_name=("temp_address"), verbose_name=_('temporary address'))
     
+    class Meta:
+        verbose_name_plural = _("students")
+        verbose_name = _("student")
+    
 class Address(models.Model):
     street = models.CharField(_("street"), max_length=255)
     country = models.ForeignKey("codelist.Country", related_name=("country"), verbose_name = _("country"))
+    
+    class Meta:
+        verbose_name_plural = _("addresses")
+        verbose_name = _("address")
 
-class Enrollement(models.Model):
+class Enrollment(models.Model):
     student = models.OneToOneField("Student", verbose_name=_("student"))
+    program = models.OneToOneField("codelist.StudyProgram", verbose_name=_("study program"))
+    class Meta:
+        verbose_name_plural = _("enrollment")
+        verbose_name = _("enrollment")

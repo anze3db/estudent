@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext as _
+from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
+import os
 
 
 # Create your models here.
@@ -53,7 +55,7 @@ class StudyProgram(models.Model):
     
     @classmethod
     def updateAll(cls):
-        UPDATE_FILE = 'programSmerIzbirnaSkupina.txt'
+        UPDATE_FILE = os.path.join(PROJECT_PATH, 'programSmerIzbirnaSkupina.txt')
         
         csv_file = open(UPDATE_FILE)
         csv_data = csv_file.readlines()
@@ -82,7 +84,7 @@ class Post(models.Model):
     
     @classmethod
     def updateAll(cls):
-        UPDATE_FILE = 'poste.txt'
+        UPDATE_FILE = os.path.join(PROJECT_PATH, 'poste.txt')
         
         csv_file = open(UPDATE_FILE)
         csv_data = csv_file.readlines()
