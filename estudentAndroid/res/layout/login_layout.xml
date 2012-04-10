@@ -4,34 +4,39 @@
     android:layout_height="fill_parent"
     android:background="@drawable/background_login" >
 
-    <EditText
-        android:id="@+id/eUsername"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/edit_text_username"
-        android:textColor="@color/gray" />
+        android:layout_centerInParent="true" >
 
-    <EditText
-        android:id="@+id/ePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/eUsername"
-        android:layout_alignRight="@+id/eUsername"
-        android:layout_below="@+id/eUsername"
-        android:inputType="text"
-        android:text="@string/edit_text_password"
-        android:textColor="@color/gray" />
+        <EditText
+            android:id="@+id/eUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@string/edit_text_username"
+            android:textColor="@color/gray" />
 
-    <Button
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ePassword"
-        android:layout_alignRight="@+id/ePassword"
-        android:layout_below="@+id/ePassword"
-        android:text="@string/confirm" />
+        <EditText
+            android:id="@+id/ePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/eUsername"
+            android:layout_alignRight="@+id/eUsername"
+            android:layout_below="@+id/eUsername"
+            android:inputType="text"
+            android:text="@string/edit_text_password"
+            android:textColor="@color/gray" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ePassword"
+            android:layout_alignRight="@+id/ePassword"
+            android:layout_below="@+id/ePassword"
+            android:text="@string/confirm" />
+    </RelativeLayout>
 
 </RelativeLayout>
