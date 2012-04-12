@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-12 15:20+0200\n"
+"POT-Creation-Date: 2012-04-12 18:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,6 +147,42 @@ msgstr "fakultete"
 msgid "faculty"
 msgstr "fakulteta"
 
+#: codelist/models.py:152
+msgid "course code"
+msgstr "Šifra predmeta"
+
+#: codelist/models.py:153
+msgid "course name"
+msgstr "Naziv predmeta"
+
+#: codelist/models.py:156
+msgid "courses"
+msgstr "Predmeti"
+
+#: codelist/models.py:157
+msgid "course"
+msgstr "Predmet"
+
+#: codelist/models.py:160
+msgid "instructor code"
+msgstr "Šifra Predavatelja"
+
+#: codelist/models.py:161 student/models.py:7
+msgid "name"
+msgstr "ime"
+
+#: codelist/models.py:162 student/models.py:8
+msgid "surname"
+msgstr "priimek"
+
+#: codelist/models.py:165
+msgid "instructors"
+msgstr "predavatelji"
+
+#: codelist/models.py:166
+msgid "instructor"
+msgstr "predavatelj"
+
 #: student/__init__.py:2
 msgid "Student"
 msgstr "Študent"
@@ -158,14 +194,6 @@ msgstr "študent"
 #: student/models.py:6
 msgid "enrollment number"
 msgstr "vpisna številka"
-
-#: student/models.py:7
-msgid "name"
-msgstr "ime"
-
-#: student/models.py:8
-msgid "surname"
-msgstr "priimek"
 
 #: student/models.py:9
 msgid "social security number"

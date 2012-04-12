@@ -148,6 +148,20 @@ class Faculty(models.Model):
             c.descriptor = "FRI"
             c.save()
             
+class Course1(models.Model):
+    course_code = models.CharField(_("course code"), max_length=5)
+    name = models.CharField(_("course name"), max_length=255)
+    
+    class Meta:
+        verbose_name_plural =_("courses")
+        verbose_name=_("course")
         
-        
+class Instructor(models.Model):
+    instructor_code = models.CharField(_("instructor code"), max_length=5)
+    name = models.CharField(_("name"), max_length=255)
+    surname = models.CharField(_("surname"), max_length=255)
+    
+    class Meta:
+        verbose_name_plural =_("instructors")
+        verbose_name=_("instructor")
     

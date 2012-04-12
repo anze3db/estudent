@@ -146,4 +146,22 @@ class FacultyAdmin(admin.ModelAdmin):
      
 admin.site.register(Faculty, FacultyAdmin)
         
+class CourseAdmin(admin.ModelAdmin):
+    model= Course1
+    list_display = ('name',)
+    ordering = ('name',)
+    search_fields = ('name',)
+    
+    
+admin.site.register(Course1, CourseAdmin)
 
+
+class InstructorAdmin(admin.ModelAdmin):
+    model= Instructor
+    
+    list_display = ('name','surname',)
+    ordering = ('name','surname',)
+    search_fields = ('name','surname',)
+    
+admin.site.register(Instructor, InstructorAdmin)
+    
