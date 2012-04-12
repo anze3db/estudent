@@ -126,4 +126,4 @@ class Region(models.Model):
             c = Region()
             c.region_code = l[0].strip()
             c.descriptor = l[1].strip()
-            c.save    
+            c.save()    
