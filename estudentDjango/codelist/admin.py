@@ -119,3 +119,31 @@ class RegionAdmin(admin.ModelAdmin):
         return my_urls + urls
     
 admin.site.register(Region, RegionAdmin)
+
+class FacultyAdmin(admin.ModelAdmin):
+    model = Faculty
+    
+    list_display = ('descriptor',)
+    ordering = ('descriptor',)
+    search_fields = ('descriptor',)
+    
+    def admin_update_faculty(self, request):
+        Faculty.updateAll()
+        messages.success(request, _("Faculty added successfully"))
+        
+        return redirect('/codelist/faculty')
+    
+    def get_urls(self):
+        urls= super(FacultyAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_faculty),
+                name='admin_update_faculty',
+                ),
+        )
+        return my_urls + urls
+     
+admin.site.register(Faculty, FacultyAdmin)
+        
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 15:43+0200\n"
+"POT-Creation-Date: 2012-04-12 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,10 @@ msgstr "Pošte so bile uspešno dodane"
 msgid "Region added successfully"
 msgstr "Občine so bile uspešno dodane"
 
+#: codelist/admin.py:132
+msgid "Faculty added successfully"
+msgstr "Fakultete so bile uspešno dodane"
+
 #: codelist/models.py:11
 msgid "country code"
 msgstr "Šifra države"
@@ -91,7 +95,7 @@ msgstr "Ime študijskega"
 msgid "study programs"
 msgstr "Študijski programi"
 
-#: codelist/models.py:51
+#: codelist/models.py:51 student/models.py:28
 msgid "study program"
 msgstr "Študijski program"
 
@@ -126,6 +130,22 @@ msgstr "občine"
 #: codelist/models.py:109
 msgid "region"
 msgstr "občina"
+
+#: codelist/models.py:132
+msgid "faculty code"
+msgstr "Šifra fakultete"
+
+#: codelist/models.py:133
+msgid "faculty name"
+msgstr "Naziv fakultete"
+
+#: codelist/models.py:136
+msgid "faculties"
+msgstr "fakultete"
+
+#: codelist/models.py:137
+msgid "faculty"
+msgstr "fakulteta"
 
 #: student/__init__.py:2
 msgid "Student"
@@ -175,7 +195,7 @@ msgstr "Ulica (naselje) in hišna številka"
 msgid "addresses"
 msgstr "Naslovi"
 
-#: student/models.py:29 student/models.py:30
+#: student/models.py:30 student/models.py:31
 msgid "enrollment"
 msgstr "vpis"
 

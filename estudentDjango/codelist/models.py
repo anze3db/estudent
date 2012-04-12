@@ -8,7 +8,7 @@ import os
 
 # Create your models here.
 class Country(models.Model):
-    category_code = models.CharField(_("country code"), max_length=3)
+    category_code = models.CharField(_("country code"), max_length=3,  unique=True)
     descriptor = models.CharField(_("country name"), max_length=255)
     descriptor_english = models.CharField(_("country name original"), max_length=255)
     
@@ -43,7 +43,7 @@ class Country(models.Model):
             c.save()
             
 class StudyProgram(models.Model):
-    program_code = models.CharField(_("program code"), max_length=5)
+    program_code = models.CharField(_("program code"), max_length=5, unique=True)
     descriptor = models.CharField(_("program name"), max_length=255)
     
     class Meta:
@@ -72,7 +72,7 @@ class StudyProgram(models.Model):
             c.save()
             
 class Post(models.Model):
-    post_code = models.CharField(_("post code"), max_length=5)
+    post_code = models.CharField(_("post code"), max_length=5, unique=True)
     descriptor = models.CharField(_("post name"), max_length=255)
     
     class Meta:
@@ -101,7 +101,7 @@ class Post(models.Model):
             c.save()
             
 class Region(models.Model):
-    region_code = models.CharField(_("region code"), max_length=5)
+    region_code = models.CharField(_("region code"), max_length=3, unique=True)
     descriptor = models.CharField(_("region name"), max_length=255)
 
     class Meta:
@@ -127,3 +127,27 @@ class Region(models.Model):
             c.region_code = l[0].strip()
             c.descriptor = l[1].strip()
             c.save()    
+
+class Faculty(models.Model):
+    faculty_code =  models.CharField(_("faculty code"), max_length=3)
+    descriptor = models.CharField(_("faculty name"), max_length=255)
+    
+    class Meta:
+        verbose_name_plural = _("faculties")
+        verbose_name= _("faculty")
+        
+    def _unicode_(self):
+        return self.descriptor
+    
+    @classmethod
+    def updateAll(cls):
+        
+            Faculty.objects.all().delete()                
+            c = Faculty()
+            c.faculty_code = "163"
+            c.descriptor = "FRI"
+            c.save()
+            
+        
+        
+    
