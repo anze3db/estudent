@@ -92,3 +92,30 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Post, PostAdmin)
+
+class RegionAdmin(admin.ModelAdmin):
+    model = Region
+    
+    list_display = ('descriptor',)
+    ordering = ('descriptor',)
+    search_fields = ('descriptor',)
+    
+    def admin_update_regions(self, request):
+        Region.updateAll()
+        
+        messages.success(request, _("Region added successfully"))
+        
+        return redirect('/codelist/region')
+    
+    def get_urls(self):
+        urls = super(RegionAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_regions),
+                name='admin_update_regions',
+                ),
+        )
+        return my_urls + urls
+    
+admin.site.register(Region, RegionAdmin)

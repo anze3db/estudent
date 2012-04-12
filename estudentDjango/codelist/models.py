@@ -99,3 +99,31 @@ class Post(models.Model):
             c.post_code = l[0].strip()
             c.descriptor = l[1].strip()
             c.save()
+            
+class Region(models.Model):
+    region_code = models.CharField(_("region code"), max_length=5)
+    descriptor = models.CharField(_("region name"), max_length=255)
+
+    class Meta:
+        verbose_name_plural = _("regions")
+        verbose_name= _("region")
+        
+    def _unicode_(self):
+        return self.descriptor
+    
+    @classmethod
+    def updateAll(cls):
+        UPDATE_FILE = os.path.join(PROJECT_PATH, 'obcine.txt')
+        
+        csv_file = open(UPDATE_FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        Region.objects.all().delete()
+        
+        for line in csv_data:
+            l = line.split('\t')
+            c = Region()
+            c.region_code = l[0].strip()
+            c.descriptor = l[1].strip()
+            c.save    

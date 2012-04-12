@@ -55,6 +55,10 @@ msgstr "Študijski programi so bili uspešno dodani"
 msgid "Post added successfully"
 msgstr "Pošte so bile uspešno dodane"
 
+#: codelist/admin.py:106
+msgid "Region added successfully"
+msgstr "Občine so bile uspešno dodane"
+
 #: codelist/models.py:11
 msgid "country code"
 msgstr "Šifra države"
@@ -106,6 +110,22 @@ msgstr "pošte"
 #: codelist/models.py:80
 msgid "post"
 msgstr "pošto"
+
+#: codelist/models.py:104
+msgid "region code"
+msgstr "Šifra Občine"
+
+#: codelist/models.py:105
+msgid "region name"
+msgstr "Ime občine"
+
+#: codelist/models.py:108
+msgid "regions"
+msgstr "občine"
+
+#: codelist/models.py:109
+msgid "region"
+msgstr "občina"
 
 #: student/__init__.py:2
 msgid "Student"
