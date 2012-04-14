@@ -1,16 +1,11 @@
-from django.conf import settings
 from django.conf.urls.defaults import patterns, include
-from django.contrib import admin
-import api
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
-admin.autodiscover()
 
 urlpatterns = patterns('',
-	(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
-		        {'document_root': settings.STATIC_DOC_ROOT}),
-	(r'^api/', include('api.urls')),
-    (r'', include(admin.site.urls)),
+					
+	(r'^login/$', 'api.views.login'),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),

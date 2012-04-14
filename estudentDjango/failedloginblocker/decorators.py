@@ -16,7 +16,6 @@ def monitor_login( auth_func ):
     
     def decorate(*args, **kwargs ):
         """ Wrapper for Django authentication function """
-
         user = kwargs.get( 'username', '' )
         if not user:
             raise ValueError( 'username must be supplied by the \
