@@ -1,12 +1,14 @@
 # Create your views here.
-from django.http import HttpResponse
 from django.contrib.auth import authenticate
-import json
+from django.http import HttpResponse
 from failedloginblocker.models import FailedAttempt
+from student.models import Student
 from warnings import catch_warnings
+import json
 
 def login(request):
     user = request.GET['id']
+    response = { 'name': "", 'surname':"", 'login': False, 'numTries':0, 'errors':"" }
     try:
         fa = FailedAttempt.objects.get(username=user)
 
@@ -14,15 +16,19 @@ def login(request):
             if fa.too_many_failures():
                 fa.failures += 1
                 fa.save()
-                return HttpResponse("TOO MANYsss", mimetype="application/json")
+                response['numTries'] = fa.failures
+                response['errors'] = "Too many login attempts."
+                return HttpResponse(json.dumps(response), mimetype="application/json")
         
     except:
         fa = None
         
-    auth = None#authenticate(username=user, password=request.GET['password'])
+    auth = Student.authStudent(user, request.GET['password'])#None#authenticate(username=user, password=)
     
     if auth:
-        response = json.dumps(auth.id)
+        response["name"] = auth.name
+        response["surname"] = auth.surname
+        response["login"] = True
     else:
         try:
             fa = FailedAttempt.objects.get(username=user)
@@ -31,10 +37,10 @@ def login(request):
         fa = fa or FailedAttempt( username=user, failures=0 )
         fa.failures += 1
         fa.save()
-        response = json.dumps(0)
-    response = '(' + response + ');'
-    
-    return HttpResponse(response, mimetype="application/json")
+        response['numTries'] = fa.failures
+        response['errors'] = "Wrong username or password."
+                
+    return HttpResponse(json.dumps(response), mimetype="application/json")
 
 
 def _checkLoginTries(user, password):

@@ -43,7 +43,7 @@ def monitor_login( auth_func ):
         # authentication failed 
         fa = fa or FailedAttempt( username=user, failures=0 )
         fa.failures += 1
-        fa.save( )
+        fa.save()
         # return with unsuccessful auth
         return None
 

@@ -1,6 +1,8 @@
+from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
 
+ALGO = 'sha1'
 
 class Student(models.Model):
     enrollment_number = models.IntegerField(_("enrollment number"))
@@ -10,6 +12,20 @@ class Student(models.Model):
     tax_number = models.CharField(_("tax number"), max_length=8)
     address = models.OneToOneField("Address", related_name=("address"), verbose_name=_('address'))
     temp_address = models.OneToOneField("Address", related_name=("temp_address"), verbose_name=_('temporary address'))
+    
+    password = models.CharField(_('password'), max_length=128)
+    
+    
+    def save(self, *args, **kwargs):
+        self.password = get_hexdigest(ALGO, "sssalt", self.password)
+        super(Student, self).save(*args, **kwargs)
+    
+    @staticmethod
+    def authStudent(enrollment_number, password):
+        try:
+            return Student.objects.get(enrollment_number=enrollment_number, password=get_hexdigest(ALGO, "sssalt", password))
+        except:
+            return None
     
     class Meta:
         verbose_name_plural = _("students")
