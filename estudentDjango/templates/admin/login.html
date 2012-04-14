@@ -21,7 +21,7 @@
 {% if form.non_field_errors or form.this_is_the_login_form.errors %}
 {% for error in form.non_field_errors|add:form.this_is_the_login_form.errors %}
 <p class="errornote">
-    {{ error }}
+    {{ error }} Po <span style="font-weight:bold !important;">treh</span> neveljavnih prijavah se ne boste mogli prijaviti naslednjih 30 minut. 
 </p>
 {% endfor %}
 {% endif %}

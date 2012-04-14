@@ -1,7 +1,8 @@
 """ Decorators used by failedloginblocker """
 
-from failedloginblocker.models import FailedAttempt
+from django.contrib import messages
 from failedloginblocker.exceptions import LoginBlockedError
+from failedloginblocker.models import FailedAttempt
 
 def monitor_login( auth_func ):
     """
@@ -13,13 +14,13 @@ def monitor_login( auth_func ):
         # avoiding multiple decorations
         return auth_func
     
-    def decorate( *args, **kwargs ):
+    def decorate(*args, **kwargs ):
         """ Wrapper for Django authentication function """
+
         user = kwargs.get( 'username', '' )
         if not user:
             raise ValueError( 'username must be supplied by the \
                 authentication function for FailedLoginBlocker to operate' )
-                
         try:
             fa = FailedAttempt.objects.get( username=user )
             if fa.recent_failure( ):
@@ -28,14 +29,14 @@ def monitor_login( auth_func ):
                     # of too many recent failures
                     fa.failures += 1
                     fa.save( )
-                    raise LoginBlockedError( )
+                    return
+                    # raise LoginBlockedError( )
             else:
                 # the block interval is over, reset the count
                 fa.failures = 0
                 fa.save( )
         except FailedAttempt.DoesNotExist:
             fa = None
-
         result = auth_func( *args, **kwargs )
         if result:
             # the authentication was successful
