@@ -101,6 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'failedloginblocker.middleware.FailedLoginBlockerMiddleware',
 )
 
 ROOT_URLCONF = 'estudentDjango.urls'
@@ -121,12 +122,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'codelist',
-    'student'
+    'student',
+    'failedloginblocker'
     # Uncomment the next line to enable the admin:
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
+FLB_MAX_FAILURES = 3
+FLB_BLOCK_INTERVAL = 30
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
