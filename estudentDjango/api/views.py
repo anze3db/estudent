@@ -33,7 +33,7 @@ def login(request):
         except:
             fa = None  
             
-        fa = fa or FailedAttempt( username=user, failures=0 )
+        fa = fa or FailedAttempt(username=user, failures=0)
         fa.failures += 1
         fa.save()
         response['numTries'] = fa.failures
