@@ -158,7 +158,7 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     
     def admin_update_course(self, request):
-        Instructor.updateAll()
+        Course.updateAll()
         messages.success(request, _("Course added successfully"))
         
         return redirect('/codelist/course')

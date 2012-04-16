@@ -1,0 +1,2 @@
+SMRPO,Sodobne metode razvoja programske opreme,VM
+IRZ,Izračunljivost in računska zahtevnost,BR,BS

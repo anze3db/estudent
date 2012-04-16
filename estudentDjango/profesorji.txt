@@ -1,5 +1,6 @@
-1sde3,Tret,Terre
-gfdgf,Viljan,Mahnič
-fdggf,Dušan,Kodek
-gfdsg,Borut,Robič
+TT,Tret,Terre
+VM,Viljan,Mahnič
+DK,Dušan,Kodek
+BR,Borut,Robič
+BS,Boštjan,Slivnik
 

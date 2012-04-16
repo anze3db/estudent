@@ -154,7 +154,7 @@ class Faculty(models.Model):
         c.save()
             
 class Course(models.Model):
-    course_code = models.CharField(_("course code"), max_length=5)
+    course_code = models.CharField(_("course code"), max_length=5, primary_key=True)
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
     valid = models.BooleanField(_("valid"), default=True)
@@ -163,14 +163,28 @@ class Course(models.Model):
         
     @classmethod
     def updateAll(cls):
+        print 'aaaaaaa'
         FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
         
         csv_file = open(FILE)
         csv_data = csv_file.readlines()
         csv_file.close()
         
-        #Instructor.objects.all().delete()
+        Course.objects.all().delete()
         
+        for line in csv_data:
+            l = line.split(',')
+            print l
+            if len(l)<3: continue
+            c = Course()
+            c.course_code = l[0].strip()
+            c.name = l[1].strip()
+            c.save()
+            for ins in l[2:]:
+                c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
+
+            c.save()
+                    
     class Meta:
         verbose_name_plural =_("courses")
         verbose_name=_("course")
@@ -180,6 +194,7 @@ class Instructor(models.Model):
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
+    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"))
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
