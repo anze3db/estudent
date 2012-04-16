@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 
 class CountryAdmin(admin.ModelAdmin):
-
     UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
     model = Country
     
@@ -159,9 +158,25 @@ admin.site.register(Course1, CourseAdmin)
 class InstructorAdmin(admin.ModelAdmin):
     model= Instructor
     
+    def admin_update_instructor(self, request):
+        Instructor.updateAll()
+        messages.success(request, _("Instructor added successfully"))
+        
+        return redirect('/codelist/instructor')
+
+    def get_urls(self):
+        urls = super(InstructorAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_instructor),
+                name='admin_update_instructor',
+            ),
+        )
+        return my_urls + urls
+
     list_display = ('name','surname',)
     ordering = ('name','surname',)
     search_fields = ('name','surname',)
     
 admin.site.register(Instructor, InstructorAdmin)
-    

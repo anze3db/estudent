@@ -108,7 +108,7 @@ class Region(models.Model):
         verbose_name_plural = _("regions")
         verbose_name= _("region")
         
-    def _unicode_(self):
+    def __unicode__(self):
         return self.descriptor
     
     @classmethod
@@ -136,22 +136,25 @@ class Faculty(models.Model):
         verbose_name_plural = _("faculties")
         verbose_name= _("faculty")
         
-    def _unicode_(self):
+    def __unicode__(self):
         return self.descriptor
     
     @classmethod
     def updateAll(cls):
-        
-            Faculty.objects.all().delete()                
-            c = Faculty()
-            c.faculty_code = "163"
-            c.descriptor = "FRI"
-            c.save()
+        Faculty.objects.all().delete()                
+        c = Faculty()
+        c.faculty_code = "163"
+        c.descriptor = "FRI"
+        c.save()
             
 class Course1(models.Model):
     course_code = models.CharField(_("course code"), max_length=5)
     name = models.CharField(_("course name"), max_length=255)
+    instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
     
+    def __unicode__(self):
+        return self.name + " (" + self.course_code + ")"
+        
     class Meta:
         verbose_name_plural =_("courses")
         verbose_name=_("course")
@@ -161,6 +164,28 @@ class Instructor(models.Model):
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     
+    def __unicode__(self):
+        return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
+
+    @classmethod
+    def updateAll(cls):
+        FILE = os.path.join(PROJECT_PATH, 'profesorji.txt')
+        
+        csv_file = open(FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        Instructor.objects.all().delete()
+        
+        for line in csv_data:
+            l = line.split(',')
+            if len(l)<3: continue
+            c = Instructor()
+            c.instructor_code = l[0].strip()
+            c.name = l[1].strip()
+            c.surname = l[2].strip()
+            c.save()
+
     class Meta:
         verbose_name_plural =_("instructors")
         verbose_name=_("instructor")

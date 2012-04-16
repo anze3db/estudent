@@ -45,3 +45,16 @@ class Enrollment(models.Model):
     class Meta:
         verbose_name_plural = _("enrollment")
         verbose_name = _("enrollment")
+        
+class ExamDate(models.Model):
+    course = models.ForeignKey("codelist.Course1", related_name=("course"), verbose_name = _("course"))
+    date = models.DateField();
+    
+    def __unicode__(self):
+        return str(self.date) + ' ' + str(self.course)
+
+    class Meta:
+        verbose_name_plural = _("exam dates")
+        verbose_name = _("exam date")
+        
+
