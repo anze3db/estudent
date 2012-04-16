@@ -10,15 +10,16 @@ via the admin).
 from django.db import models
 from datetime import datetime, timedelta
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 # default values that can be overriden in settings.py
 FLB_MAX_FAILURES = int( getattr( settings, 'FLB_MAX_FAILURES', 5 ) )
 FLB_BLOCK_INTERVAL = int( getattr( settings, 'FLB_BLOCK_INTERVAL', 1440 ) )
 
 class FailedAttempt( models.Model ):
-    username = models.CharField( 'Username', max_length=255 )
-    failures = models.PositiveIntegerField( 'Failures', default=0 )
-    timestamp = models.DateTimeField( 'Last failed attempt', auto_now=True )
+    username = models.CharField( _('Username'), max_length=255 )
+    failures = models.PositiveIntegerField( _('Failures'), default=0 )
+    timestamp = models.DateTimeField( _('Last failed attempt'), auto_now=True )
 
     def too_many_failures( self ):
         """ 

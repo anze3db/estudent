@@ -11,6 +11,7 @@ class Country(models.Model):
     category_code = models.CharField(_("country code"), max_length=3,  unique=True)
     descriptor = models.CharField(_("country name"), max_length=255)
     descriptor_english = models.CharField(_("country name original"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
     
     class Meta:
         verbose_name_plural = _("countries")
@@ -40,11 +41,13 @@ class Country(models.Model):
             c.category_code = l[1].strip()
             c.descriptor = smart_unicode(l[2].strip(), encoding='windows-1250', strings_only=False, errors='strict')
             c.descriptor_english = l[3].strip()
+            c.valid = True
             c.save()
             
 class StudyProgram(models.Model):
     program_code = models.CharField(_("program code"), max_length=5, unique=True)
     descriptor = models.CharField(_("program name"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
     
     class Meta:
         verbose_name_plural = _("study programs")
@@ -74,6 +77,7 @@ class StudyProgram(models.Model):
 class Post(models.Model):
     post_code = models.CharField(_("post code"), max_length=5, unique=True)
     descriptor = models.CharField(_("post name"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
     
     class Meta:
         verbose_name_plural = _("posts")
@@ -103,6 +107,7 @@ class Post(models.Model):
 class Region(models.Model):
     region_code = models.CharField(_("region code"), max_length=3, unique=True)
     descriptor = models.CharField(_("region name"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
 
     class Meta:
         verbose_name_plural = _("regions")
@@ -131,6 +136,7 @@ class Region(models.Model):
 class Faculty(models.Model):
     faculty_code =  models.CharField(_("faculty code"), max_length=3)
     descriptor = models.CharField(_("faculty name"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
     
     class Meta:
         verbose_name_plural = _("faculties")
@@ -147,11 +153,11 @@ class Faculty(models.Model):
         c.descriptor = "FRI"
         c.save()
             
-class Course1(models.Model):
+class Course(models.Model):
     course_code = models.CharField(_("course code"), max_length=5)
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
-    
+    valid = models.BooleanField(_("valid"), default=True)
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
         
@@ -173,6 +179,7 @@ class Instructor(models.Model):
     instructor_code = models.CharField(_("instructor code"), max_length=5)
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
+    valid = models.BooleanField(_("valid"), default=True)
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
