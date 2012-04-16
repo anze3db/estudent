@@ -6,5 +6,5 @@ from student.models import *
 
 admin.site.register(Student)
 admin.site.register(Address)
-admin.site.register(Enrollment)
+admin.site.register(Enrollment)        
 admin.site.register(ExamDate)
