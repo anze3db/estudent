@@ -9,3 +9,12 @@ from django.contrib import auth
 from failedloginblocker.decorators import monitor_login
 
 auth.authenticate = monitor_login( auth.authenticate )
+
+from django.utils.translation import ugettext as _
+_("Failedloginblocker")
+_("Failed attempts")
+_("Username")
+_("Failures")
+_("failed attempts")
+_("Failed attempts")
+
