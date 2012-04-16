@@ -151,6 +151,22 @@ class CourseAdmin(admin.ModelAdmin):
     ordering = ('name',)
     search_fields = ('name',)
     
+    def admin_update_course(self, request):
+        Instructor.updateAll()
+        messages.success(request, _("Course added successfully"))
+        
+        return redirect('/codelist/course1')
+
+    def get_urls(self):
+        urls = super(CourseAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_course),
+                name='admin_update_course',
+            ),
+        )
+        return my_urls + urls
     
 admin.site.register(Course1, CourseAdmin)
 

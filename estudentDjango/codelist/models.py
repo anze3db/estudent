@@ -155,6 +155,16 @@ class Course1(models.Model):
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
         
+    @classmethod
+    def updateAll(cls):
+        FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
+        
+        csv_file = open(FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        #Instructor.objects.all().delete()
+        
     class Meta:
         verbose_name_plural =_("courses")
         verbose_name=_("course")
