@@ -161,7 +161,7 @@ class CourseAdmin(admin.ModelAdmin):
         Instructor.updateAll()
         messages.success(request, _("Course added successfully"))
         
-        return redirect('/codelist/course1')
+        return redirect('/codelist/course')
 
     def get_urls(self):
         urls = super(CourseAdmin, self).get_urls()

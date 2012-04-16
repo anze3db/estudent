@@ -47,7 +47,7 @@ class Enrollment(models.Model):
         verbose_name = _("enrollment")
         
 class ExamDate(models.Model):
-    course = models.ForeignKey("codelist.Course1", related_name=("course"), verbose_name = _("course"))
+    course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     date = models.DateField();
     
     def __unicode__(self):
