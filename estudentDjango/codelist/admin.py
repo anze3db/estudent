@@ -9,7 +9,8 @@ class CountryAdmin(admin.ModelAdmin):
     UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
     model = Country
     
-    list_display = ('descriptor',)
+    list_display = ('descriptor', 'valid',)
+    list_filter = ('valid',)
     ordering = ('descriptor',)
     search_fields = ('descriptor',)
 
@@ -38,7 +39,8 @@ admin.site.register(Country, CountryAdmin)
 class StudyProgramAdmin(admin.ModelAdmin):
     model = StudyProgram
     
-    list_display = ('descriptor',)
+    list_display = ('descriptor', 'valid',)
+    list_filter = ('valid',)
     ordering = ('descriptor',)
     search_fields = ('descriptor',)
 
@@ -67,7 +69,8 @@ admin.site.register(StudyProgram, StudyProgramAdmin)
 class PostAdmin(admin.ModelAdmin):
     model = Post
     
-    list_display = ('descriptor',)
+    list_display = ('descriptor', 'valid',)
+    list_filter = ('valid',)
     ordering = ('descriptor',)
     search_fields = ('descriptor',)
 
@@ -96,7 +99,8 @@ admin.site.register(Post, PostAdmin)
 class RegionAdmin(admin.ModelAdmin):
     model = Region
     
-    list_display = ('descriptor',)
+    list_display = ('descriptor', 'valid',)
+    list_filter = ('valid',)
     ordering = ('descriptor',)
     search_fields = ('descriptor',)
     
@@ -123,7 +127,8 @@ admin.site.register(Region, RegionAdmin)
 class FacultyAdmin(admin.ModelAdmin):
     model = Faculty
     
-    list_display = ('descriptor',)
+    list_display = ('descriptor', 'valid',)
+    list_filter = ('valid',)
     ordering = ('descriptor',)
     search_fields = ('descriptor',)
     
@@ -134,7 +139,7 @@ class FacultyAdmin(admin.ModelAdmin):
         return redirect('/codelist/faculty')
     
     def get_urls(self):
-        urls= super(FacultyAdmin, self).get_urls()
+        urls = super(FacultyAdmin, self).get_urls()
         my_urls = patterns('',
             url(
                 r'update',
@@ -147,21 +152,22 @@ class FacultyAdmin(admin.ModelAdmin):
 admin.site.register(Faculty, FacultyAdmin)
         
 class CourseAdmin(admin.ModelAdmin):
-    model= Course1
-    list_display = ('name',)
+    model = Course
+    list_display = ('name', 'valid',)
+    list_filter = ('valid',)
     ordering = ('name',)
     search_fields = ('name',)
     
     
-admin.site.register(Course1, CourseAdmin)
+admin.site.register(Course, CourseAdmin)
 
 
 class InstructorAdmin(admin.ModelAdmin):
-    model= Instructor
-    
-    list_display = ('name','surname',)
-    ordering = ('name','surname',)
-    search_fields = ('name','surname',)
+    model = Instructor
+    list_display = ('name', 'surname', 'valid',)
+    list_filter = ('valid',)
+    ordering = ('name', 'surname',)
+    search_fields = ('name', 'surname',)
     
 admin.site.register(Instructor, InstructorAdmin)
     
