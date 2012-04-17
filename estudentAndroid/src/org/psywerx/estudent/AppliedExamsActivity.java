@@ -7,11 +7,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AppliedExamsActivity extends ListActivity {
 
@@ -19,14 +23,16 @@ public class AppliedExamsActivity extends ListActivity {
 	private ArrayList<MenuItem> m_orders = null;
 	private OrderAdapter m_adapter;
 	private Runnable viewOrders;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_layout);
 		m_orders = new ArrayList<MenuItem>();
-		this.m_adapter = new OrderAdapter(this, R.layout.row, m_orders);
+		this.m_adapter = new OrderAdapter(this, R.layout.exams_row, m_orders);
 		setListAdapter(this.m_adapter);
+		
+		registerForContextMenu(getListView());
 
 		viewOrders = new Runnable(){
 			public void run() {
@@ -38,6 +44,21 @@ public class AppliedExamsActivity extends ListActivity {
 		m_ProgressDialog = ProgressDialog.show(AppliedExamsActivity.this,    
 				"Please wait...", "Retrieving data ...", true);
 	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(R.string.unapply);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		Toast.makeText(this, "Odjava od izpita "+info.position, Toast.LENGTH_SHORT).show();  
+		return super.onContextItemSelected(item);
+	}
+	
 	private Runnable returnRes = new Runnable() {
 		public void run() {
 			if(m_orders != null && m_orders.size() > 0){
@@ -49,6 +70,7 @@ public class AppliedExamsActivity extends ListActivity {
 			m_adapter.notifyDataSetChanged();
 		}
 	};
+	
 	private void getExamsList(){		
 		try{
 			m_orders = new ArrayList<MenuItem>();
@@ -67,6 +89,7 @@ public class AppliedExamsActivity extends ListActivity {
 		}
 		runOnUiThread(returnRes);
 	}
+	
 	private class OrderAdapter extends ArrayAdapter<MenuItem> {
 
 		private ArrayList<MenuItem> items;
@@ -80,7 +103,7 @@ public class AppliedExamsActivity extends ListActivity {
 			View v = convertView;
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.row, null);
+				v = vi.inflate(R.layout.exams_row, null);
 			}
 			MenuItem o = items.get(position);
 			if (o != null) {
