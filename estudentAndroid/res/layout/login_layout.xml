@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:text="@string/edit_text_username"
+            android:hint="@string/edit_text_username"
             android:textColor="@color/gray" />
 
         <EditText
@@ -25,8 +25,8 @@
             android:layout_alignLeft="@+id/eUsername"
             android:layout_alignRight="@+id/eUsername"
             android:layout_below="@+id/eUsername"
-            android:inputType="text"
-            android:text="@string/edit_text_password"
+            android:inputType="textPassword"
+            android:hint="@string/edit_text_password"
             android:textColor="@color/gray" />
 
         <Button
