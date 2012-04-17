@@ -119,9 +119,10 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
         
-class ExamResult(models.Model): #ubistvu prijava
-    exam = models.ForeignKey('ExamDate')
-    student = models.ForeignKey('Student')
+class ExamSignUp(models.Model):
+    enroll = models.ForeignKey('Enrollment')
+    examDate = models.ForeignKey('ExamDate')
+
     RESULTS = (
                 ('NR', 'Ni rezultatov'),
                 ('VP', 'Vrnjena prijava'),
@@ -143,8 +144,8 @@ class ExamResult(models.Model): #ubistvu prijava
         return str(self.exam.date) + ' ' + str(self.student) + ' (' + str(self.result) + ')'
     
     class Meta:
-        verbose_name_plural = _("exam results")
-        verbose_name = _("exam result")
+        verbose_name_plural = _("exam signups")
+        verbose_name = _("exam signup")
 
 
 
