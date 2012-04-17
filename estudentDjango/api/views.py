@@ -1,7 +1,8 @@
 # Create your views here.
 from django.http import HttpResponse
 from failedloginblocker.models import FailedAttempt
-from student.models import Student
+from student.models import Student, Enrollment
+from codelist.models import  StudyProgram
 import json
 
 def login(request):
@@ -35,3 +36,29 @@ def login(request):
         response['errors'] = "Wrong username or password."
                 
     return HttpResponse(json.dumps(response), mimetype="application/json")
+
+def index(request):
+    student_id = request.GET['id']
+    response={'student_name':"",'courses':""}       
+    
+    student = Student.authStudent(student_id, request.GET['password'])       
+    response["student_name"] = student.name
+    
+    programi = StudyProgram.objects.filter(vpis__student=student_id).distinct()
+    
+    enroll = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
+    for v in enroll:
+        courses = []
+        for p in v.course.order_by('course_code'):
+            course={}
+            course["name"]=p.name
+            courses = courses+[course]
+        response["courses"]=courses
+        
+ 
+    
+    return HttpResponse(json.dumps(response),mimetype="application/json")
+    
+    
+    
+    
