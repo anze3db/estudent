@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-16 17:28+0200\n"
+"POT-Creation-Date: 2012-04-17 01:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,25 +43,33 @@ msgstr "Avtentikacija"
 msgid "auth"
 msgstr "avtentikacija"
 
-#: codelist/admin.py:20
+#: codelist/admin.py:19
 msgid "Countries added successfully"
 msgstr "Države so bile uspešno dodane"
 
-#: codelist/admin.py:50
+#: codelist/admin.py:49
 msgid "Study Programs added successfully"
 msgstr "Študijski programi so bili uspešno dodani"
 
-#: codelist/admin.py:80
+#: codelist/admin.py:79
 msgid "Post added successfully"
 msgstr "Pošte so bile uspešno dodane"
 
-#: codelist/admin.py:110
+#: codelist/admin.py:109
 msgid "Region added successfully"
 msgstr "Občine so bile uspešno dodane"
 
-#: codelist/admin.py:137
+#: codelist/admin.py:136
 msgid "Faculty added successfully"
 msgstr "Fakultete so bile uspešno dodane"
+
+#: codelist/admin.py:162
+msgid "Course added successfully"
+msgstr "Predmeti so bile uspešno dodane"
+
+#: codelist/admin.py:189
+msgid "Instructor added successfully"
+msgstr "Predavatelji so bili uspešno dodani"
 
 #: codelist/models.py:11
 msgid "country code"
@@ -76,8 +84,8 @@ msgid "country name original"
 msgstr "Naziv v angleščini"
 
 #: codelist/models.py:14 codelist/models.py:50 codelist/models.py:80
-#: codelist/models.py:110 codelist/models.py:139 codelist/models.py:160
-#: codelist/models.py:170
+#: codelist/models.py:110 codelist/models.py:139 codelist/models.py:163
+#: codelist/models.py:203
 msgid "valid"
 msgstr "veljavno"
 
@@ -153,45 +161,45 @@ msgstr "fakultete"
 msgid "faculty"
 msgstr "fakulteta"
 
-#: codelist/models.py:158
+#: codelist/models.py:157
 msgid "course code"
 msgstr "Šifra predmeta"
 
-#: codelist/models.py:159
+#: codelist/models.py:158
 msgid "course name"
 msgstr "Naziv predmeta"
 
-#: codelist/models.py:163
-msgid "courses"
-msgstr "Predmeti"
-
-#: codelist/models.py:164
-msgid "course"
-msgstr "Predmet"
-
-#: codelist/models.py:167
-msgid "instructor code"
-msgstr "Šifra Predavatelja"
-
-#: codelist/models.py:168 student/models.py:9
-msgid "name"
-msgstr "ime"
-
-#: codelist/models.py:169 student/models.py:10
-msgid "surname"
-msgstr "priimek"
-
-#: codelist/models.py:173
+#: codelist/models.py:159 codelist/models.py:229
 msgid "instructors"
 msgstr "predavatelji"
 
-#: codelist/models.py:174
+#: codelist/models.py:162
+msgid "course type"
+msgstr "Tip predmeta"
+
+#: codelist/models.py:196 codelist/models.py:204
+msgid "courses"
+msgstr "Predmeti"
+
+#: codelist/models.py:197 student/models.py:50
+msgid "course"
+msgstr "Predmet"
+
+#: codelist/models.py:200
+msgid "instructor code"
+msgstr "Šifra Predavatelja"
+
+#: codelist/models.py:201 student/models.py:9
+msgid "name"
+msgstr "ime"
+
+#: codelist/models.py:202 student/models.py:10
+msgid "surname"
+msgstr "priimek"
+
+#: codelist/models.py:230 student/models.py:51
 msgid "instructor"
 msgstr "predavatelj"
-
-#: failedloginblocker/__init__.py:14
-msgid "failedloginblocker"
-msgstr "Ponesrečeni poskusi prijave"
 
 #: failedloginblocker/__init__.py:15 failedloginblocker/__init__.py:19
 msgid "Failed attempts"
@@ -260,6 +268,14 @@ msgstr "Naslovi"
 #: student/models.py:46 student/models.py:47
 msgid "enrollment"
 msgstr "vpis"
+
+#: student/models.py:58
+msgid "exam dates"
+msgstr "Izpitni roki"
+
+#: student/models.py:59
+msgid "exam date"
+msgstr "izpitni rok"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"

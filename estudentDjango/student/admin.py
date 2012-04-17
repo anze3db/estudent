@@ -21,5 +21,5 @@ class StudentAdmin(admin.ModelAdmin):
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
-admin.site.register(Enrollment)
+admin.site.register(Enrollment)        
 admin.site.register(ExamDate)

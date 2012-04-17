@@ -69,6 +69,7 @@ class Enrollment(models.Model):
         
 class ExamDate(models.Model):
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
+    instructor = models.OneToOneField("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
     
     def __unicode__(self):

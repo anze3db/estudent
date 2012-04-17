@@ -157,13 +157,16 @@ class Course(models.Model):
     course_code = models.CharField(_("course code"), max_length=5, primary_key=True)
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
+    CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
+    CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
+    course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
     valid = models.BooleanField(_("valid"), default=True)
+
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
-        
+    
     @classmethod
     def updateAll(cls):
-        print 'aaaaaaa'
         FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
         
         csv_file = open(FILE)
@@ -174,14 +177,18 @@ class Course(models.Model):
         
         for line in csv_data:
             l = line.split(',')
-            print l
             if len(l)<3: continue
             c = Course()
             c.course_code = l[0].strip()
             c.name = l[1].strip()
             c.save()
-            for ins in l[2:]:
+            for ins in l[2:-1]:
                 c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
+
+            if l[-1].strip()=='R':
+                c.course_type = CT_SPLIT
+            else:
+                c.course_type = CT_JOINED                
 
             c.save()
                     
