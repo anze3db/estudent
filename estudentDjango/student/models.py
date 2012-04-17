@@ -17,7 +17,6 @@ class Student(models.Model):
         else:
             return 
         
-        
     enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
@@ -26,6 +25,9 @@ class Student(models.Model):
     email = models.EmailField(_("email"), max_length=255)
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
+    courses = models.ManyToManyField("codelist.Course")
+    program = models.OneToOneField("codelist.StudyProgram")
+
     def save(self, *args, **kwargs):
         self.password = get_hexdigest(ALGO, "sssalt", self.password)
         super(Student, self).save(*args, **kwargs)
@@ -109,6 +111,7 @@ class ExamDate(models.Model):
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     instructor = models.OneToOneField("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
+    students = models.ManyToManyField('Student', blank=True)
     
     def __unicode__(self):
         return str(self.date) + ' ' + str(self.course)
@@ -117,4 +120,32 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
         
+class ExamResult(models.Model):
+    exam = models.OneToOneField('ExamDate')
+    student = models.OneToOneField('Student')
+    RESULTS = (
+                ('NR', 'Ni rezultatov'),
+                ('VP', 'Vrnjena prijava'),
+                ('1', 'nezadostno 1'),
+                ('2', 'nezadostno 2'),
+                ('3', 'nezadostno 3'),
+                ('4', 'nezadostno 4'),
+                ('5', 'nezadostno 5'),
+                ('6', 'zadostno 6'),
+                ('7', 'dobro 7'),
+                ('8', 'prav dobro 8'),
+                ('9', 'odlicno 9'),
+                ('10', 'odlicno 10'),
+            )
+    result = models.CharField(max_length=2, choices=RESULTS, default='NR')
+
+    def __unicode__(self):
+        return str(self.exam.date) + ' ' + str(self.student) + ' (' + str(self.result) + ')'
+    
+    class Meta:
+        verbose_name_plural = _("exam results")
+        verbose_name = _("exam result")
+
+
+
 

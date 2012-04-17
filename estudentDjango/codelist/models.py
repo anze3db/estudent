@@ -3,6 +3,7 @@ from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext as _
 from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
+from django.db.transaction import commit_on_success # pohitri insert
 import os
 
 
@@ -20,10 +21,8 @@ class Country(models.Model):
     def __unicode__(self):
         return self.descriptor
     
-    
-
-    
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
         
@@ -90,6 +89,7 @@ class Post(models.Model):
         return self.descriptor
     
     @classmethod
+    @commit_on_success    
     def updateAll(cls):
         UPDATE_FILE = os.path.join(PROJECT_PATH, 'poste.txt')
         
@@ -120,6 +120,7 @@ class Region(models.Model):
         return self.descriptor
     
     @classmethod
+    @commit_on_success    
     def updateAll(cls):
         UPDATE_FILE = os.path.join(PROJECT_PATH, 'obcine.txt')
         
