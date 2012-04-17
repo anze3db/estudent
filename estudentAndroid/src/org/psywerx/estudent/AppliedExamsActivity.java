@@ -30,7 +30,7 @@ public class AppliedExamsActivity extends ListActivity {
 
 		viewOrders = new Runnable(){
 			public void run() {
-				getOrders();
+				getExamsList();
 			}
 		};
 		Thread thread =  new Thread(null, viewOrders, "MagentoBackground");
@@ -49,7 +49,7 @@ public class AppliedExamsActivity extends ListActivity {
 			m_adapter.notifyDataSetChanged();
 		}
 	};
-	private void getOrders(){
+	private void getExamsList(){		
 		try{
 			m_orders = new ArrayList<MenuItem>();
 			MenuItem o1 = new MenuItem();

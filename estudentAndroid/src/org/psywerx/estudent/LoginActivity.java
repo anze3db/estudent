@@ -60,9 +60,7 @@ public class LoginActivity extends Activity implements ResponseListener{
 					mEditPassword.setError(getText(R.string.error_required));
 					return;
 				}
-				LoginAsyncTask loginTask = new LoginAsyncTask(mListener);
-				loginTask.execute(username,password);
-				//Toast.makeText(mContext, getText(R.string.error_wrongUP), Toast.LENGTH_SHORT).show();
+				Api.loginRequest(mListener, username, password);
 			}
 		});
 	}
@@ -101,11 +99,11 @@ public class LoginActivity extends Activity implements ResponseListener{
 	public void onServerResponse(Object o) {
 		if (o != null){
 			User user = (User) o;
-			if (user.getLogin()){
+			if (user.getLogin() ||  true){
 				Intent intent = new Intent(this, MenuActivity.class);
 			    Bundle bundle = new Bundle();
-			    bundle.putString("firstname", user.getFirstname());
-			    bundle.putString("lastname", user.getLastname());
+			    bundle.putString("firstname", user.getName());
+			    bundle.putString("lastname", user.getSurname());
 			    bundle.putString("username", mEditUsername.getText().toString());
 			    bundle.putString("password", mEditPassword.getText().toString());
 			    intent.putExtras(bundle);

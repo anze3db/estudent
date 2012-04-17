@@ -1,33 +1,41 @@
 package org.psywerx.estudent.json;
 
 public class User {
-	protected String firstname;
-	protected String lastname;
+	protected String surname;
+	protected String name;
+	protected String errors;
 	protected boolean login;
-	protected boolean locked;
+	protected int numTries;
 	
-	public String getFirstname() {
-		return firstname;
-	}
-	public String getLastname() {
-		return lastname;
-	}
 	public boolean getLogin() {
 		return login;
-	}
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
 	}
 	public void setLogin(boolean login) {
 		this.login = login;
 	}
-	public void setLocked(boolean locked) {
-		this.locked = locked;
+	public String getErrors() {
+		return errors;
 	}
-	public boolean getLocked() {
-		return locked;
+	public String getName() {
+		return name;
 	}
+	public int getNumTries() {
+		return numTries;
+	}
+	public String getSurname() {
+		return surname;
+	}
+	public void setErrors(String errors) {
+		this.errors = errors;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setNumTries(int numTries) {
+		this.numTries = numTries;
+	}
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	
 }

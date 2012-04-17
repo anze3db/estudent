@@ -18,24 +18,38 @@ import com.google.gson.Gson;
 
 
 
-class LoginAsyncTask extends AsyncTask<String, Void, User> {
+class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
-	private static final String SERVER_URL = "http://192.168.1.4/user.json";
+	private static final String SERVER_URL = "http://estudent.psywerx.net/api/";
+	private String mApiSubDir = "";
 	
-	private ResponseListener loginActivityListener;
-	
+	private ResponseListener responseListener;
+
 	/**
 	 * Class constructor 
 	 */
-	protected LoginAsyncTask(ResponseListener r) {
-		loginActivityListener = r;
+	protected RequestAsyncTask(ResponseListener r) {
+		responseListener = r;
+	}
+	/**
+	 * Class constructor 
+	 */
+	protected RequestAsyncTask(ResponseListener r, String apiClass) {
+		responseListener = r;
+		mApiSubDir = apiClass;
 	}
 
-	protected User doInBackground(String... userData) {
-		User result = null;
+	protected Object doInBackground(String... data) {
+		Object result = null;
 		try{
-			if (userData.length == 2){
-				result = verifyLogin(userData[0],userData[1]);
+			String requestUrl = (SERVER_URL+mApiSubDir+"?"+HelperFunctions.getFetchParams(data));
+
+			String responseString = fetchGetRequest(requestUrl);
+			D.dbgv("response String: "+responseString);
+			
+			Gson g = new Gson();
+			if (!"".equals(responseString) && responseString != null){
+				result =  g.fromJson(responseString, User.class);
 			}
 		} catch (Exception e) {
 			//error in fetch service should not effect the application at all !
@@ -43,34 +57,6 @@ class LoginAsyncTask extends AsyncTask<String, Void, User> {
 			result = null;
 		}
 		return result;
-	}
-
-
-	private User verifyLogin(String username,String password){
-		User user = null;
-		try {
-			String requestUrl = (SERVER_URL+"?"+
-					HelperFunctions.getFetchParams(
-							"action","verifyLogin",
-							"username",username,
-							"password",password)
-					);
-
-			String responseString = fetchGetRequest(requestUrl);
-			D.dbgv("response String: "+responseString);
-			Gson g = new Gson();
-			if (!"".equals(responseString) && responseString != null){
-				user = (User) g.fromJson(responseString, User.class);
-			}
-
-		} catch (ClientProtocolException e){
-			D.dbge(e.toString());
-		} catch (IOException e){
-			D.dbge(e.toString());
-		} catch (Exception e){
-			D.dbge(e.toString(),e);
-		}
-		return user;
 	}
 
 	private String fetchGetRequest(String url) throws ClientProtocolException, IOException{
@@ -94,11 +80,9 @@ class LoginAsyncTask extends AsyncTask<String, Void, User> {
 		return responseString;
 	}
 
-	protected void onPostExecute(User result) {
+	protected void onPostExecute(Object result) {
 		if (result != null){
-			D.dbgv("ime: "+result.getFirstname());
-			D.dbgv("priimek: "+result.getLastname());
-			loginActivityListener.onServerResponse(result);
+			responseListener.onServerResponse(result);
 		}else{
 			D.dbge("result is null");
 		}
