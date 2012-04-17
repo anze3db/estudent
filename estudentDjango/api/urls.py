@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = patterns('',
 					
 	(r'^login/$', 'api.views.login'),
+	(r'^index/$', 'api.views.index'),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),
