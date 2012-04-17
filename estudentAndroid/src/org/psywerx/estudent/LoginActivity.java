@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements ResponseListener{
 
@@ -61,7 +62,7 @@ public class LoginActivity extends Activity implements ResponseListener{
 	public void onServerResponse(Object o) {
 		if (o != null){
 			User user = (User) o;
-			if (user.getLogin() ||  true){
+			if (user.getLogin()){
 				Intent intent = new Intent(this, MenuActivity.class);
 			    Bundle bundle = new Bundle();
 			    bundle.putString("firstname", user.getName());
@@ -70,6 +71,8 @@ public class LoginActivity extends Activity implements ResponseListener{
 			    bundle.putString("password", mEditPassword.getText().toString());
 			    intent.putExtras(bundle);
 				startActivity(intent);
+			}else{
+				Toast.makeText(this, user.getErrors(), 2000).show();
 			}
 		}
 	}
