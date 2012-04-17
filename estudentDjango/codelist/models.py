@@ -50,7 +50,7 @@ class StudyProgram(models.Model):
     program_code = models.CharField(_("program code"), max_length=5, primary_key=True, unique=True)
     descriptor = models.CharField(_("program name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
-    
+        
     class Meta:
         verbose_name_plural = _("study programs")
         verbose_name = _("study program")
@@ -165,6 +165,10 @@ class Course(models.Model):
     CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
     course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
     valid = models.BooleanField(_("valid"), default=True)
+
+    # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
+    compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
+    selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
 
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
