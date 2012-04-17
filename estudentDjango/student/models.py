@@ -64,10 +64,29 @@ class Address(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey("Student", verbose_name=_("student"))
     program = models.ForeignKey("codelist.StudyProgram", verbose_name=_("study program"))
+    study_year = models.PositiveIntegerField('Study year')
+    class_year  = models.PositiveIntegerField() #letnik
+    ENROL_CHOICES = (
+                    ('V1', 'Prvi vpis v letnik'),
+                    ('V2', 'Ponavljanje letnika'),
+                    ('V3', 'Nadaljevanje letnika'),
+                    ('AB', 'Absolvent')
+                    )
+    enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
+    course    = models.ManyToManyField("codelist.Course", null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
+    
+    def format_year(self):
+         return u'%d/%d' % (self.study_year, self.study_year+1)
+
     
     class Meta:
         verbose_name_plural = _("enrollment")
         verbose_name = _("enrollment")
+        ordering = ['program', 'study_year', 'class_year']
+        unique_together = ('student', 'study_year', 'program', 'class_year')
         
 class ExamDate(models.Model):
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
