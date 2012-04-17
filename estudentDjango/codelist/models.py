@@ -8,7 +8,7 @@ import os
 
 # Create your models here.
 class Country(models.Model):
-    category_code = models.CharField(_("country code"), max_length=3,  unique=True)
+    category_code = models.CharField(_("country code"), max_length=3,  primary_key=True, unique=True)
     descriptor = models.CharField(_("country name"), max_length=255)
     descriptor_english = models.CharField(_("country name original"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
@@ -45,7 +45,7 @@ class Country(models.Model):
             c.save()
             
 class StudyProgram(models.Model):
-    program_code = models.CharField(_("program code"), max_length=5, unique=True)
+    program_code = models.CharField(_("program code"), max_length=5, primary_key=True, unique=True)
     descriptor = models.CharField(_("program name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
     
@@ -75,7 +75,7 @@ class StudyProgram(models.Model):
             c.save()
             
 class Post(models.Model):
-    post_code = models.CharField(_("post code"), max_length=5, unique=True)
+    post_code = models.CharField(_("post code"), max_length=5, primary_key=True, unique=True)
     descriptor = models.CharField(_("post name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
     
@@ -105,7 +105,7 @@ class Post(models.Model):
             c.save()
             
 class Region(models.Model):
-    region_code = models.CharField(_("region code"), max_length=3, unique=True)
+    region_code = models.CharField(_("region code"), max_length=3, primary_key=True, unique=True)
     descriptor = models.CharField(_("region name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
 
@@ -134,7 +134,7 @@ class Region(models.Model):
             c.save()    
 
 class Faculty(models.Model):
-    faculty_code =  models.CharField(_("faculty code"), max_length=3)
+    faculty_code =  models.CharField(_("faculty code"), max_length=3, primary_key=True, unique=True)
     descriptor = models.CharField(_("faculty name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
     
@@ -154,7 +154,7 @@ class Faculty(models.Model):
         c.save()
             
 class Course(models.Model):
-    course_code = models.CharField(_("course code"), max_length=5, primary_key=True)
+    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True)
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
     CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
@@ -186,9 +186,9 @@ class Course(models.Model):
                 c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
 
             if l[-1].strip()=='R':
-                c.course_type = CT_SPLIT
+                c.course_type = Course.CT_SPLIT
             else:
-                c.course_type = CT_JOINED                
+                c.course_type = Course.CT_JOINED                
 
             c.save()
                     
@@ -197,7 +197,7 @@ class Course(models.Model):
         verbose_name=_("course")
         
 class Instructor(models.Model):
-    instructor_code = models.CharField(_("instructor code"), max_length=5)
+    instructor_code = models.CharField(_("instructor code"), max_length=5, primary_key=True, unique=True)
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)

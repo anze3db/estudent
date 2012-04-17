@@ -4,7 +4,21 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 
-class CountryAdmin(admin.ModelAdmin):
+class CodelistAdmin(admin.ModelAdmin):
+    def changelist_view(self, request, extra_context=None):
+        """
+        Overrides the default changelist_view, sets the default filter valid to true
+        """
+        print "AAAAA"
+        if not request.GET.has_key('valid__exact'):
+            q = request.GET.copy()
+            q['valid__exact'] = '1'
+            request.GET = q
+            request.META['QUERY_STRING'] = request.GET.urlencode()
+        return super(CodelistAdmin,self).changelist_view(request, extra_context=extra_context)   
+
+
+class CountryAdmin(CodelistAdmin):
     UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
     model = Country
     
@@ -35,7 +49,7 @@ class CountryAdmin(admin.ModelAdmin):
 
 admin.site.register(Country, CountryAdmin)
 
-class StudyProgramAdmin(admin.ModelAdmin):
+class StudyProgramAdmin(CodelistAdmin):
     model = StudyProgram
     
     list_display = ('descriptor', 'valid',)
@@ -65,7 +79,7 @@ class StudyProgramAdmin(admin.ModelAdmin):
 
 admin.site.register(StudyProgram, StudyProgramAdmin)
 
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(CodelistAdmin):
     model = Post
     
     list_display = ('descriptor', 'valid',)
@@ -95,7 +109,7 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 
-class RegionAdmin(admin.ModelAdmin):
+class RegionAdmin(CodelistAdmin):
     model = Region
     
     list_display = ('descriptor', 'valid',)
@@ -123,7 +137,7 @@ class RegionAdmin(admin.ModelAdmin):
     
 admin.site.register(Region, RegionAdmin)
 
-class FacultyAdmin(admin.ModelAdmin):
+class FacultyAdmin(CodelistAdmin):
     model = Faculty
     
     list_display = ('descriptor', 'valid',)
@@ -150,7 +164,7 @@ class FacultyAdmin(admin.ModelAdmin):
      
 admin.site.register(Faculty, FacultyAdmin)
         
-class CourseAdmin(admin.ModelAdmin):
+class CourseAdmin(CodelistAdmin):
     model = Course
     list_display = ('name', 'valid',)
     list_filter = ('valid',)
@@ -177,7 +191,7 @@ class CourseAdmin(admin.ModelAdmin):
 admin.site.register(Course, CourseAdmin)
 
 
-class InstructorAdmin(admin.ModelAdmin):
+class InstructorAdmin(CodelistAdmin):
     model = Instructor
     list_display = ('name', 'surname', 'valid',)
     list_filter = ('valid',)
@@ -196,7 +210,7 @@ class InstructorAdmin(admin.ModelAdmin):
             url(
                 r'update',
                 self.admin_site.admin_view(self.admin_update_instructor),
-                name='admin_update_instructor',
+                name='admin_update',
             ),
         )
         return my_urls + urls

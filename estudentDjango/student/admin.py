@@ -7,10 +7,12 @@ from student.models import *
 class AddressInLine(admin.TabularInline):
     model = Address
     max_num = 2
+    raw_id_fields = ("country","region","post")
     
 class PersonalInformationInLine(admin.StackedInline):
     model = PersonalInformation
     max_num = 1
+    raw_id_fields = ("birth_country","birth_region")
 
 
 class StudentAdmin(admin.ModelAdmin):

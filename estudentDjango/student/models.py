@@ -5,11 +5,12 @@ from django.utils.translation import ugettext as _
 ALGO = 'sha1'
 
 class Student(models.Model):
-    enrollment_number = models.IntegerField(_("enrollment number"))
+    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True)
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
     tax_number = models.CharField(_("tax number"), max_length=8)
+    email = models.EmailField(_("email"), max_length=255)
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
     def save(self, *args, **kwargs):
@@ -32,11 +33,11 @@ class Student(models.Model):
         
 class PersonalInformation(models.Model):
     GENDER = (
-        ('1', _('male')),
-        ('2', _('female')),
+        ('M', _('male')),
+        ('F', _('female')),
     )
     
-    gender = models.IntegerField(_("gender"), choices=GENDER)
+    gender = models.CharField(_("gender"), max_length=1, choices=GENDER)
     birth_date = models.DateField(_("date of birth"))
     birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
     birth_place = models.CharField(_("place of birth"), max_length=255)
@@ -51,9 +52,12 @@ class Address(models.Model):
         ('T', _('temporary address')),
     )
     street = models.CharField(_("street"), max_length=255)
-    country = models.ForeignKey("codelist.Country", related_name=("country"), verbose_name = _("country"))
+    region = models.ForeignKey("codelist.Region", related_name=("address_region"), verbose_name=_("region"))
+    post = models.ForeignKey("codelist.Post", related_name=("address_post"), verbose_name=_("post"))
+    country = models.ForeignKey("codelist.Country", related_name=("address_country"), verbose_name = _("country"))
     student = models.ForeignKey("Student", related_name=("student"))
     type = models.CharField(max_length = 1, choices = ADDRESS_TYPES)
+    send_address = models.BooleanField(_("send address"))
     
     class Meta:
         verbose_name_plural = _("addresses")
