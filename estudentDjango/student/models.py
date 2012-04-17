@@ -31,9 +31,11 @@ class Student(models.Model):
         return str(self.enrollment_number)
         
 class PersonalInformation(models.Model):
+    M = 1
+    F = 2    
     GENDER = (
-        ('1', _('male')),
-        ('2', _('female')),
+        (M, _('male')),
+        (F, _('female')),
     )
     
     gender = models.IntegerField(_("gender"), choices=GENDER)
