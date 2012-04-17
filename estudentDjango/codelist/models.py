@@ -20,6 +20,9 @@ class Country(models.Model):
     def __unicode__(self):
         return self.descriptor
     
+    
+
+    
     @classmethod
     def updateAll(cls):
         UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'

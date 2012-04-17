@@ -4,8 +4,21 @@ from django.utils.translation import ugettext as _
 
 ALGO = 'sha1'
 
+
+
 class Student(models.Model):
-    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True)
+
+    def generateEnrollment(): #@NoSelf
+        """Generates a new enrollment number"""
+        
+        last = Student.objects.order_by('enrollment_number')
+        if last.count() > 0:
+            return last.get().enrollment_number + 1   
+        else:
+            return 
+        
+        
+    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
@@ -16,7 +29,8 @@ class Student(models.Model):
     def save(self, *args, **kwargs):
         self.password = get_hexdigest(ALGO, "sssalt", self.password)
         super(Student, self).save(*args, **kwargs)
-    
+
+
     @staticmethod
     def authStudent(enrollment_number, password):
         try:
@@ -65,8 +79,8 @@ class Address(models.Model):
         verbose_name = _("address")
 
 class Enrollment(models.Model):
-    student = models.ForeignKey("Student", verbose_name=_("student"))
-    program = models.ForeignKey("codelist.StudyProgram", verbose_name=_("study program"))
+    student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
+    program = models.ForeignKey("codelist.StudyProgram",related_name="study_program", verbose_name=_("study program"))
     study_year = models.PositiveIntegerField('Study year')
     class_year  = models.PositiveIntegerField() #letnik
     ENROL_CHOICES = (
@@ -82,7 +96,7 @@ class Enrollment(models.Model):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
     
     def format_year(self):
-         return u'%d/%d' % (self.study_year, self.study_year+1)
+        return u'%d/%d' % (self.study_year, self.study_year+1)
 
     
     class Meta:

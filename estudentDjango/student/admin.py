@@ -21,7 +21,13 @@ class StudentAdmin(admin.ModelAdmin):
     inlines = [AddressInLine, PersonalInformationInLine]
 
 
+class EnrollmentAdmin(admin.ModelAdmin):
+    raw_id_fields = ("student","program")
+    
+
+        
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
-admin.site.register(Enrollment)        
+admin.site.register(Enrollment, EnrollmentAdmin)        
 admin.site.register(ExamDate)

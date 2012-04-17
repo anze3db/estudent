@@ -7,10 +7,9 @@ import json
 def login(request):
     user = request.GET['id']
     response = {'name': "", 'surname':"", 'login': False, 'numTries':0, 'errors':""}
-   
+    fa = None
     try:
-        fa = FailedAttempt.objects.get(username=user)
-
+        fa = FailedAttempt.objects.order_by('-timestamp').filter(username=user)[0]
         if fa.recent_failure():
             if fa.too_many_failures():
                 fa.failures += 1
@@ -20,7 +19,7 @@ def login(request):
                 return HttpResponse(json.dumps(response), mimetype="application/json")
     except:
         fa = None
-    
+    print fa
     auth = Student.authStudent(user, request.GET['password'])
     
     if auth:
@@ -28,12 +27,8 @@ def login(request):
         response["surname"] = auth.surname
         response["login"] = True
     else:
-        try:
-            fa = FailedAttempt.objects.get(username=user)
-        except:
-            fa = None  
-            
-        fa = fa or FailedAttempt(username=user, failures=0)
+        if fa is None or not fa.recent_failure() :
+            fa = FailedAttempt(username=user, failures=0)
         fa.failures += 1
         fa.save()
         response['numTries'] = fa.failures

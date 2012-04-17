@@ -5,11 +5,11 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 
 class CodelistAdmin(admin.ModelAdmin):
+    
     def changelist_view(self, request, extra_context=None):
         """
         Overrides the default changelist_view, sets the default filter valid to true
         """
-        print "AAAAA"
         if not request.GET.has_key('valid__exact'):
             q = request.GET.copy()
             q['valid__exact'] = '1'
