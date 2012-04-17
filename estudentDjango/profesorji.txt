@@ -3,4 +3,12 @@
 630002,Dušan,Kodek
 630003,Borut,Robič
 630004,Boštjan,Slivnik
+630005,Ivan,Bratko
+630006,Saša,Divjak
+630007,Andrej,Dobnikar
+630008,Igor,Kononenko
+630009,Neža,Mramor Kosta
+630010,Franc,Solina
+630011,Nikolaj,Zimic
+630011,Blaž,Zupan
 

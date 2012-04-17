@@ -25,8 +25,6 @@ class Student(models.Model):
     email = models.EmailField(_("email"), max_length=255)
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
-    courses = models.ManyToManyField("codelist.Course")
-
     def save(self, *args, **kwargs):
         self.password = get_hexdigest(ALGO, "sssalt", self.password)
         super(Student, self).save(*args, **kwargs)
