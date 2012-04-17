@@ -33,7 +33,7 @@ public class MenuActivity extends ListActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_layout);
 		mMenuItemsList = new ArrayList<MenuItem>();
-		this.mMenuAdapter = new MenuAdapter(this, R.layout.row, mMenuItemsList);
+		this.mMenuAdapter = new MenuAdapter(this, R.layout.menu_row, mMenuItemsList);
 		setListAdapter(this.mMenuAdapter);
 
 		getDataFromParent();
@@ -114,7 +114,7 @@ public class MenuActivity extends ListActivity{
 			View v = convertView;
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.row, null);
+				v = vi.inflate(R.layout.menu_row, null);
 			}
 			MenuItem o = items.get(position);
 			if (o != null) {
