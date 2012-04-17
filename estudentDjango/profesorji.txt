@@ -1,6 +1,6 @@
-TT,Tret,Terre
-VM,Viljan,Mahnič
-DK,Dušan,Kodek
-BR,Borut,Robič
-BS,Boštjan,Slivnik
+630000,Tret,Terre
+630001,Viljan,Mahnič
+630002,Dušan,Kodek
+630003,Borut,Robič
+630004,Boštjan,Slivnik
 

@@ -4,6 +4,8 @@ from django.utils.translation import ugettext as _
 from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
 from django.db.transaction import commit_on_success # pohitri insert
+from django.core.validators import RegexValidator 
+import re 
 import os
 
 
@@ -158,7 +160,8 @@ class Faculty(models.Model):
         c.save()
             
 class Course(models.Model):
-    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True)
+    num_regex = re.compile(r'^[0-9]{5}$') 
+    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
     CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
@@ -205,11 +208,12 @@ class Course(models.Model):
         verbose_name=_("course")
         
 class Instructor(models.Model):
-    instructor_code = models.CharField(_("instructor code"), max_length=5, primary_key=True, unique=True)
+    num_regex = re.compile(r'^63[0-9]{4}$') 
+    instructor_code = models.CharField(_("instructor code"), max_length=6, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
-    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"))
+    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
