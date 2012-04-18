@@ -13,14 +13,14 @@ class Student(models.Model):
     def generateEnrollment(): #@NoSelf
         """Generates a new enrollment number"""
         
-        last = Student.objects.order_by('enrollment_number')
-        #if last.count() > 0:
-        #    return last.get().enrollment_number + 1   
-        #else:
-        return 63110001
+        last = Student.objects.order_by('-enrollment_number')
+        if last.count() > 0:
+            return last.filter()[0].enrollment_number + 1   
+        else:
+            return 63110001
 
     num_regex = re.compile(r'^63[0-9]{6}$')         
-    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
+    enrollment_number = models.IntegerField(_("enrollment number"), unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
     #enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
