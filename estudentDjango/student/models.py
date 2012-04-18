@@ -48,7 +48,7 @@ class Student(models.Model):
         verbose_name = _("student")
 
     def __unicode__(self):
-        return str(self.enrollment_number)
+        return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
         
 class PersonalInformation(models.Model):
 
