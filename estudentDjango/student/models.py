@@ -1,6 +1,8 @@
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.core.validators import RegexValidator 
+import re 
 
 ALGO = 'sha1'
 
@@ -16,8 +18,10 @@ class Student(models.Model):
             return last.get().enrollment_number + 1   
         else:
             return 63110001
+
+    num_regex = re.compile(r'^63[0-9]{6}$') 
         
-    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
+    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
