@@ -15,7 +15,7 @@ class Student(models.Model):
         if last.count() > 0:
             return last.get().enrollment_number + 1   
         else:
-            return 
+            return 63110001
         
     enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
     name = models.CharField(_(_("name")), max_length=255)
