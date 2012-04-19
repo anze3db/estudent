@@ -2,7 +2,7 @@
 
 if [ "$1" == "db" ]
 then
-	rm student.db
+	rm estudent.db
 	python manage.py syncdb
 fi
 
