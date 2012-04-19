@@ -1,2 +1,4 @@
-SMRPO,Sodobne metode razvoja programske opreme,VM,S
-IRZ,Izračunljivost in računska zahtevnost,BR,BS,R
+00000,Sodobne metode razvoja programske opreme,630001,S
+00001,Izračunljivost in računska zahtevnost,630003,630004,R
+00002,Umetna inteligenca,630005,630011,S
+00003,Strojno učenje,630008,S

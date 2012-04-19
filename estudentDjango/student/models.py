@@ -1,6 +1,8 @@
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.core.validators import RegexValidator 
+import re 
 
 ALGO = 'sha1'
 
@@ -11,17 +13,21 @@ class Student(models.Model):
     def generateEnrollment(): #@NoSelf
         """Generates a new enrollment number"""
         
-        last = Student.objects.order_by('enrollment_number')
+        last = Student.objects.order_by('-enrollment_number')
         if last.count() > 0:
-            return last.get().enrollment_number + 1   
+            return last.filter()[0].enrollment_number + 1   
         else:
-            return 
-        
-        
-    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
+            return 63110001
+
+    num_regex = re.compile(r'^63[0-9]{6}$')         
+    enrollment_number = models.IntegerField(_("enrollment number"), unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
+    #enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
-    social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
+    
+    ss_regex = re.compile(r'^[0-3][0-9][0-1][0-9][0-9]{3}50[0-9]{4}$')
+    social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True, validators=[RegexValidator(regex=ss_regex)])
+    #social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
     tax_number = models.CharField(_("tax number"), max_length=8)
     email = models.EmailField(_("email"), max_length=255)
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
@@ -43,7 +49,7 @@ class Student(models.Model):
         verbose_name = _("student")
 
     def __unicode__(self):
-        return str(self.enrollment_number)
+        return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
         
 class PersonalInformation(models.Model):
 
@@ -90,7 +96,7 @@ class Enrollment(models.Model):
                     ('AB', 'Absolvent')
                     )
     enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
-    course    = models.ManyToManyField("codelist.Course", null=True, blank=True)
+    courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
@@ -107,8 +113,9 @@ class Enrollment(models.Model):
         
 class ExamDate(models.Model):
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
-    instructor = models.OneToOneField("codelist.Instructor", verbose_name=_("instructor"))
+    instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
+    students = models.ManyToManyField('Student', blank=True)
     
     def __unicode__(self):
         return str(self.date) + ' ' + str(self.course)
@@ -117,4 +124,34 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
         
+class ExamSignUp(models.Model):
+    enroll = models.ForeignKey('Enrollment')
+    examDate = models.ForeignKey('ExamDate')
+
+    RESULTS = (
+                ('NR', 'Ni rezultatov'),
+                ('VP', 'Vrnjena prijava'),
+                ('1', 'nezadostno 1'),
+                ('2', 'nezadostno 2'),
+                ('3', 'nezadostno 3'),
+                ('4', 'nezadostno 4'),
+                ('5', 'nezadostno 5'),
+                ('6', 'zadostno 6'),
+                ('7', 'dobro 7'),
+                ('8', 'prav dobro 8'),
+                ('9', 'odlicno 9'),
+                ('10', 'odlicno 10'),
+            )
+    result = models.CharField(max_length=2, choices=RESULTS, default='NR')
+    paidfor = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+
+    def __unicode__(self):
+        return str(self.exam.date) + ' ' + str(self.student) + ' (' + str(self.result) + ')'
+    
+    class Meta:
+        verbose_name_plural = _("exam signups")
+        verbose_name = _("exam signup")
+
+
+
 

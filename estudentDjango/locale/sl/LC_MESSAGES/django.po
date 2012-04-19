@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-17 01:22+0200\n"
+"POT-Creation-Date: 2012-04-18 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,163 +43,167 @@ msgstr "Avtentikacija"
 msgid "auth"
 msgstr "avtentikacija"
 
-#: codelist/admin.py:19
+#: codelist/admin.py:33
 msgid "Countries added successfully"
 msgstr "Države so bile uspešno dodane"
 
-#: codelist/admin.py:49
+#: codelist/admin.py:63
 msgid "Study Programs added successfully"
 msgstr "Študijski programi so bili uspešno dodani"
 
-#: codelist/admin.py:79
+#: codelist/admin.py:93
 msgid "Post added successfully"
 msgstr "Pošte so bile uspešno dodane"
 
-#: codelist/admin.py:109
+#: codelist/admin.py:123
 msgid "Region added successfully"
 msgstr "Občine so bile uspešno dodane"
 
-#: codelist/admin.py:136
+#: codelist/admin.py:150
 msgid "Faculty added successfully"
 msgstr "Fakultete so bile uspešno dodane"
 
-#: codelist/admin.py:162
+#: codelist/admin.py:176
 msgid "Course added successfully"
 msgstr "Predmeti so bile uspešno dodane"
 
-#: codelist/admin.py:189
+#: codelist/admin.py:203
 msgid "Instructor added successfully"
 msgstr "Predavatelji so bili uspešno dodani"
 
-#: codelist/models.py:11
+#: codelist/models.py:14
 msgid "country code"
 msgstr "Šifra države"
 
-#: codelist/models.py:12
+#: codelist/models.py:15
 msgid "country name"
 msgstr "Naziv države"
 
-#: codelist/models.py:13
+#: codelist/models.py:16
 msgid "country name original"
 msgstr "Naziv v angleščini"
 
-#: codelist/models.py:14 codelist/models.py:50 codelist/models.py:80
-#: codelist/models.py:110 codelist/models.py:139 codelist/models.py:163
-#: codelist/models.py:203
+#: codelist/models.py:17 codelist/models.py:54 codelist/models.py:84
+#: codelist/models.py:115 codelist/models.py:145 codelist/models.py:170
+#: codelist/models.py:215
 msgid "valid"
 msgstr "veljavno"
 
-#: codelist/models.py:17
+#: codelist/models.py:20
 msgid "countries"
 msgstr "države"
 
-#: codelist/models.py:18 student/models.py:36
+#: codelist/models.py:21 student/models.py:71
 msgid "country"
 msgstr "državo"
 
-#: codelist/models.py:48
+#: codelist/models.py:52
 msgid "program code"
 msgstr "Koda studijskega programa"
 
-#: codelist/models.py:49
+#: codelist/models.py:53
 msgid "program name"
 msgstr "Ime študijskega"
 
-#: codelist/models.py:53
+#: codelist/models.py:57
 msgid "study programs"
 msgstr "Študijski programi"
 
-#: codelist/models.py:54 student/models.py:44
+#: codelist/models.py:58 student/models.py:82
 msgid "study program"
 msgstr "Študijski program"
 
-#: codelist/models.py:78
+#: codelist/models.py:82
 msgid "post code"
 msgstr "Poštna številka"
 
-#: codelist/models.py:79
+#: codelist/models.py:83
 msgid "post name"
 msgstr "Naziv pošte"
 
-#: codelist/models.py:83
+#: codelist/models.py:87
 msgid "posts"
 msgstr "pošte"
 
-#: codelist/models.py:84
+#: codelist/models.py:88 student/models.py:70
 msgid "post"
 msgstr "pošto"
 
-#: codelist/models.py:108
+#: codelist/models.py:113
 msgid "region code"
 msgstr "Šifra Občine"
 
-#: codelist/models.py:109
+#: codelist/models.py:114
 msgid "region name"
 msgstr "Ime občine"
 
-#: codelist/models.py:113
+#: codelist/models.py:118
 msgid "regions"
 msgstr "občine"
 
-#: codelist/models.py:114
+#: codelist/models.py:119 student/models.py:69
 msgid "region"
 msgstr "občina"
 
-#: codelist/models.py:137
+#: codelist/models.py:143
 msgid "faculty code"
 msgstr "Šifra fakultete"
 
-#: codelist/models.py:138
+#: codelist/models.py:144
 msgid "faculty name"
 msgstr "Naziv fakultete"
 
-#: codelist/models.py:142
+#: codelist/models.py:148
 msgid "faculties"
 msgstr "fakultete"
 
-#: codelist/models.py:143
+#: codelist/models.py:149
 msgid "faculty"
 msgstr "fakulteta"
 
-#: codelist/models.py:157
+#: codelist/models.py:164
 msgid "course code"
 msgstr "Šifra predmeta"
 
-#: codelist/models.py:158
+#: codelist/models.py:165
 msgid "course name"
 msgstr "Naziv predmeta"
 
-#: codelist/models.py:159 codelist/models.py:229
+#: codelist/models.py:166 codelist/models.py:241
 msgid "instructors"
 msgstr "predavatelji"
 
-#: codelist/models.py:162
+#: codelist/models.py:169
 msgid "course type"
 msgstr "Tip predmeta"
 
-#: codelist/models.py:196 codelist/models.py:204
+#: codelist/models.py:207 codelist/models.py:216
 msgid "courses"
 msgstr "Predmeti"
 
-#: codelist/models.py:197 student/models.py:50
+#: codelist/models.py:208 student/models.py:108
 msgid "course"
 msgstr "Predmet"
 
-#: codelist/models.py:200
+#: codelist/models.py:212
 msgid "instructor code"
 msgstr "Šifra Predavatelja"
 
-#: codelist/models.py:201 student/models.py:9
+#: codelist/models.py:213 student/models.py:21
 msgid "name"
 msgstr "ime"
 
-#: codelist/models.py:202 student/models.py:10
+#: codelist/models.py:214 student/models.py:22
 msgid "surname"
 msgstr "priimek"
 
-#: codelist/models.py:230 student/models.py:51
+#: codelist/models.py:242 student/models.py:109
 msgid "instructor"
 msgstr "predavatelj"
+
+#: failedloginblocker/__init__.py:14
+msgid "Failedloginblocker"
+msgstr ""
 
 #: failedloginblocker/__init__.py:15 failedloginblocker/__init__.py:19
 msgid "Failed attempts"
@@ -225,57 +229,105 @@ msgstr "Zadnji ponesrečen poskus"
 msgid "Student"
 msgstr "Študent"
 
-#: student/__init__.py:3 student/models.py:32 student/models.py:43
+#: student/__init__.py:3 student/models.py:42 student/models.py:81
 msgid "student"
 msgstr "študent"
 
-#: student/models.py:8
+#: student/models.py:20
 msgid "enrollment number"
 msgstr "vpisna številka"
 
-#: student/models.py:11
+#: student/models.py:23
 msgid "social security number"
 msgstr "EMŠO"
 
-#: student/models.py:12
+#: student/models.py:24
 msgid "tax number"
 msgstr "davčna številka"
 
-#: student/models.py:13 student/models.py:40
-msgid "address"
-msgstr "Naslov stalnega bivališča"
+#: student/models.py:25
+msgid "email"
+msgstr "email"
 
-#: student/models.py:14
-msgid "temporary address"
-msgstr "Naslov začasnega bivališča"
-
-#: student/models.py:16
+#: student/models.py:26
 msgid "password"
 msgstr "geslo"
 
-#: student/models.py:31
+#: student/models.py:41
 msgid "students"
 msgstr "študent"
 
-#: student/models.py:35
+#: student/models.py:50
+msgid "male"
+msgstr "Moški"
+
+#: student/models.py:51
+msgid "female"
+msgstr "Ženski"
+
+#: student/models.py:54
+msgid "gender"
+msgstr "Spol"
+
+#: student/models.py:55
+msgid "date of birth"
+msgstr "Rojstni datum"
+
+#: student/models.py:56
+msgid "country of birth"
+msgstr "Država rojstva"
+
+#: student/models.py:57
+msgid "place of birth"
+msgstr "Kraj rojstva"
+
+#: student/models.py:58
+msgid "region of birth"
+msgstr "Pokrajina rojstva"
+
+#: student/models.py:65
+msgid "permanent address"
+msgstr "Naslov stalnega bivališča"
+
+#: student/models.py:66
+msgid "temporary address"
+msgstr "Naslov začasnega bivališča"
+
+#: student/models.py:68
 msgid "street"
 msgstr "Ulica (naselje) in hišna številka"
 
-#: student/models.py:39
+#: student/models.py:74
+msgid "send address"
+msgstr "Naslov za pošiljanje"
+
+#: student/models.py:77
 msgid "addresses"
 msgstr "Naslovi"
 
-#: student/models.py:46 student/models.py:47
+#: student/models.py:78
+msgid "address"
+msgstr "Naslov stalnega bivališča"
+
+#: student/models.py:102 student/models.py:103
 msgid "enrollment"
 msgstr "vpis"
 
-#: student/models.py:58
+#: student/models.py:117
 msgid "exam dates"
 msgstr "Izpitni roki"
 
-#: student/models.py:59
+#: student/models.py:118
 msgid "exam date"
 msgstr "izpitni rok"
+
+#: student/models.py:145
+msgid "exam signups"
+msgstr "Prijave na izpit"
+
+#: student/models.py:146
+msgid "exam signup"
+msgstr "prijava na izpit"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"

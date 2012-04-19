@@ -3,6 +3,9 @@ from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext as _
 from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
+from django.db.transaction import commit_on_success # pohitri insert
+from django.core.validators import RegexValidator 
+import re 
 import os
 
 
@@ -20,10 +23,8 @@ class Country(models.Model):
     def __unicode__(self):
         return self.descriptor
     
-    
-
-    
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         UPDATE_URL = 'http://www.stat.si/klasje/tabela.aspx?CVN=3888'
         
@@ -51,7 +52,7 @@ class StudyProgram(models.Model):
     program_code = models.CharField(_("program code"), max_length=5, primary_key=True, unique=True)
     descriptor = models.CharField(_("program name"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
-    
+        
     class Meta:
         verbose_name_plural = _("study programs")
         verbose_name = _("study program")
@@ -90,6 +91,7 @@ class Post(models.Model):
         return self.descriptor
     
     @classmethod
+    @commit_on_success    
     def updateAll(cls):
         UPDATE_FILE = os.path.join(PROJECT_PATH, 'poste.txt')
         
@@ -120,6 +122,7 @@ class Region(models.Model):
         return self.descriptor
     
     @classmethod
+    @commit_on_success    
     def updateAll(cls):
         UPDATE_FILE = os.path.join(PROJECT_PATH, 'obcine.txt')
         
@@ -157,13 +160,18 @@ class Faculty(models.Model):
         c.save()
             
 class Course(models.Model):
-    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True)
+    num_regex = re.compile(r'^[0-9]{5}$') 
+    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
     CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
     CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
     course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
     valid = models.BooleanField(_("valid"), default=True)
+
+    # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
+    compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
+    selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
 
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
@@ -200,11 +208,12 @@ class Course(models.Model):
         verbose_name=_("course")
         
 class Instructor(models.Model):
-    instructor_code = models.CharField(_("instructor code"), max_length=5, primary_key=True, unique=True)
+    num_regex = re.compile(r'^63[0-9]{4}$') 
+    instructor_code = models.CharField(_("instructor code"), max_length=6, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
-    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"))
+    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
