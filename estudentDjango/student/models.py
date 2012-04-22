@@ -146,7 +146,7 @@ class ExamSignUp(models.Model):
     paidfor = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
     def __unicode__(self):
-        return str(self.exam.date) + ' ' + str(self.student) + ' (' + str(self.result) + ')'
+        return str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result) + ')'
     
     class Meta:
         verbose_name_plural = _("exam signups")
