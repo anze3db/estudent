@@ -5,6 +5,7 @@ from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
 from django.db.transaction import commit_on_success # pohitri insert
 from django.core.validators import RegexValidator 
+from student.models import ExamSignUp, Enrollment, ExamDate, Student
 import re 
 import os
 
@@ -202,6 +203,20 @@ class Course(models.Model):
                 c.course_type = Course.CT_JOINED                
 
             c.save()
+            
+    def results(self, student):
+        
+        # enroll = Enrollment.objects.filter(student=student)        
+        attempts = ExamSignUp.objects.filter(enroll__student__enrollment_number=student.enrollment_number).filter(examDate__course__course_code=self.course_code).order_by("examDate")              
+        result = []
+        for a in attempts:
+            if not a.result == None:
+                
+                res = str(a.result)
+            result = result + [{ 'result': res}]
+            
+        return result
+                    
                     
     class Meta:
         verbose_name_plural =_("courses")

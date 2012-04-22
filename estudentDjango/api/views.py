@@ -44,14 +44,17 @@ def index(request):
     student = Student.authStudent(student_id, request.GET['password'])       
     response["student_name"] = student.name
     
-    programi = StudyProgram.objects.filter(vpis__student=student_id).distinct()
+    
     
     enroll = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     for v in enroll:
         courses = []
-        for p in v.course.order_by('course_code'):
+        for p in v.courses.order_by('course_code'):
             course={}
             course["name"]=p.name
+            ocene = p.results(student)
+            for o in ocene:
+                course['result'] = o['result']
             courses = courses+[course]
         response["courses"]=courses
         
