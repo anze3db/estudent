@@ -2,6 +2,8 @@ from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator 
+from django.utils.encoding import force_unicode
+
 import re 
 
 ALGO = 'sha1'
@@ -118,7 +120,7 @@ class ExamDate(models.Model):
     students = models.ManyToManyField('Student', blank=True)
     
     def __unicode__(self):
-        return str(self.date) + ' ' + str(self.course)
+        return force_unicode(str(self.date) + ' ' + str(self.course))
 
     class Meta:
         verbose_name_plural = _("exam dates")
