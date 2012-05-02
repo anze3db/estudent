@@ -1,0 +1,28 @@
+.navbar, .navbar .nav > li > a {
+	color:white !important;
+	font-size:14px;
+}
+.navbar .brand{
+	color:white;
+	font-weight:bold;
+	
+}
+.navbar-inner{
+	
+	background-color:#7CA0C7; background-image:none !important;
+	border-radius:0px !important;
+}
+#user-tools a:link, #user-tools a:visited{
+	color:white;
+	text-decoration: underline;
+}
+.brand a:link, .brand a:visited{
+    color:white;
+}
+label, select{
+	display:inline !important;
+}
+li {
+	list-style: none !important;
+	
+}
