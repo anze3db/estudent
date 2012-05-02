@@ -16,7 +16,13 @@
 	color:white;
 	text-decoration: underline;
 }
-
+.brand a:link, .brand a:visited{
+    color:white;
+}
 label, select{
 	display:inline !important;
+}
+li {
+	list-style: none !important;
+	
 }
