@@ -16,3 +16,7 @@
 	color:white;
 	text-decoration: underline;
 }
+
+label, select{
+	display:inline !important;
+}
