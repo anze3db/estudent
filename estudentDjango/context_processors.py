@@ -1,14 +1,10 @@
-'''
-Created on May 2, 2012
-
-@author: smotko
-'''
 from django.utils.text import capfirst
 from django.db.models import get_models
 from django.utils.safestring import mark_safe
 from django.contrib.admin import ModelAdmin
 from django.contrib.admin.validation import validate
 
+# get_models returns all the models, but there are some which we would like to ignore
 IGNORE_APPS = (
     "sites",
     "sessions",
@@ -17,6 +13,9 @@ IGNORE_APPS = (
 )
 
 def app_list(request):
+    '''
+    Get all models and add them to the context apps variable.
+    '''
     user = request.user
     app_dict = {}
     admin_class = ModelAdmin
@@ -48,5 +47,5 @@ def app_list(request):
     app_list = app_dict.values()
     app_list.sort(key=lambda x: x['name'])
     for app in app_list:
-            app['models'].sort(key=lambda x: x['name'])
+        app['models'].sort(key=lambda x: x['name'])
     return {'apps': app_list}
