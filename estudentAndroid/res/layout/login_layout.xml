@@ -15,8 +15,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text|number"
-            android:hint="@string/edit_text_username"
-            android:textColor="@color/gray" />
+            android:hint="@string/edit_text_username" />
 
         <EditText
             android:id="@+id/ePassword"
@@ -26,8 +25,7 @@
             android:layout_alignRight="@+id/eUsername"
             android:layout_below="@+id/eUsername"
             android:inputType="textPassword"
-            android:hint="@string/edit_text_password"
-            android:textColor="@color/gray" />
+            android:hint="@string/edit_text_password" />
 
         <Button
             android:id="@+id/btnConfirm"
