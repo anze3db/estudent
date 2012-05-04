@@ -85,10 +85,9 @@ def enrolemntList(request):
     student_id = request.GET['id']
     
     student = Student.objects.get(enrollment_number = student_id)
-    print student
     
     enrolemtns = Enrollment.objects.filter(student = student)
-    print serializers.serialize("json", enrolemtns);
+    print serializers.serialize("json", enrolemtns, relations=('program',));
 
         
     
