@@ -1,9 +1,11 @@
 # Create your views here.
 from django.http import HttpResponse
+from django.core import serializers
 from failedloginblocker.models import FailedAttempt
-from student.models import Student, Enrollment
+from student.models import Student, Enrollment, ExamDate
 from codelist.models import  StudyProgram
 import json
+import codelist
 
 def login(request):
     user = request.GET['id']
@@ -62,6 +64,35 @@ def index(request):
     
     return HttpResponse(json.dumps(response),mimetype="application/json")
     
+    
+def examDates(request):
+    student_id = request.GET['id']
+    response = {}
+    
+    exams = ExamDate.objects.all()
+    print 
+    print "aaaaaaaaaa"
+    for i in exams:
+        response = i.course.name
+    print "aaaaaaaaaa"
+        
+    
+    return HttpResponse(json.dumps(response),mimetype="application/json")
+    
+    
+    
+def enrolemntList(request):
+    student_id = request.GET['id']
+    
+    student = Student.objects.get(enrollment_number = student_id)
+    print student
+    
+    enrolemtns = Enrollment.objects.filter(student = student)
+    print serializers.serialize("json", enrolemtns);
+
+        
+    
+    return HttpResponse(json.dumps({}),mimetype="application/json")
     
     
     

@@ -113,7 +113,11 @@ class Enrollment(models.Model):
         ordering = ['program', 'study_year', 'class_year']
         unique_together = ('student', 'study_year', 'program', 'class_year')
         
+        
 class ExamDate(models.Model):
+    """
+    tabela izpitni roki
+    """
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
