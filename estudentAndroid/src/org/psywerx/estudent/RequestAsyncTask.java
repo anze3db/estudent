@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
-	private static final String SERVER_URL = "http://estudent.psywerx.net/api/";
+	private static final String SERVER_URL = "http://192.168.1.4/api/";
 	private String mApiSubDir = "";
 	
 	private ResponseListener responseListener;
