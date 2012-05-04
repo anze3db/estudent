@@ -54,7 +54,7 @@ class Student(models.Model):
         return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
         
 class PersonalInformation(models.Model):
-
+    # TODO: add name, surname and stuff from student that should be here
     GENDER = (
         ('M', _('male')),
         ('F', _('female')),
@@ -92,11 +92,11 @@ class Enrollment(models.Model):
     study_year = models.PositiveIntegerField('Study year')
     class_year  = models.PositiveIntegerField() #letnik
     ENROL_CHOICES = (
-                    ('V1', 'Prvi vpis v letnik'),
-                    ('V2', 'Ponavljanje letnika'),
-                    ('V3', 'Nadaljevanje letnika'),
-                    ('AB', 'Absolvent')
-                    )
+        ('V1', 'Prvi vpis v letnik'),
+        ('V2', 'Ponavljanje letnika'),
+        ('V3', 'Nadaljevanje letnika'),
+        ('AB', 'Absolvent')
+    )
     enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     
@@ -118,6 +118,7 @@ class ExamDate(models.Model):
     instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
     students = models.ManyToManyField('Student', blank=True)
+    
     
     def __unicode__(self):
         return force_unicode(str(self.date) + ' ' + str(self.course))
