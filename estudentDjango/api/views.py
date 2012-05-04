@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.core import serializers
 from failedloginblocker.models import FailedAttempt
-from student.models import Student, Enrollment, ExamDate
+from student.models import Student, Enrollment, ExamDate, ExamSignUp
 from codelist.models import  StudyProgram
 import json
 import codelist
@@ -66,32 +66,30 @@ def index(request):
     
     
 def examDates(request):
-    student_id = request.GET['id']
-    response = {}
+    enrollment_id = request.GET['enrollment_id']
     
-    exams = ExamDate.objects.all()
-    print 
-    print "aaaaaaaaaa"
-    for i in exams:
-        response = i.course.name
-    print "aaaaaaaaaa"
+        
+    enrollment = Enrollment.objects.get(id = enrollment_id)
+    es = ExamSignUp.objects.filter(enroll = enrollment)
+    
+    response = serializers.serialize("json", es, relations=('program',));
         
     
-    return HttpResponse(json.dumps(response),mimetype="application/json")
-    
-    
-    
+    return HttpResponse(response,mimetype="application/json")
+
+
+
 def enrolemntList(request):
     student_id = request.GET['id']
     
     student = Student.objects.get(enrollment_number = student_id)
     
     enrolemtns = Enrollment.objects.filter(student = student)
-    print serializers.serialize("json", enrolemtns, relations=('program',));
+    response = serializers.serialize("json", enrolemtns, relations=('program',));
 
         
     
-    return HttpResponse(json.dumps({}),mimetype="application/json")
+    return HttpResponse(response,mimetype="application/json")
     
     
     
