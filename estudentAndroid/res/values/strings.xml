@@ -7,10 +7,10 @@
     <string name="confirm">Prijava</string>
     
     <string name="error_required">Obvezno polje</string>
-    <string name="error_wrongUP">Napacno Ime ali Geslo</string>
+    <string name="error_wrongUP">Napačna vpisna številka ali geslo</string>
 
     
-    <string name="edit_text_username">Ime </string>
+    <string name="edit_text_username">Vpisna številka </string>
     <string name="edit_text_password">Geslo </string>
     
     <!-- oznake za glavni menu -->
