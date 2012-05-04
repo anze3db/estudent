@@ -147,6 +147,7 @@ class ExamSignUp(models.Model):
             )
     result = models.CharField(max_length=2, choices=RESULTS, default='NR')
     paidfor = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+    valid = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
     def __unicode__(self):
         return str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result) + ')'
