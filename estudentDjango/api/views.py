@@ -39,7 +39,7 @@ def login(request):
 
 def index(request):
     student_id = request.GET['id']
-    response={'student_name':"",'courses':""}       
+    response={'student_name':"",'courses':"", "nekikarje":"zbrisi"}       
     
     student = Student.authStudent(student_id, request.GET['password'])       
     response["student_name"] = student.name
