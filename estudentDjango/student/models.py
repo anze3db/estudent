@@ -22,8 +22,7 @@ class Student(models.Model):
             return 63110001
 
     num_regex = re.compile(r'^63[0-9]{6}$')         
-    enrollment_number = models.IntegerField(_("enrollment number"), unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
-    #enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
+    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     
