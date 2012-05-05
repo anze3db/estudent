@@ -3,6 +3,7 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from student.models import *
+from student.forms import StudentForm
 
 class AddressInLine(admin.TabularInline):
     model = Address
@@ -19,6 +20,7 @@ class StudentAdmin(admin.ModelAdmin):
     model = Student
     search_fields = ('enrollment_number', 'name', 'surname')
     inlines = [AddressInLine, PersonalInformationInLine]
+    form = StudentForm
 
 
 class EnrollmentAdmin(admin.ModelAdmin):

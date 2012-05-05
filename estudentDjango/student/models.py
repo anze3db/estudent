@@ -48,9 +48,15 @@ class Student(models.Model):
     class Meta:
         verbose_name_plural = _("students")
         verbose_name = _("student")
+        
+    class Admin:
+        js = ('/app_media/disableEnrollmentNumber.js')
 
+    
     def __unicode__(self):
         return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
+    
+    
         
 class PersonalInformation(models.Model):
     # TODO: add name, surname and stuff from student that should be here
