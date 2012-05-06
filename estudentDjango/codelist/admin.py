@@ -3,6 +3,8 @@ from django.conf.urls.defaults import *
 from django.contrib import admin, messages
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import AdminPasswordChangeForm
 
 class CodelistAdmin(admin.ModelAdmin):
     
@@ -216,3 +218,22 @@ class InstructorAdmin(CodelistAdmin):
         return my_urls + urls
     
 admin.site.register(Instructor, InstructorAdmin)
+
+
+class BetterUserAdmin(UserAdmin):
+    """
+    Add user form now has options to edit permissions and groups
+    This makes it easy to add a django user to an instructor
+    """
+    
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2')}
+        ),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
+        (_('Groups'), {'fields': ('groups',)}),
+    )
+
+admin.site.unregister(User)
+admin.site.register(User, BetterUserAdmin)

@@ -6,6 +6,7 @@ from urllib import urlopen, urlencode
 from django.db.transaction import commit_on_success # pohitri insert
 from django.core.validators import RegexValidator 
 from student.models import ExamSignUp, Enrollment, ExamDate, Student
+from django.contrib.auth.models import User
 import re 
 import os
 
@@ -229,6 +230,7 @@ class Instructor(models.Model):
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
     courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
+    user = models.OneToOneField(User, null=True)
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
