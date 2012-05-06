@@ -31,6 +31,18 @@ class Student(models.Model):
     #social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
     tax_number = models.CharField(_("tax number"), max_length=8)
     email = models.EmailField(_("email"), max_length=255)
+    
+    GENDER = (
+        ('M', _('male')),
+        ('F', _('female')),
+    )
+    
+    gender = models.CharField(_("gender"), max_length=1, choices=GENDER)
+    birth_date = models.DateField(_("date of birth"))
+    birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
+    birth_place = models.CharField(_("place of birth"), max_length=255)
+    birth_region = models.ForeignKey("codelist.Region", related_name="region", verbose_name=_("region of birth"))
+    
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
     def save(self, *args, **kwargs):
@@ -58,21 +70,6 @@ class Student(models.Model):
     
     
         
-class PersonalInformation(models.Model):
-    # TODO: add name, surname and stuff from student that should be here
-    GENDER = (
-        ('M', _('male')),
-        ('F', _('female')),
-    )
-    
-    gender = models.CharField(_("gender"), max_length=1, choices=GENDER)
-    birth_date = models.DateField(_("date of birth"))
-    birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
-    birth_place = models.CharField(_("place of birth"), max_length=255)
-    birth_region = models.ForeignKey("codelist.Region", related_name="region", verbose_name=_("region of birth"))
-    #nationality = models.
-    student = models.ForeignKey("Student", related_name=("personal_student"))
-
 class Address(models.Model):
     
     ADDRESS_TYPES = (
