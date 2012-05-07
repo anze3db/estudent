@@ -1,0 +1,94 @@
+datum 
+ura 
+ucilnica
+
+
+
+
+enrollment tabela
+	enrol_type = (kaj je nadaljevanje letnika, oz kaksni tipi vpisa v letnik sploh obstajajo?)
+
+moduli: 
+	kaj so moduli
+	kaj pomeni max 2 modula
+	kaj sestavlja en modul
+	ali si lahko student poljubno izbira predmete iz modula ali ne
+	ali je max 2 modula 
+	kaj se lahko dogaja z spreminjanjem modulov, ali se pozna pri vseh studnetih, ali je to sploh dovoljeno
+
+Izbirni predmeti:
+    sestavljeni iz modulov ali izbirnih predmetov?
+
+Vzdrževanje predmetnika:
+    predmet (ime predmeta, nosilci)
+    obvezni predmeti, moduli, izbirni predmeti. So vezani na letnik? Na smer?
+	
+vpisni list
+	kje izvemo kaj so obvezni predmeti (ali je kakorkoli povezano z moduli)?
+	
+
+ali imamo lahko ocene vaj pred izpitom
+ali imamo lahko samo ocene vaj? 
+
+kako se veckrat uposteva ocena vaj?
+
+
+
+
+
+
+
+
+zidar:
+ali alijenje ki se koncajo z * pripadajo drugim zgodbam?
+
+
+Kartotečni list (študent)
+Izpis naj bo možen v 2 variantah: vsa polaganja in samo zadnje polaganje. 
+	# Preveri izpis takoj po vpisu. Izpis mora obsegati vse predmete, ki jih je študent vpisal, brez ocen. 
+		- kako lahko izpisujemo predmete brez ocen, ce izpisujemo samo polaganja (vsa ali samo zadnje)? ali moramo brez polaganj dati zraven pri obeh izpisih ali ane?
+
+
+
+
+Prijava na izpit (študent)
+	# Preveri število dni od zadnjega polaganja. 
+		- kaj to sploh pomeni?
+	# Preveri prijavo na že opravljen izpit. 
+		- kaj preverjam, da se to dovoli ali da se ne?
+	# Preveri prijavo na več različnih rokov v prihodnosti. 
+		- tudi tukaj, ali je to dovoljeno ali ne (pri drugih alinejah lepo pise ali je stvar dovoljena ali ne)
+	# Preveri odštevanje polaganj pri ponavljalcih. 
+		- kako tocno se to odstevanje pozna? oziroma kaj "preverjamo"?
+
+
+
+
+Vpisni list (referentka)
+Referentka lahko vpiše študenta v prvi in naslednje letnike. Ob vpisu se avtomatsko vzpostavi tisti del predmetnika, ki obsega obvezne predmete. 
+	- kje imamo dolocene obvezne predmete, kaj to sploh so in kdo jih doloca?
+	# Preveri veljavnost EMŠO in datuma rojstva (tujci nimajo EMŠO, ampak se vnaša samo datum rojstva, preostanek pa se zapolni z ničlami). 
+		- preostanek cesa? 
+	# Preveri podvajanje vpisnih številk. 
+		- se to dovoli ali ne?
+	# Preveri dodane obvezne predmete (ali so se vzpostavili potrebni podatki v podatkovni bazi). 
+		- kaj so obvezni predmeti in kaj mislite z potrebni podatki v bazi?
+
+
+
+
+Izbirni predmeti (referentka)
+Referentka lahko za vsakega vpisanega študenta vzdržuje izbirni del predmetnika, ki je v splošnem sestavljen iz predmetov posameznih modulov in izbirnih predmetov. 
+	- ali to pomeni da mora zajemati vse predmete posameznih modulov?
+	# Preveri regularen potek: dodajanje/odvzemanje modulov (max. 2 modula) in dodajanje/odvzemanje posameznih izbirnih predmetov. 
+		- kaj pomeni max 2 modula, ali jih ima lahko 0, ali ima to kaksno povezavo z semestrom, kako je potem z izbirnimi predmeti, ce imata dva modula vec kot potrebno stevilo predmetov?
+	# Preveri odvzemanje modulov in izbirnih predmetov, če za nek predmet že obstaja prijava na izpit ali ocena. 
+		- kaj "preverjamo"? Ali se to dovoli, in se ocena ohrani za tisti predmet, ali se ocena izbrise, ali kaj tretjega?
+
+
+
+
+
+izpitni roki:
+	ce ima en predmet vec profesorjev, ali lahko en profesor razpise rok, drugi pa ureja
+
