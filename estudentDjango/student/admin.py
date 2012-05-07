@@ -3,22 +3,19 @@ from django.contrib import admin, messages
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from student.models import *
+from student.forms import StudentForm
 
 class AddressInLine(admin.TabularInline):
     model = Address
     max_num = 2
     raw_id_fields = ("country","region","post")
     
-class PersonalInformationInLine(admin.StackedInline):
-    model = PersonalInformation
-    max_num = 1
-    raw_id_fields = ("birth_country","birth_region")
-
-
 class StudentAdmin(admin.ModelAdmin):
     model = Student
     search_fields = ('enrollment_number', 'name', 'surname')
-    inlines = [AddressInLine, PersonalInformationInLine]
+    inlines = [AddressInLine]
+    form = StudentForm
+    raw_id_fields = ("birth_country","birth_region")
 
 
 class EnrollmentAdmin(admin.ModelAdmin):

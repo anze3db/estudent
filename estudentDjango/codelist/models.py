@@ -6,10 +6,73 @@ from urllib import urlopen, urlencode
 from django.db.transaction import commit_on_success # pohitri insert
 from django.core.validators import RegexValidator 
 from student.models import ExamSignUp, Enrollment, ExamDate, Student
+from django.contrib.auth.models import User
 import re 
 import os
 
 
+class Course(models.Model):
+    num_regex = re.compile(r'^[0-9]{5}$') 
+    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
+    name = models.CharField(_("course name"), max_length=255)
+    instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
+    CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
+    CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
+    course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
+    valid = models.BooleanField(_("valid"), default=True)
+
+    # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
+    compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
+    selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
+
+    def __unicode__(self):
+        return self.name + " (" + self.course_code + ")"
+    
+    @classmethod
+    def updateAll(cls):
+        FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
+        
+        csv_file = open(FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        Course.objects.all().delete()
+        
+        for line in csv_data:
+            l = line.split(',')
+            if len(l)<3: continue
+            c = Course()
+            c.course_code = l[0].strip()
+            c.name = l[1].strip()
+            c.save()
+            for ins in l[2:-1]:
+                c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
+
+            if l[-1].strip()=='R':
+                c.course_type = Course.CT_SPLIT
+            else:
+                c.course_type = Course.CT_JOINED                
+
+            c.save()
+            
+    def results(self, student):
+        
+        # enroll = Enrollment.objects.filter(student=student)        
+        attempts = ExamSignUp.objects.filter(enroll__student__enrollment_number=student.enrollment_number).filter(examDate__course__course_code=self.course_code).order_by("examDate")              
+        result = []
+        for a in attempts:
+            if not a.result == None:
+                
+                res = str(a.result)
+            result = result + [{ 'result': res}]
+            
+        return result
+                    
+                    
+    class Meta:
+        verbose_name_plural =_("courses")
+        verbose_name=_("course")
+        
 # Create your models here.
 class Country(models.Model):
     category_code = models.CharField(_("country code"), max_length=3,  primary_key=True, unique=True)
@@ -160,68 +223,6 @@ class Faculty(models.Model):
         c.descriptor = "FRI"
         c.save()
             
-class Course(models.Model):
-    num_regex = re.compile(r'^[0-9]{5}$') 
-    course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
-    name = models.CharField(_("course name"), max_length=255)
-    instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
-    CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
-    CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
-    course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
-    valid = models.BooleanField(_("valid"), default=True)
-
-    # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
-    compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
-    selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
-
-    def __unicode__(self):
-        return self.name + " (" + self.course_code + ")"
-    
-    @classmethod
-    def updateAll(cls):
-        FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
-        
-        csv_file = open(FILE)
-        csv_data = csv_file.readlines()
-        csv_file.close()
-        
-        Course.objects.all().delete()
-        
-        for line in csv_data:
-            l = line.split(',')
-            if len(l)<3: continue
-            c = Course()
-            c.course_code = l[0].strip()
-            c.name = l[1].strip()
-            c.save()
-            for ins in l[2:-1]:
-                c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
-
-            if l[-1].strip()=='R':
-                c.course_type = Course.CT_SPLIT
-            else:
-                c.course_type = Course.CT_JOINED                
-
-            c.save()
-            
-    def results(self, student):
-        
-        # enroll = Enrollment.objects.filter(student=student)        
-        attempts = ExamSignUp.objects.filter(enroll__student__enrollment_number=student.enrollment_number).filter(examDate__course__course_code=self.course_code).order_by("examDate")              
-        result = []
-        for a in attempts:
-            if not a.result == None:
-                
-                res = str(a.result)
-            result = result + [{ 'result': res}]
-            
-        return result
-                    
-                    
-    class Meta:
-        verbose_name_plural =_("courses")
-        verbose_name=_("course")
-        
 class Instructor(models.Model):
     num_regex = re.compile(r'^63[0-9]{4}$') 
     instructor_code = models.CharField(_("instructor code"), max_length=6, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
@@ -229,6 +230,7 @@ class Instructor(models.Model):
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
     courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
+    user = models.OneToOneField(User, null=True)
     
     def __unicode__(self):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"

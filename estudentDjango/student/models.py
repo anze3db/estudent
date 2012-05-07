@@ -22,8 +22,7 @@ class Student(models.Model):
             return 63110001
 
     num_regex = re.compile(r'^63[0-9]{6}$')         
-    enrollment_number = models.IntegerField(_("enrollment number"), unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
-    #enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment)
+    enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_(_("name")), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     
@@ -32,6 +31,18 @@ class Student(models.Model):
     #social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
     tax_number = models.CharField(_("tax number"), max_length=8)
     email = models.EmailField(_("email"), max_length=255)
+    
+    GENDER = (
+        ('M', _('male')),
+        ('F', _('female')),
+    )
+    
+    gender = models.CharField(_("gender"), max_length=1, choices=GENDER)
+    birth_date = models.DateField(_("date of birth"))
+    birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
+    birth_place = models.CharField(_("place of birth"), max_length=255)
+    birth_region = models.ForeignKey("codelist.Region", related_name="region", verbose_name=_("region of birth"))
+    
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
     def save(self, *args, **kwargs):
@@ -49,25 +60,16 @@ class Student(models.Model):
     class Meta:
         verbose_name_plural = _("students")
         verbose_name = _("student")
+        
+    class Admin:
+        js = ('/app_media/disableEnrollmentNumber.js')
 
+    
     def __unicode__(self):
         return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
-        
-class PersonalInformation(models.Model):
-
-    GENDER = (
-        ('M', _('male')),
-        ('F', _('female')),
-    )
     
-    gender = models.CharField(_("gender"), max_length=1, choices=GENDER)
-    birth_date = models.DateField(_("date of birth"))
-    birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
-    birth_place = models.CharField(_("place of birth"), max_length=255)
-    birth_region = models.ForeignKey("codelist.Region", related_name="region", verbose_name=_("region of birth"))
-    #nationality = models.
-    student = models.ForeignKey("Student", related_name=("personal_student"))
-
+    
+        
 class Address(models.Model):
     
     ADDRESS_TYPES = (
@@ -92,11 +94,11 @@ class Enrollment(models.Model):
     study_year = models.PositiveIntegerField('Study year')
     class_year  = models.PositiveIntegerField() #letnik
     ENROL_CHOICES = (
-                    ('V1', 'Prvi vpis v letnik'),
-                    ('V2', 'Ponavljanje letnika'),
-                    ('V3', 'Nadaljevanje letnika'),
-                    ('AB', 'Absolvent')
-                    )
+        ('V1', 'Prvi vpis v letnik'),
+        ('V2', 'Ponavljanje letnika'),
+        ('V3', 'Nadaljevanje letnika'),
+        ('AB', 'Absolvent')
+    )
     enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     
@@ -113,11 +115,16 @@ class Enrollment(models.Model):
         ordering = ['program', 'study_year', 'class_year']
         unique_together = ('student', 'study_year', 'program', 'class_year')
         
+        
 class ExamDate(models.Model):
+    """
+    tabela izpitni roki
+    """
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
     date = models.DateField();
     students = models.ManyToManyField('Student', blank=True)
+    
     
     def __unicode__(self):
         return force_unicode(str(self.date) + ' ' + str(self.course))

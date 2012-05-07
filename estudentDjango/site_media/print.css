@@ -1,0 +1,18 @@
+.navbar,.object-tools,
+#toolbar,#changelist-filter,
+.actions,.action-checkbox-column,.action-checkbox,.paginator,
+.submit-row,
+.datetimeshortcuts,.related-lookup,
+h1
+	{
+	display: none;
+}
+
+.module {
+	border: none;
+}
+
+input{
+	border: 0px !important;
+	box-shadow: none;
+}

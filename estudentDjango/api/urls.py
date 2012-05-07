@@ -7,6 +7,8 @@ urlpatterns = patterns('',
 					
 	(r'^login/$', 'api.views.login'),
 	(r'^index/$', 'api.views.index'),
+	(r'^examDates/$', 'api.views.examDates'),
+	(r'^enrolemntList/$', 'api.views.enrolemntList'),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),

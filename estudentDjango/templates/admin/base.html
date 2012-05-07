@@ -5,6 +5,7 @@
 <link href="/site_media/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/base.css{% endblock %}" />
 <link href="/site_media/site.css" rel="stylesheet">
+<link href="/site_media/print.css" rel="stylesheet" media="print">
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% load adminmedia %}{% admin_media_prefix %}css/ie.css{% endblock %}" /><![endif]-->
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% admin_media_prefix %}css/rtl.css{% endblock %}" />{% endif %}
@@ -42,7 +43,8 @@
                 </ul>
             </li>
            {% endfor %} 
-	        </ul>
+	       <li class="dropdown"><a href="#" onclick="javascript:window.print()">Natisni stran</a></li>
+	       </ul>
         </div>
         
         {% if user.is_active and user.is_staff %}

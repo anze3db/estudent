@@ -162,3 +162,7 @@ LOGGING = {
 }
 STATIC_DOC_ROOT = PROJECT_PATH + '/site_media'
 
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
+
