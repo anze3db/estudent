@@ -41,7 +41,7 @@ def login(request):
 
 def index(request):
     student_id = request.GET['id']
-    response={'student_name':"",'courses':"", "nekikarje":"zbrisi"}       
+    response={'student_name':"",'study_program':"",'courses':""}       
     
     student = Student.authStudent(student_id, request.GET['password'])       
     response["student_name"] = student.name
@@ -50,11 +50,14 @@ def index(request):
     
     enroll = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     for v in enroll:
+        response["study_program"]=v.program.descriptor
         courses = []
+        
         for p in v.courses.order_by('course_code'):
             course={}
             course["name"]=p.name
             ocene = p.results(student)
+            
             for o in ocene:
                 course['result'] = o['result']
             courses = courses+[course]

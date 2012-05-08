@@ -1,5 +1,6 @@
 from django.forms.models import ModelForm
 
+
 class StudentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
@@ -10,3 +11,4 @@ class StudentForm(ModelForm):
             
         def clean_enrollment_number(self):
             return self.instance.enrollment_number
+        

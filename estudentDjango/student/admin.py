@@ -22,10 +22,14 @@ class EnrollmentAdmin(admin.ModelAdmin):
     raw_id_fields = ("student","program")
     
 
-        
-
+class CurriculumAdmin(admin.ModelAdmin):
+    model = Curriculum
+    
+    
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
 admin.site.register(Enrollment, EnrollmentAdmin)        
 admin.site.register(ExamDate)
 admin.site.register(ExamSignUp)
+admin.site.register(Curriculum, CurriculumAdmin)
+admin.site.register(Module)

@@ -161,7 +161,34 @@ class ExamSignUp(models.Model):
     class Meta:
         verbose_name_plural = _("exam signups")
         verbose_name = _("exam signup")
+        
+
+class Module(models.Model):
+    module_code = models.CharField(_("module code"), max_length=6, primary_key=True, unique=True)
+    descriptor = models.CharField(_("module name"), max_length=255)
+    
+
+    def __unicode__(self):
+        return self.descriptor
+    
+    
 
 
 
-
+class Curriculum(models.Model):
+    course = models.ManyToManyField("codelist.Course", related_name=("module"))
+    program = models.ForeignKey("codelist.StudyProgram")
+    class_year  = models.PositiveIntegerField(null =True, blank=True)
+    mandatory = models.BooleanField()
+    module = models.ManyToManyField("Module", related_name=("module"), blank=True)
+    
+    
+    def __unicode__(self):
+        return u'%s   (obvezni: %s)' % (self.program, 'DA' if self.mandatory else 'NE')
+    
+    class Meta:
+        verbose_name = 'Predmetnik'
+        verbose_name_plural = 'Urejanje predmetov'
+        ordering = ['program'] 
+    
+    
