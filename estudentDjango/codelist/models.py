@@ -24,6 +24,7 @@ class Course(models.Model):
     # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
     compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
     selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
+    
 
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
