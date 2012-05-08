@@ -1,6 +1,5 @@
 $('.dropdown-toggle').dropdown();
 
-
 $(document).ready(function() {
     var last_valid_selection = null;
 
