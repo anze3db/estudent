@@ -1,4 +1,4 @@
-datum 
+	datum 
 ura 
 ucilnica
 
@@ -47,19 +47,26 @@ Kartotečni list (študent)
 Izpis naj bo možen v 2 variantah: vsa polaganja in samo zadnje polaganje. 
 	# Preveri izpis takoj po vpisu. Izpis mora obsegati vse predmete, ki jih je študent vpisal, brez ocen. 
 		- kako lahko izpisujemo predmete brez ocen, ce izpisujemo samo polaganja (vsa ali samo zadnje)? ali moramo brez polaganj dati zraven pri obeh izpisih ali ane?
+		-- izpisemo vse predmete pa ne izpisujemo izprasevalcev
+		-- ocena izpita ocena vaj, datum, stevilo polaganj splosno in v tem st letu.
 
 
 
 
 Prijava na izpit (študent)
 	# Preveri število dni od zadnjega polaganja. 
-		- kaj to sploh pomeni?
-	# Preveri prijavo na že opravljen izpit. 
+		- kaj to sploh pomeni? 
+			ne moremo na izpit ce ni minilo 14 dni, od izpitnega roka
+	# Preveri prijavo na že opravljen izpit.
 		- kaj preverjam, da se to dovoli ali da se ne?
+			ne smemo. to lahko samo referentka.
 	# Preveri prijavo na več različnih rokov v prihodnosti. 
 		- tudi tukaj, ali je to dovoljeno ali ne (pri drugih alinejah lepo pise ali je stvar dovoljena ali ne)
+			ne smem bi prijavljen na vec izpitnih rokov, dokler ni prijava zaprta (obstaja ocena izpita- ne samo ocena pisnega izpita)
 	# Preveri odštevanje polaganj pri ponavljalcih. 
 		- kako tocno se to odstevanje pozna? oziroma kaj "preverjamo"?
+			mormo izpisat 4 -2 (ce smo v prejsnnem letu dvakrat probal)
+
 
 
 
@@ -80,10 +87,56 @@ Referentka lahko vpiše študenta v prvi in naslednje letnike. Ob vpisu se avtom
 Izbirni predmeti (referentka)
 Referentka lahko za vsakega vpisanega študenta vzdržuje izbirni del predmetnika, ki je v splošnem sestavljen iz predmetov posameznih modulov in izbirnih predmetov. 
 	- ali to pomeni da mora zajemati vse predmete posameznih modulov?
+
+za studijsko leto letnik in program- se doloci kateri so obvezni predmeti, (v prvem so vsi obvezni, drugi letnik)
+
+nujno dva modula! 
+
+poljubna dva izbirna predmeta ne smemo ibirati iz ibranih modulov, (samo iz neizbranih in tistih k niso v modulih)
+
+
+ 
+
+
 	# Preveri regularen potek: dodajanje/odvzemanje modulov (max. 2 modula) in dodajanje/odvzemanje posameznih izbirnih predmetov. 
 		- kaj pomeni max 2 modula, ali jih ima lahko 0, ali ima to kaksno povezavo z semestrom, kako je potem z izbirnimi predmeti, ce imata dva modula vec kot potrebno stevilo predmetov?
 	# Preveri odvzemanje modulov in izbirnih predmetov, če za nek predmet že obstaja prijava na izpit ali ocena. 
 		- kaj "preverjamo"? Ali se to dovoli, in se ocena ohrani za tisti predmet, ali se ocena izbrise, ali kaj tretjega?
+se ne spremnija ko prvi student neki izbere
+
+
+
+to je vnos ocen pisnega dela izpita !
+Vnos končnih ocen na podlagi seznama
+	# Preveri z negativno, pozitivno in neveljavno oceno.
+		- kaj je neveljavna ocena.
+
+
+koncna ocena : mamo tri vrste ocen  1-izpti 2 vaje 3 oboje
+
+
+
+Vnos končnih ocen na podlagi seznama
+	# Preveri za predmet z eno oceno (samo izpit ali samo vaje). 
+		- kako je predmet ki ima samo vaje? ali lahko dobi ucenec oceno ce ni prijavljen na izpit
+
+
+
+
+
+Vnos ocene izpita s prijavnice
+	- imamo samo prijavo na izpit, kako je z prijavnico samo za vaje?
+
+
+
+
+
+
+Vpogled v študentove ocene (učitelj)
+	# Preveri za študenta, ki še ni polagal izpita. 
+		- kaj naredi ko se ni polagal
+	# Preveri za študenta, ki je opravljal samo pisni del, nima pa še končne ocene. 
+		- kaj preverjamo?
 
 
 
