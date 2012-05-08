@@ -16,6 +16,7 @@ class Course(models.Model):
     course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("course name"), max_length=255)
     instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
+    def instructors_str(self): return ','.join(map(unicode, self.instructors.all()))
     CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
     CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
     course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))

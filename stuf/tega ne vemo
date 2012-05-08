@@ -1,0 +1,156 @@
+datum 
+ura 
+ucilnica
+
+
+
+
+enrollment tabela
+	enrol_type = (kaj je nadaljevanje letnika, oz kaksni tipi vpisa v letnik sploh obstajajo?)
+
+moduli: 
+	kaj so moduli
+	kaj pomeni max 2 modula
+	kaj sestavlja en modul
+	ali si lahko student poljubno izbira predmete iz modula ali ne
+	ali je max 2 modula 
+	kaj se lahko dogaja z spreminjanjem modulov, ali se pozna pri vseh studnetih, ali je to sploh dovoljeno
+
+Izbirni predmeti:
+    sestavljeni iz modulov ali izbirnih predmetov?
+
+Vzdrževanje predmetnika:
+    predmet (ime predmeta, nosilci)
+    obvezni predmeti, moduli, izbirni predmeti. So vezani na letnik? Na smer?
+	
+vpisni list
+	kje izvemo kaj so obvezni predmeti (ali je kakorkoli povezano z moduli)?
+	
+
+ali imamo lahko ocene vaj pred izpitom
+ali imamo lahko samo ocene vaj? 
+
+kako se veckrat uposteva ocena vaj?
+
+
+
+
+
+
+
+
+zidar:
+ali alijenje ki se koncajo z * pripadajo drugim zgodbam?
+
+
+Kartotečni list (študent)
+Izpis naj bo možen v 2 variantah: vsa polaganja in samo zadnje polaganje. 
+	# Preveri izpis takoj po vpisu. Izpis mora obsegati vse predmete, ki jih je študent vpisal, brez ocen. 
+		- kako lahko izpisujemo predmete brez ocen, ce izpisujemo samo polaganja (vsa ali samo zadnje)? ali moramo brez polaganj dati zraven pri obeh izpisih ali ane?
+
+
+
+
+Prijava na izpit (študent)
+	# Preveri število dni od zadnjega polaganja. 
+		- kaj to sploh pomeni?
+	# Preveri prijavo na že opravljen izpit. 
+		- kaj preverjam, da se to dovoli ali da se ne?
+	# Preveri prijavo na več različnih rokov v prihodnosti. 
+		- tudi tukaj, ali je to dovoljeno ali ne (pri drugih alinejah lepo pise ali je stvar dovoljena ali ne)
+	# Preveri odštevanje polaganj pri ponavljalcih. 
+		- kako tocno se to odstevanje pozna? oziroma kaj "preverjamo"?
+
+
+
+
+Vpisni list (referentka)
+Referentka lahko vpiše študenta v prvi in naslednje letnike. Ob vpisu se avtomatsko vzpostavi tisti del predmetnika, ki obsega obvezne predmete. 
+	- kje imamo dolocene obvezne predmete, kaj to sploh so in kdo jih doloca?
+	# Preveri veljavnost EMŠO in datuma rojstva (tujci nimajo EMŠO, ampak se vnaša samo datum rojstva, preostanek pa se zapolni z ničlami). 
+		- preostanek cesa? 
+	# Preveri podvajanje vpisnih številk. 
+		- se to dovoli ali ne?
+	# Preveri dodane obvezne predmete (ali so se vzpostavili potrebni podatki v podatkovni bazi). 
+		- kaj so obvezni predmeti in kaj mislite z potrebni podatki v bazi?
+
+
+
+
+Izbirni predmeti (referentka)
+Referentka lahko za vsakega vpisanega študenta vzdržuje izbirni del predmetnika, ki je v splošnem sestavljen iz predmetov posameznih modulov in izbirnih predmetov. 
+	- ali to pomeni da mora zajemati vse predmete posameznih modulov?
+	# Preveri regularen potek: dodajanje/odvzemanje modulov (max. 2 modula) in dodajanje/odvzemanje posameznih izbirnih predmetov. 
+		- kaj pomeni max 2 modula, ali jih ima lahko 0, ali ima to kaksno povezavo z semestrom, kako je potem z izbirnimi predmeti, ce imata dva modula vec kot potrebno stevilo predmetov?
+	# Preveri odvzemanje modulov in izbirnih predmetov, če za nek predmet že obstaja prijava na izpit ali ocena. 
+		- kaj "preverjamo"? Ali se to dovoli, in se ocena ohrani za tisti predmet, ali se ocena izbrise, ali kaj tretjega?
+
+
+
+
+Seznam vpisanih v letnik, smer/modul
+	# Preveri s hierarhijo kriterijev: študijsko leto, letnik, študijski program, smer/modul, vrsta vpisa, način študija. Vsak kriterij ima lahko vrednost "ne glede". 
+		- kaj preverjamo kaksna more bit kaj kej pomeni?
+	# Preveri, ali se izpišejo vsi zahtevani atributi. Vedno se izpišejo zaporedna številka, vpisna številka, priimek in ime, ostali atributi pa samo, če je izbran kriterij "ne glede". Pri vrsti vpisa se izpiše samo 2-mestna oznaka (če je različna od V1, sicer prazno). Pri načinu študija se za izredne študente izpiše "IZŠ", za redne prazno. 
+		- kje so te atributi zahtevani? kaj so te atributi?
+
+
+
+
+
+
+Seznam za izbirni predmet
+	# Preveri za posamezno študijsko leto in za kombinacijo 2 študijskih let. 
+		- kaj je misljeno s tem?
+
+
+
+
+
+Osebni podatki študenta
+	# Preveri izpis vseh vpisov (za vsa študijska leta, ko je bil vpisan). 
+		- samo leta ali tudi za vse smeri?
+
+
+
+
+Vnos izpitnega roka
+	# Preveri za predmet, pri katerem si študente deli več predavateljev (vsak predavatelj razpiše svoj rok).
+		- ali niso to razlicni predmeti z enakim imenom?
+
+
+
+
+Sprememba izpitnega roka
+Brisanje izpitnega roka - isto
+	# Preveri za rok, za katerega obstajajo prijave (sprememba roka je možna ob potrditvi uporabnika). 
+		- katerega uporabnika, ce je itaq vedno dobr spremembe potrdit? (ali so studentje uporabniki ali kako)
+	# Preveri za predmet, pri katerem si snov deli več predavateljev (vsak izmed njih lahko spremeni rok). 
+		- vec predavateljev iste ucenence, ali obe moznosti, ali imajo lahko sploh isti predmet z razlicnimi profesorji razlicni ocenci enak rok?
+	# Preveri, ali so za ta rok že vpisane ocene (sprememba roka ni možna).
+		- to namiguje ali, da je mozno vpisati oceno pred rokom za ta rok, ali pa da je mozno rok v preteklosti mozno spremenit. kaj tocno preverjamo?
+
+
+
+
+
+Prijava na izpit (referentka)
+	- ce pravilno razumem, nima omejitev, samo opozorila?
+
+
+
+
+
+Odjava izpita (referentka)
+Isto kot pri zgodbi Odjava izpita (študent). Razlika je le v tem, da referentka lahko odjavi študenta tudi po izteku roka. Ne more pa odjaviti študenta, če je za ta rok že vpisana ocena.
+	- katera ocena je to .. koncna oceana ali ocena pisnega dela?
+	# Preveri z že vpisano oceno pisnega dela izpita.
+	# Preveri z že vpisano končno oceno.
+
+
+
+
+
+izpitni roki:
+	ce ima en predmet vec profesorjev, ali lahko en profesor razpise rok, drugi pa ureja
+
