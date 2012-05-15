@@ -154,3 +154,27 @@ Isto kot pri zgodbi Odjava izpita (študent). Razlika je le v tem, da referentka
 izpitni roki:
 	ce ima en predmet vec profesorjev, ali lahko en profesor razpise rok, drugi pa ureja
 
+Odgovori [smotko]:
+-----------------------
+studijsko leto, letnik, program --> doloci obvezne predmete. 
+    dokler ne povemo kateri izbirni predmeti so se izpisejo samo izbirni.
+
+moduli - informatika, hardware: 
+    mora izbrati 2 modula (min, max) in dva izbirna predmeta (za letnik).
+    izbirni predmeti: izberemo modul A -> ne smemo izbrati izbirnih predmetov iz modulov A, lahko pa iz ostalih.
+        kandidati za izbirne predmete so torej: predmeti iz neizbranih modulov + predmeti, ki niso vezani na modul.
+        
+ko se student vpise se moduli ne spreminjajo vec.
+
+ocene: ali ocena izpita, ali vaj ali oboje.
+
+vnos ocen izpita: tocke izpita, tocke ostalo
+
+vnos koncnih ocen: ocen izpita, ocene vaje (izpisi tudi tocke izpita).
+    statusi: 1 prijava student, 2 prijava studentska pisarna, 3 vrnjena prijava, 4 , zakljucno
+    ce so vaje negativno
+    
+    ce imamo samo vaje, se vseeno se lahko prijavimo na izpit.
+    
+
+
