@@ -10,19 +10,15 @@
     <string name="error_wrongUP">Napačna vpisna številka ali geslo</string>
 
     
-    <string name="edit_text_username">Vpisna številka </string>
-    <string name="edit_text_password">Geslo </string>
+    <string name="edit_text_username">Vpisna številka</string>
+    <string name="edit_text_password">Geslo</string>
     
     <!-- oznake za glavni menu -->
     
-    <string name="applied_exams">Seznam prijavljanih izpitov</string>
-    <string name="menu_no_items">nimamo se nic za pokazati</string>
+    <string name="logout_name">Odjava</string>
+    <string name="logout_desc">Odjava iz sistema</string>
     
-    <!-- oznake za menu izpitov -->
-    <string name="unapply">Odjava</string>
-    
-    <!-- opisi slik -->
-    
-    <string name="menu_item_picture">slika</string>
+    <string name="applied_exams_name">Prikaz izpitov</string>
+    <string name="applied_exams_desc">Izpis vseh prijavljanih izpitov</string>
     
 </resources>
