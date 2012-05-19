@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import AdminPasswordChangeForm
+from django import forms
 
 class CodelistAdmin(admin.ModelAdmin):
     
@@ -169,7 +170,7 @@ admin.site.register(Faculty, FacultyAdmin)
 class CourseAdmin(CodelistAdmin):
     model = Course
     list_display = ('name', _('instructors_str'), 'valid',)
-    list_filter = ('valid', 'instructors')
+    list_filter = ('valid','instructors')
     ordering = ('name',)
     search_fields = ('name',)
     
@@ -219,6 +220,22 @@ class InstructorAdmin(CodelistAdmin):
     
 admin.site.register(Instructor, InstructorAdmin)
 
+class GroupInstructorsForm(forms.ModelForm):
+    class Meta:
+        model = GroupInstructors
+    def clean(self):
+        super(GroupInstructorsForm, self).clean()
+        if len(self.cleaned_data.get('instructor')) > 3:
+            raise forms.ValidationError(u'Izberete lahko najvec tri izvajalce.')
+        return self.cleaned_data
+
+class GroupInstructorsAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'get1st', 'get2nd', 'get3rd')
+    form = GroupInstructorsForm
+    list_per_page = 10000
+
+admin.site.register(GroupInstructors, GroupInstructorsAdmin)
+
 
 class BetterUserAdmin(UserAdmin):
     """
@@ -237,3 +254,4 @@ class BetterUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, BetterUserAdmin)
+

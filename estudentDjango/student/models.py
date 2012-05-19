@@ -186,8 +186,9 @@ class Curriculum(models.Model):
     mandatory = models.BooleanField()
     valid = models.BooleanField(default=True)
     module = models.ForeignKey("Module", null=True, blank=True)
-    
-    
+    only_exam   = models.BooleanField()
+
+
     def __unicode__(self):
         return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
         #return u'%s %s (letnik:%d,  obvezni:%s, aktiven:%s)' % (self.course, self.program, self.class_year,  'DA' if self.mandatory else 'NE', 'DA' if self.valid else 'NE')

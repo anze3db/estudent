@@ -15,18 +15,21 @@ class Course(models.Model):
     num_regex = re.compile(r'^[0-9]{5}$') 
     course_code = models.CharField(_("course code"), max_length=5, primary_key=True, unique=True, validators=[RegexValidator(regex=num_regex)])
     name = models.CharField(_("course name"), max_length=255)
-    instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
-    def instructors_str(self): return ','.join(map(unicode, self.instructors.all()))
-    CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
-    CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
-    course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
+   # instructors = models.ManyToManyField("Instructor", related_name=("instructors"), verbose_name = _("instructors"))
+    instructors   = models.ManyToManyField("GroupInstructors", null=True, blank=True)
+   # def instructors_str(self): return ','.join(map(unicode, self.instructors.all()))
+    # CT_JOINED = ('S', 'Skupni') # vec predavateljev istim studentom, kdorkoli razpise rok
+    #CT_SPLIT = ('R', 'Razdeljeni') # studentje se razdelijo med predavatelje, vsak zase razpise rok
+    #course_type = models.CharField(_("course type"), max_length=255, choices=(CT_JOINED, CT_SPLIT))
     valid = models.BooleanField(_("valid"), default=True)
 
     # tuki je se treba nekam dodat za kater letnik je to... pa se v enrollment
-    compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
-    selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
+   # compulsoryfor = models.ManyToManyField("StudyProgram", related_name=("compulsoryfor"), blank=True)
+   # selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
     program     = models.ManyToManyField("StudyProgram", through='student.Curriculum', blank= True)
 
+    def instructors_str(self):
+        return ' / '.join([str(i) for i in self.instructors.all()])
 
     def __unicode__(self):
         return self.name + " (" + self.course_code + ")"
@@ -43,20 +46,12 @@ class Course(models.Model):
         
         for line in csv_data:
             l = line.split(',')
-            if len(l)<3: continue
+            if len(l)<2: continue
             c = Course()
             c.course_code = l[0].strip()
             c.name = l[1].strip()
             c.save()
-            for ins in l[2:-1]:
-                c.instructors.add(Instructor.objects.get(instructor_code=ins.strip()))
 
-            if l[-1].strip()=='R':
-                c.course_type = Course.CT_SPLIT
-            else:
-                c.course_type = Course.CT_JOINED                
-
-            c.save()
             
     def results(self, student):
         
@@ -75,7 +70,7 @@ class Course(models.Model):
     class Meta:
         verbose_name_plural =_("courses")
         verbose_name=_("course")
-        
+
 # Create your models here.
 class Country(models.Model):
     category_code = models.CharField(_("country code"), max_length=3,  primary_key=True, unique=True)
@@ -232,7 +227,7 @@ class Instructor(models.Model):
     name = models.CharField(_("name"), max_length=255)
     surname = models.CharField(_("surname"), max_length=255)
     valid = models.BooleanField(_("valid"), default=True)
-    courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
+  #  courses = models.ManyToManyField("Course", related_name=("courses"), verbose_name = _("courses"), blank=True)
     user = models.OneToOneField(User, null=True)
     
     def __unicode__(self):
@@ -260,4 +255,25 @@ class Instructor(models.Model):
     class Meta:
         verbose_name_plural =_("instructors")
         verbose_name=_("instructor")
-    
+
+
+class GroupInstructors(models.Model):
+    instructor = models.ManyToManyField("Instructor", null=True, blank=True)
+    def __unicode__(self):
+        return ', '.join([i.surname for i in self.instructor.all()])
+    def get1st(self):
+        instructor = self.instructor.all()
+        return instructor[0].surname if len(instructor) >= 1 else ''
+    def get2nd(self):
+        instructor = self.instructor.all()
+        return instructor[1].surname if len(instructor) >= 2 else ''
+    def get3rd(self):
+        instructor = self.instructor.all()
+        return instructor[2].surname if len(instructor) >= 3 else ''
+
+
+
+    class Meta:
+        verbose_name_plural = _("groups of instructors")
+        verbose_name=_("group of instructors")
+        ordering = ['instructor__surname']
