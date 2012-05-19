@@ -274,7 +274,6 @@ class GroupInstructors(models.Model):
     def generateName(self):
         return
 
-
     class Meta:
         verbose_name_plural = _("groups of instructors")
         verbose_name=_("group of instructors")

@@ -91,15 +91,15 @@ class Address(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
     program = models.ForeignKey("codelist.StudyProgram",related_name="study_program", verbose_name=_("study program"))
-    study_year = models.PositiveIntegerField('Study year')
-    class_year  = models.PositiveIntegerField() #letnik
+    study_year = models.PositiveIntegerField(_("study year"))
+    class_year  = models.PositiveIntegerField(_("class year")) #letnik
     ENROL_CHOICES = (
         ('V1', 'Prvi vpis v letnik'),
         ('V2', 'Ponavljanje letnika'),
         ('V3', 'Nadaljevanje letnika'),
         ('AB', 'Absolvent')
     )
-    enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
+    enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
     
@@ -111,7 +111,7 @@ class Enrollment(models.Model):
 
     
     class Meta:
-        verbose_name_plural = _("enrollment")
+        verbose_name_plural = _("enrollments")
         verbose_name = _("enrollment")
         ordering = ['program', 'study_year', 'class_year']
         unique_together = ('student', 'study_year', 'program', 'class_year')
@@ -123,9 +123,15 @@ class ExamDate(models.Model):
     """
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
-    date = models.DateField();
-    students = models.ManyToManyField('Student', blank=True)
-    
+    study_year = models.PositiveIntegerField(_("study year"),db_index=True)
+    location    = models.CharField(_("location"),max_length=7)
+    date = models.DateField(_("date"))
+    nr_SignUp   = models.PositiveIntegerField(_("nr of Sign up"))
+    total_points = models.PositiveIntegerField(_("total points"))
+    min_pos = models.PositiveIntegerField(_("minimal points"))
+    students =models.ManyToManyField(Enrollment, through='ExamSignUp')
+    allowed = models.ForeignKey("StudentsGroup",  verbose_name=_('allowed'))
+
     
     def __unicode__(self):
         return force_unicode(str(self.date) + ' ' + str(self.course))
@@ -137,10 +143,10 @@ class ExamDate(models.Model):
 class ExamSignUp(models.Model):
     enroll = models.ForeignKey('Enrollment')
     examDate = models.ForeignKey('ExamDate')
+    VP = models.BooleanField(_("VP"))
 
     RESULTS = (
                 ('NR', 'Ni rezultatov'),
-                ('VP', 'Vrnjena prijava'),
                 ('1', 'nezadostno 1'),
                 ('2', 'nezadostno 2'),
                 ('3', 'nezadostno 3'),
@@ -152,9 +158,11 @@ class ExamSignUp(models.Model):
                 ('9', 'odlicno 9'),
                 ('10', 'odlicno 10'),
             )
-    result = models.CharField(max_length=2, choices=RESULTS, default='NR')
-    paidfor = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
-    valid = models.CharField(max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+    result_exam = models.CharField(_("results exam"), max_length=2, choices=RESULTS, default='NR')
+    result_practice = models.CharField(_("results practice"), max_length=2, choices=RESULTS, default='NR')
+    points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
+    paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+    valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
     def __unicode__(self):
         return str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result) + ')'
@@ -182,9 +190,9 @@ class Module(models.Model):
 class Curriculum(models.Model):
     course = models.ForeignKey("codelist.Course")
     program = models.ForeignKey("codelist.StudyProgram")
-    class_year  = models.PositiveIntegerField(null =True, blank=True)
-    mandatory = models.BooleanField()
-    valid = models.BooleanField(default=True)
+    class_year  = models.PositiveIntegerField(_("class year"),null =True, blank=True)
+    mandatory = models.BooleanField(_("mandatory"))
+    valid = models.BooleanField(_("valid"),default=True)
     module = models.ForeignKey("Module", null=True, blank=True)
     only_exam   = models.BooleanField()
 
@@ -200,8 +208,14 @@ class Curriculum(models.Model):
 
 
 class StudentsGroup(models.Model):
-    ##name = models.CharField(_("student group name"), max_length=255)
+    name = models.CharField(_("student group name"), max_length=255)
     student = models.ManyToManyField("Student", null=True, blank=True)
+    canSignUp= models.BooleanField(default=True)
+
     def __unicode__(self):
-       # return str(self.name)
-        return ', '.join([i.surname for i in self.student.all()])
+        return str(self.name)
+
+    class Meta:
+        verbose_name = _("students group")
+        verbose_name_plural = _("students groups")
+
