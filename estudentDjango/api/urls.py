@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 	(r'^index/$', 'api.views.index'),
 	(r'^examDates/$', 'api.views.examDates'),
 	(r'^enrolemntList/$', 'api.views.enrolemntList'),
+    (r'^examSignUp/$', 'api.views.examSignUp'),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),

@@ -3,8 +3,9 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator 
 from django.utils.encoding import force_unicode
+#from codelist.models import Course
 
-import re 
+import re
 
 ALGO = 'sha1'
 
@@ -139,7 +140,12 @@ class ExamDate(models.Model):
     class Meta:
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
-        
+
+
+    def already_signedUp(self, student):
+        return bool(ExamSignUp.objects.filter(examdate__course__in=codelist.Course.objects.filter(examdate__examsignup__enrollment__student=student)))
+
+
 class ExamSignUp(models.Model):
     enroll = models.ForeignKey('Enrollment')
     examDate = models.ForeignKey('ExamDate')
@@ -165,7 +171,7 @@ class ExamSignUp(models.Model):
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
     def __unicode__(self):
-        return str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result) + ')'
+        return force_unicode(str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result_exam) + ')')
     
     class Meta:
         verbose_name_plural = _("exam signups")

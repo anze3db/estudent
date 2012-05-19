@@ -93,6 +93,13 @@ def enrolemntList(request):
         
     
     return HttpResponse(response,mimetype="application/json")
-    
-    
+
+
+def examSignUp(request):
+    student = request.GET['id']
+    course = request.GET['courseId']
+
+    response = {''}
+
+    return HttpResponse(response,mimetype="application/json")
     
