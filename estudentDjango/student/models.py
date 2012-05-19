@@ -101,6 +101,7 @@ class Enrollment(models.Model):
     )
     enrol_type = models.CharField(max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
+    modules      = models.ManyToManyField("Module", null=True, blank=True)
     
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-04 12:04+0200\n"
+"POT-Creation-Date: 2012-05-19 01:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,161 +43,174 @@ msgstr "Avtentikacija"
 msgid "auth"
 msgstr "avtentikacija"
 
-#: codelist/admin.py:33
+#: codelist/admin.py:35
 msgid "Countries added successfully"
 msgstr "Države so bile uspešno dodane"
 
-#: codelist/admin.py:63
+#: codelist/admin.py:65
 msgid "Study Programs added successfully"
 msgstr "Študijski programi so bili uspešno dodani"
 
-#: codelist/admin.py:93
+#: codelist/admin.py:95
 msgid "Post added successfully"
 msgstr "Pošte so bile uspešno dodane"
 
-#: codelist/admin.py:123
+#: codelist/admin.py:125
 msgid "Region added successfully"
 msgstr "Občine so bile uspešno dodane"
 
-#: codelist/admin.py:150
+#: codelist/admin.py:152
 msgid "Faculty added successfully"
 msgstr "Fakultete so bile uspešno dodane"
 
-#: codelist/admin.py:176
+#: codelist/admin.py:171
+#, fuzzy
+msgid "instructors_str"
+msgstr "predavatelji"
+
+#: codelist/admin.py:178
 msgid "Course added successfully"
 msgstr "Predmeti so bile uspešno dodane"
 
-#: codelist/admin.py:203
+#: codelist/admin.py:205
 msgid "Instructor added successfully"
 msgstr "Predavatelji so bili uspešno dodani"
 
-#: codelist/models.py:15
-msgid "country code"
-msgstr "Šifra države"
+#: codelist/admin.py:234
+msgid "Permissions"
+msgstr "Dovoljenja"
+
+#: codelist/admin.py:235
+msgid "Groups"
+msgstr "Skupine"
 
 #: codelist/models.py:16
-msgid "country name"
-msgstr "Naziv države"
-
-#: codelist/models.py:17
-msgid "country name original"
-msgstr "Naziv v angleščini"
-
-#: codelist/models.py:18 codelist/models.py:55 codelist/models.py:85
-#: codelist/models.py:116 codelist/models.py:146 codelist/models.py:171
-#: codelist/models.py:230
-msgid "valid"
-msgstr "veljavno"
-
-#: codelist/models.py:21
-msgid "countries"
-msgstr "države"
-
-#: codelist/models.py:22 student/models.py:80
-msgid "country"
-msgstr "državo"
-
-#: codelist/models.py:53
-msgid "program code"
-msgstr "Koda studijskega programa"
-
-#: codelist/models.py:54
-msgid "program name"
-msgstr "Ime študijskega"
-
-#: codelist/models.py:58
-msgid "study programs"
-msgstr "Študijski programi"
-
-#: codelist/models.py:59 student/models.py:91
-msgid "study program"
-msgstr "Študijski program"
-
-#: codelist/models.py:83
-msgid "post code"
-msgstr "Poštna številka"
-
-#: codelist/models.py:84
-msgid "post name"
-msgstr "Naziv pošte"
-
-#: codelist/models.py:88
-msgid "posts"
-msgstr "pošte"
-
-#: codelist/models.py:89 student/models.py:79
-msgid "post"
-msgstr "pošto"
-
-#: codelist/models.py:114
-msgid "region code"
-msgstr "Šifra Občine"
-
-#: codelist/models.py:115
-msgid "region name"
-msgstr "Ime občine"
-
-#: codelist/models.py:119
-msgid "regions"
-msgstr "občine"
-
-#: codelist/models.py:120 student/models.py:78
-msgid "region"
-msgstr "občina"
-
-#: codelist/models.py:144
-msgid "faculty code"
-msgstr "Šifra fakultete"
-
-#: codelist/models.py:145
-msgid "faculty name"
-msgstr "Naziv fakultete"
-
-#: codelist/models.py:149
-msgid "faculties"
-msgstr "fakultete"
-
-#: codelist/models.py:150
-msgid "faculty"
-msgstr "fakulteta"
-
-#: codelist/models.py:165
 msgid "course code"
 msgstr "Šifra predmeta"
 
-#: codelist/models.py:166
+#: codelist/models.py:17
 msgid "course name"
 msgstr "Naziv predmeta"
 
-#: codelist/models.py:167 codelist/models.py:256
+#: codelist/models.py:18 codelist/models.py:261
 msgid "instructors"
 msgstr "predavatelji"
 
-#: codelist/models.py:170
+#: codelist/models.py:22
 msgid "course type"
 msgstr "Tip predmeta"
 
-#: codelist/models.py:222 codelist/models.py:231
+#: codelist/models.py:23 codelist/models.py:84 codelist/models.py:121
+#: codelist/models.py:151 codelist/models.py:182 codelist/models.py:212
+#: codelist/models.py:234
+msgid "valid"
+msgstr "veljavno"
+
+#: codelist/models.py:76 codelist/models.py:235
 msgid "courses"
 msgstr "Predmeti"
 
-#: codelist/models.py:223 student/models.py:117
+#: codelist/models.py:77 student/models.py:123
 msgid "course"
 msgstr "Predmet"
 
-#: codelist/models.py:227
+#: codelist/models.py:81
+msgid "country code"
+msgstr "Šifra države"
+
+#: codelist/models.py:82
+msgid "country name"
+msgstr "Naziv države"
+
+#: codelist/models.py:83
+msgid "country name original"
+msgstr "Naziv v angleščini"
+
+#: codelist/models.py:87
+msgid "countries"
+msgstr "države"
+
+#: codelist/models.py:88 student/models.py:82
+msgid "country"
+msgstr "državo"
+
+#: codelist/models.py:119
+msgid "program code"
+msgstr "Koda studijskega programa"
+
+#: codelist/models.py:120
+msgid "program name"
+msgstr "Ime študijskega"
+
+#: codelist/models.py:124
+msgid "study programs"
+msgstr "Študijski programi"
+
+#: codelist/models.py:125 student/models.py:93
+msgid "study program"
+msgstr "Študijski program"
+
+#: codelist/models.py:149
+msgid "post code"
+msgstr "Poštna številka"
+
+#: codelist/models.py:150
+msgid "post name"
+msgstr "Naziv pošte"
+
+#: codelist/models.py:154
+msgid "posts"
+msgstr "pošte"
+
+#: codelist/models.py:155 student/models.py:81
+msgid "post"
+msgstr "pošto"
+
+#: codelist/models.py:180
+msgid "region code"
+msgstr "Šifra Občine"
+
+#: codelist/models.py:181
+msgid "region name"
+msgstr "Ime občine"
+
+#: codelist/models.py:185
+msgid "regions"
+msgstr "občine"
+
+#: codelist/models.py:186 student/models.py:80
+msgid "region"
+msgstr "občina"
+
+#: codelist/models.py:210
+msgid "faculty code"
+msgstr "Šifra fakultete"
+
+#: codelist/models.py:211
+msgid "faculty name"
+msgstr "Naziv fakultete"
+
+#: codelist/models.py:215
+msgid "faculties"
+msgstr "fakultete"
+
+#: codelist/models.py:216
+msgid "faculty"
+msgstr "fakulteta"
+
+#: codelist/models.py:231
 msgid "instructor code"
 msgstr "Šifra Predavatelja"
 
-#: codelist/models.py:228 student/models.py:27
+#: codelist/models.py:232 student/models.py:26
 msgid "name"
 msgstr "ime"
 
-#: codelist/models.py:229 student/models.py:28
+#: codelist/models.py:233 student/models.py:27
 msgid "surname"
 msgstr "priimek"
 
-#: codelist/models.py:257 student/models.py:118
+#: codelist/models.py:262 student/models.py:124
 msgid "instructor"
 msgstr "predavatelj"
 
@@ -229,7 +242,7 @@ msgstr "Zadnji ponesrečen poskus"
 msgid "Student"
 msgstr "Študent"
 
-#: student/__init__.py:3 student/models.py:51 student/models.py:90
+#: student/__init__.py:3 student/models.py:62 student/models.py:92
 msgid "student"
 msgstr "študent"
 
@@ -237,97 +250,125 @@ msgstr "študent"
 msgid "enrollment number"
 msgstr "vpisna številka"
 
-#: student/models.py:31
+#: student/models.py:30
 msgid "social security number"
 msgstr "EMŠO"
 
-#: student/models.py:33
+#: student/models.py:32
 msgid "tax number"
 msgstr "davčna številka"
 
-#: student/models.py:34
+#: student/models.py:33
 msgid "email"
 msgstr "email"
 
-#: student/models.py:35
-msgid "password"
-msgstr "geslo"
-
-#: student/models.py:50
-msgid "students"
-msgstr "študent"
-
-#: student/models.py:59
+#: student/models.py:36
 msgid "male"
 msgstr "Moški"
 
-#: student/models.py:60
+#: student/models.py:37
 msgid "female"
 msgstr "Ženski"
 
-#: student/models.py:63
+#: student/models.py:40
 msgid "gender"
 msgstr "Spol"
 
-#: student/models.py:64
+#: student/models.py:41
 msgid "date of birth"
 msgstr "Rojstni datum"
 
-#: student/models.py:65
+#: student/models.py:42
 msgid "country of birth"
 msgstr "Država rojstva"
 
-#: student/models.py:66
+#: student/models.py:43
 msgid "place of birth"
 msgstr "Kraj rojstva"
 
-#: student/models.py:67
+#: student/models.py:44
 msgid "region of birth"
 msgstr "Pokrajina rojstva"
 
-#: student/models.py:74
+#: student/models.py:46
+msgid "password"
+msgstr "geslo"
+
+#: student/models.py:61
+msgid "students"
+msgstr "študent"
+
+#: student/models.py:76
 msgid "permanent address"
 msgstr "Naslov stalnega bivališča"
 
-#: student/models.py:75
+#: student/models.py:77
 msgid "temporary address"
 msgstr "Naslov začasnega bivališča"
 
-#: student/models.py:77
+#: student/models.py:79
 msgid "street"
 msgstr "Ulica (naselje) in hišna številka"
 
-#: student/models.py:83
+#: student/models.py:85
 msgid "send address"
 msgstr "Naslov za pošiljanje"
 
-#: student/models.py:86
+#: student/models.py:88
 msgid "addresses"
 msgstr "Naslovi"
 
-#: student/models.py:87
+#: student/models.py:89
 msgid "address"
 msgstr "Naslov stalnega bivališča"
 
-#: student/models.py:111 student/models.py:112
+#: student/models.py:113 student/models.py:114
 msgid "enrollment"
 msgstr "vpis"
 
-#: student/models.py:126
+#: student/models.py:133
 msgid "exam dates"
 msgstr "Izpitni roki"
 
-#: student/models.py:127
+#: student/models.py:134
 msgid "exam date"
 msgstr "izpitni rok"
 
-#: student/models.py:154
+#: student/models.py:162
 msgid "exam signups"
 msgstr "Prijave na izpit"
 
-#: student/models.py:155
+#: student/models.py:163
 msgid "exam signup"
 msgstr "prijava na izpit"
+
+#: student/models.py:167
+#, fuzzy
+msgid "module code"
+msgstr "Šifra modula"
+
+#: student/models.py:168
+#, fuzzy
+msgid "module name"
+msgstr "Modul"
+
+#: student/models.py:175
+#, fuzzy
+msgid "module"
+msgstr "Modul"
+
+#: student/models.py:176
+#, fuzzy
+msgid "modules"
+msgstr "Moduli"
+
+#: student/models.py:195
+msgid "curriculum course"
+msgstr "Predmet Predmetnika"
+
+#: student/models.py:196
+msgid "curriculum"
+msgstr "Predmetnik"
 
 #: templates/admin/404.html:4 templates/admin/404.html.py:8
 msgid "Page not found"
@@ -338,7 +379,7 @@ msgid "We're sorry, but the requested page could not be found."
 msgstr ""
 
 #: templates/admin/500.html:4 templates/admin/app_index.html:8
-#: templates/admin/base.html:78 templates/admin/change_form.html:19
+#: templates/admin/base.html:80 templates/admin/change_form.html:19
 #: templates/admin/change_list.html:42
 #: templates/admin/delete_confirmation.html:6
 #: templates/admin/delete_selected_confirmation.html:6
@@ -391,21 +432,21 @@ msgstr ""
 msgid "%(name)s"
 msgstr ""
 
-#: templates/admin/base.html:50
+#: templates/admin/base.html:52
 msgid "Welcome,"
 msgstr ""
 
-#: templates/admin/base.html:55
+#: templates/admin/base.html:57
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/base.html:63
+#: templates/admin/base.html:65
 #: templates/admin/auth/user/change_password.html:16
 #: templates/admin/auth/user/change_password.html:49
 msgid "Change password"
 msgstr ""
 
-#: templates/admin/base.html:70
+#: templates/admin/base.html:72
 msgid "Log out"
 msgstr ""
 
