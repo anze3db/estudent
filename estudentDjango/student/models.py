@@ -196,6 +196,12 @@ class Curriculum(models.Model):
     class Meta:
         verbose_name = _("curriculum course")
         verbose_name_plural = _("curriculum")
-        ordering = ['program'] 
-    
-    
+        ordering = ['program']
+
+
+class StudentsGroup(models.Model):
+    ##name = models.CharField(_("student group name"), max_length=255)
+    student = models.ManyToManyField("Student", null=True, blank=True)
+    def __unicode__(self):
+       # return str(self.name)
+        return ', '.join([i.surname for i in self.student.all()])
