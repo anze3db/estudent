@@ -56,7 +56,7 @@ class Student(models.Model):
             return Student.objects.get(enrollment_number=enrollment_number, password=get_hexdigest(ALGO, "sssalt", password))
         except:
             return None
-    
+
     class Meta:
         verbose_name_plural = _("students")
         verbose_name = _("student")
@@ -170,25 +170,30 @@ class Module(models.Model):
 
     def __unicode__(self):
         return self.descriptor
-    
+
+    class Meta:
+        verbose_name = _("module")
+        verbose_name_plural = _("modules")
     
 
 
 
 class Curriculum(models.Model):
-    course = models.ManyToManyField("codelist.Course", related_name=("module"))
+    course = models.ForeignKey("codelist.Course")
     program = models.ForeignKey("codelist.StudyProgram")
     class_year  = models.PositiveIntegerField(null =True, blank=True)
     mandatory = models.BooleanField()
-    module = models.ManyToManyField("Module", related_name=("module"), blank=True)
+    valid = models.BooleanField(default=True)
+    module = models.ForeignKey("Module", null=True, blank=True)
     
     
     def __unicode__(self):
-        return u'%s   (obvezni: %s)' % (self.program, 'DA' if self.mandatory else 'NE')
-    
+        return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
+        #return u'%s %s (letnik:%d,  obvezni:%s, aktiven:%s)' % (self.course, self.program, self.class_year,  'DA' if self.mandatory else 'NE', 'DA' if self.valid else 'NE')
+
     class Meta:
-        verbose_name = 'Predmetnik'
-        verbose_name_plural = 'Urejanje predmetov'
+        verbose_name = _("curriculum course")
+        verbose_name_plural = _("curriculum")
         ordering = ['program'] 
     
     
