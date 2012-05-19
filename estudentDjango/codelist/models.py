@@ -271,9 +271,11 @@ class GroupInstructors(models.Model):
         instructor = self.instructor.all()
         return instructor[2].surname if len(instructor) >= 3 else ''
 
+    def generateName(self):
+        return
 
 
     class Meta:
         verbose_name_plural = _("groups of instructors")
         verbose_name=_("group of instructors")
-        ordering = ['instructor__surname']
+
