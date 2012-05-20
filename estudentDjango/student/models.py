@@ -3,9 +3,10 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator 
 from django.utils.encoding import force_unicode
-#from codelist.models import Course
+from codelist.models import *
 
 import re
+
 
 ALGO = 'sha1'
 
@@ -68,9 +69,26 @@ class Student(models.Model):
     
     def __unicode__(self):
         return str(self.enrollment_number) + ' ' + self.name + ' ' + self.surname
-    
-    
-        
+
+
+    def get_all_classes(self):
+        allClass=[]
+        #course={}
+        enroll = Enrollment.objects.filter(student=self)
+        for e in enroll:
+            #course["enrollment"]=e
+            #course["courses"]=e.get_courses()
+            allClass= allClass+[e.get_courses()]
+
+        return allClass
+
+    def get_current_exam_dates(self):
+        courses = self.get_current_classes()
+        return list(ExamDate.objects.filter(course__in=courses))
+
+
+
+
 class Address(models.Model):
     
     ADDRESS_TYPES = (
@@ -111,13 +129,35 @@ class Enrollment(models.Model):
         return u'%d/%d' % (self.study_year, self.study_year+1)
 
     
+
+
+    def get_courses(self):
+        courses =[]
+        modules=Module.objects.get(enrollment=self)
+        allInProgram=Curriculum.objects.filter(program=self.program)
+        mandatory=allInProgram.filter(mandatory=1)
+        for selectiveCourse in  Course.objects.filter(enrollment__student=self.student):
+            courses=courses+[selectiveCourse.course_code]
+        for man in mandatory:
+            courses=courses+[man.course_id]
+        for mod in Curriculum.objects.filter(module=modules): #todo check if module is null
+            courses=courses+[mod.course_id]
+
+        allCourses=[]
+        for i in Course.objects.all():
+            for j in courses:
+                if i.course_code==j:
+                    allCourses=allCourses+[i]
+
+        return allCourses
+
     class Meta:
         verbose_name_plural = _("enrollments")
         verbose_name = _("enrollment")
         ordering = ['program', 'study_year', 'class_year']
         unique_together = ('student', 'study_year', 'program', 'class_year')
-        
-        
+
+
 class ExamDate(models.Model):
     """
     tabela izpitni roki

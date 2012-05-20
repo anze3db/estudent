@@ -5,7 +5,7 @@ from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
 from django.db.transaction import commit_on_success # pohitri insert
 from django.core.validators import RegexValidator 
-from student.models import ExamSignUp, Enrollment, ExamDate, Student
+#from student.models import ExamSignUp, Enrollment, ExamDate, Student
 from django.contrib.auth.models import User
 import re 
 import os
@@ -56,7 +56,7 @@ class Course(models.Model):
     def results(self, student):
         
         # enroll = Enrollment.objects.filter(student=student)        
-        attempts = ExamSignUp.objects.filter(enroll__student__enrollment_number=student.enrollment_number).filter(examDate__course__course_code=self.course_code).order_by("examDate")              
+        attempts = student.ExamSignUp.objects.filter(enroll__student__enrollment_number=student.enrollment_number).filter(examDate__course__course_code=self.course_code).order_by("examDate")
         result = []
         for a in attempts:
             if not a.result == None:

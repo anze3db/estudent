@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.core import serializers
 from failedloginblocker.models import FailedAttempt
 from student.models import Student, Enrollment, ExamDate, ExamSignUp
-from codelist.models import  StudyProgram
+from codelist.models import  StudyProgram, Course
+from student.models import *
 import json
 import codelist
 
@@ -66,20 +67,52 @@ def index(request):
  
     
     return HttpResponse(json.dumps(response),mimetype="application/json")
-    
-    
+
+
+def getCoursesforEnrollment(request):
+    enrollment_id = request.GET['id']
+    #response={'course_name':"",'course_code':""}
+
+    student = Student.objects.get(enrollment_number=enrollment_id)
+    enrollment = Enrollment.objects.get(student=student)
+    courses = []
+    for i in  enrollment.get_courses():
+        courses=courses+[i]
+
+
+   # response = serializers.serialize("json",  courses, relations=('program',))
+
+
+    return HttpResponse(courses,mimetype="application/json")
+
+def getAllCourses(request):
+    enrollment_id = request.GET['id']
+    #response={'course_name':"",'course_code':""}
+
+    student = Student.objects.get(enrollment_number=enrollment_id)
+    #enrollment = Enrollment.objects.get(student=student)
+    courses = []
+    for i in  student.get_all_classes():
+        courses=courses+[i]
+
+
+        # response = serializers.serialize("json",  courses, relations=('program',))
+
+
+    return HttpResponse(courses,mimetype="application/json")
+
+
 def examDates(request):
     enrollment_id = request.GET['enrollment_id']
-    
-        
+
+
     enrollment = Enrollment.objects.get(id = enrollment_id)
     es = ExamSignUp.objects.filter(enroll = enrollment)
-    
-    response = serializers.serialize("json", es, relations=('program',));
-        
-    
-    return HttpResponse(response,mimetype="application/json")
 
+    response = serializers.serialize("json", es, relations=('program',));
+
+
+    return HttpResponse(response,mimetype="application/json")
 
 
 def enrolemntList(request):
