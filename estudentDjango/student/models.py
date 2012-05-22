@@ -121,6 +121,7 @@ class Enrollment(models.Model):
     enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
+    regular       = models.BooleanField(_("regural"), default=True)
     
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
@@ -163,7 +164,7 @@ class ExamDate(models.Model):
     tabela izpitni roki
     """
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
-    instructor = models.ForeignKey("codelist.Instructor", verbose_name=_("instructor"))
+    instructors = models.ForeignKey("codelist.GroupInstructors", verbose_name=_("group of instructors"), null=True, blank=True)
     study_year = models.PositiveIntegerField(_("study year"),db_index=True)
     location    = models.CharField(_("location"),max_length=7)
     date = models.DateField(_("date"))
@@ -171,7 +172,7 @@ class ExamDate(models.Model):
     total_points = models.PositiveIntegerField(_("total points"))
     min_pos = models.PositiveIntegerField(_("minimal points"))
     students =models.ManyToManyField(Enrollment, through='ExamSignUp')
-    allowed = models.ForeignKey("StudentsGroup",  verbose_name=_('allowed'))
+
 
     
     def __unicode__(self):
@@ -253,15 +254,15 @@ class Curriculum(models.Model):
         ordering = ['program']
 
 
-class StudentsGroup(models.Model):
-    name = models.CharField(_("student group name"), max_length=255)
-    student = models.ManyToManyField("Student", null=True, blank=True)
-    canSignUp= models.BooleanField(default=True)
-
-    def __unicode__(self):
-        return str(self.name)
-
-    class Meta:
-        verbose_name = _("students group")
-        verbose_name_plural = _("students groups")
+#class StudentsGroup(models.Model):
+#    name = models.CharField(_("student group name"), max_length=255)
+#    student = models.ManyToManyField("Student", null=True, blank=True)
+#    canSignUp= models.BooleanField(default=True)
+#
+#    def __unicode__(self):
+#        return str(self.name)
+#
+#    class Meta:
+#        verbose_name = _("students group")
+#        verbose_name_plural = _("students groups")
 

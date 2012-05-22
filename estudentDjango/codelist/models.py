@@ -270,6 +270,8 @@ class GroupInstructors(models.Model):
     def get3rd(self):
         instructor = self.instructor.all()
         return instructor[2].surname if len(instructor) >= 3 else ''
+    def get_first(self):
+        return self.objects.get(id=1)
 
     def generateName(self):
         return

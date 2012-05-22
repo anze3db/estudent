@@ -19,7 +19,9 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 class EnrollmentAdmin(admin.ModelAdmin):
+    model = Enrollment
     raw_id_fields = ("student","program")
+    list_filter = ('study_year', 'class_year', 'modules', 'program', 'enrol_type');
     
 
 class CurriculumAdmin(admin.ModelAdmin):
@@ -38,4 +40,4 @@ admin.site.register(ExamDate)
 admin.site.register(ExamSignUp)
 admin.site.register(Curriculum, CurriculumAdmin)
 admin.site.register(Module, ModuleAdmin)
-admin.site.register(StudentsGroup)
+
