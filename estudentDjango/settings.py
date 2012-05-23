@@ -132,7 +132,6 @@ INSTALLED_APPS = (
     'codelist',
     'student',
     'failedloginblocker',
-    'south'
     # Uncomment the next line to enable the admin:
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -166,4 +165,7 @@ STATIC_DOC_ROOT = PROJECT_PATH + '/site_media'
 SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
-
+try:
+    import local_settings
+except:
+    pass
