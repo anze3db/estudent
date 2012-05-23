@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.core import serializers
 from failedloginblocker.models import FailedAttempt
-from student.models import Student, Enrollment, ExamDate, ExamSignUp
+from student.models import Student, Enrollment, ExamDate, ExamSignUp, Curriculum
 from codelist.models import  StudyProgram, Course
 from student.models import *
 import json
@@ -135,4 +135,14 @@ def examSignUp(request):
     response = {''}
 
     return HttpResponse(response,mimetype="application/json")
+
+def getFilteredCoursesModules(request):
+    program = request.GET['program'] if 'program' in request.GET else ''
+    year = request.GET['year'] if 'year' in request.GET else ''
+    
+    if program == '' or year == '':
+        return HttpResponse(serializers.serialize("json", []))
+    
+    currs = Curriculum.getNonMandatory(program, year)
+    return HttpResponse(serializers.serialize("json", currs))
     
