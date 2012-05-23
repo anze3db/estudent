@@ -43,14 +43,15 @@ class Course(models.Model):
         csv_file.close()
         
         Course.objects.all().delete()
-        
+        i=10000
         for line in csv_data:
-            l = line.split(',')
-            if len(l)<2: continue
+            #l = line.split(',')
+            #if len(l)<1: continue
             c = Course()
-            c.course_code = l[0].strip()
-            c.name = l[1].strip()
+            c.course_code = i
+            c.name = line
             c.save()
+            i=i+1
 
             
     def results(self, student):
@@ -242,15 +243,16 @@ class Instructor(models.Model):
         csv_file.close()
         
         Instructor.objects.all().delete()
-        
+        i=630010
         for line in csv_data:
             l = line.split(',')
-            if len(l)<3: continue
+            if len(l)<2: continue
             c = Instructor()
-            c.instructor_code = l[0].strip()
+            c.instructor_code = i
             c.name = l[1].strip()
-            c.surname = l[2].strip()
+            c.surname = l[0].strip()
             c.save()
+            i=i+1
 
     class Meta:
         verbose_name_plural =_("instructors")

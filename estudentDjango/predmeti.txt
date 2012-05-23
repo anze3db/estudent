@@ -1,4 +1,64 @@
-00000,Sodobne metode razvoja programske opreme
-00001,Izračunljivost in računska zahtevnost
-00002,Umetna inteligenca
-00003,Strojno učenje
+Algoritmi
+Algoritmi in podatkovne strukture 2
+Angleški jezik nivo A
+Angleški jezik nivo C
+Arhitekture in algoritmi - podipl.
+Brezžična in mobilna omrežja
+Digitalno procesiranje signalov
+Do gležnjev v blatu
+Ekonomika in podjetništvo
+Interaktivnost in oblikovanje informacij
+Izbrana poglavja iz računalništva in informatike
+Izbrana poglavja iz računalništva in informatike
+Izbrana poglavja iz računalništva in informatike
+Izraba zmogljivih procesorjev
+Komunikacija človek računalnik
+Kriptografija in računalniška varnost
+Linearna algebra
+Matematično modeliranje
+Mehko računanje in naravni algoritmi
+Načrtovanje digitalnih naprav
+Numerična matematika
+Obvladovanje informatike
+Odkrivanje zakonitosti iz podatkov
+Odkrivanje znanj iz podatkov
+Operacijski sistemi
+Operacijski sistemi
+Organizacija in management
+Organizacija računalniških sistemov
+Osnove oblikovanja
+Osnove podatkovnih baz
+Osnove verjetnosti in statistike
+Planiranje in upravljanje informatike
+Podatkovne baze
+Prevajalniki
+Prevajalniki in navidezni stroji
+Principi programskih jezikov
+Produkcija multimedijskih gradiv
+Programiranje 2
+Programiranje in algoritmi
+Računalniška forenzika
+Računalniška zvočna produkcija
+Računalniške komunikacije
+Računalniške komunikacije
+Računalniške tehnologije
+Računalniški sistemi
+Razvoj informacijskih sistemov
+Razvoj inteligentnih sistemov
+Seminar 2 in Seminar 4
+Seminar FRI
+Sodobne metode razvoja programske opreme
+Sodobni pristopi in arhitekture pri razvoju informacijskih s
+Spletne tehnologije
+Tehnologija programske opreme
+Teorija informacij in sistemov
+Testiranje in kakovost
+Umetna inteligenca
+Umetna inteligenca 1
+Umetna inteligenca 2
+Umetna inteligenca - podipl.
+Uporaba IKT v narav. in tehniki - VS (FKKT)
+Uporabniški vmesniki
+Veščine v znanstvenem delu 2
+Vhodno-izhodne naprave
+Zanesljivost in zmogljivost računalniških sistemov

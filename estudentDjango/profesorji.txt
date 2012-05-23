@@ -1,14 +1,121 @@
-630000,Tret,Terre
-630001,Viljan,Mahnič
-630002,Dušan,Kodek
-630003,Borut,Robič
-630004,Boštjan,Slivnik
-630005,Ivan,Bratko
-630006,Saša,Divjak
-630007,Andrej,Dobnikar
-630008,Igor,Kononenko
-630009,Neža,Mramor Kosta
-630010,Franc,Solina
-630011,Nikolaj,Zimic
-630011,Blaž,Zupan
+AMBROŽIČ,MILAN
+Amon, Miha
+Bajec, Marko
+Batagelj, Borut
+Bezenšek, Mitja
+Bohak, Ciril
+BORDON, JURE
+Bosnić, Zoran
+Bovcon, Narvika
+Božiček, Andraž
+Bratko, Ivan
+Brodnik, Andrej
+BUČAR, DUŠAN
+Časar, Anže
+Čehovin, Luka
+Češnovar, Rok
+Čibej, UroŠ
+Ciglarič, Mojca
+COSTA, JOAO PITA
+Demšar, Janez
+Divjak, Saša
+Dobnikar, Andrej
+Dobravec, Tomaž
+DRNOVŠEK, MATEJA
+Fele Žorž, Gašper
+FRANC, ALEKSANDRA
+Franetič, Damir
+Fuerst, Luka
+Gabrovšek, Boštjan
+GALLANT, ROBERT
+Guštin, Veselko
+Hovelja, Tomaž
+Ilc, Nejc
+Jager, Franc
+Jaklič, Aleš
+Janež, Tadej
+JEKOVEC, MATEVŽ
+Jurič, Branko Matjaž
+Jurišić, Aleksandar
+Južna, Jernej
+Kavcic, Alenka
+KINK, PETER MARJAN
+Klemenc, Bojan
+Kodek, Dušan
+Kononenko, Igor
+KOS, JERNEJ
+Košmerlj, Aljaž
+Krevl, Andrej
+Krisper, Marjan
+Kudryavtseva, Ganna
+Kukar, Matjaž
+Kumer, Aleš
+Lavbič, Dejan
+Lebar Bajec, Iztok
+Leonardis, Aleš
+LINDIČ, JAKA
+Lotric, Uros
+Mahnič, Viljan
+MAJNIK, MATJAŽ
+Mihelič, Jurij
+Milutinovic, Mitar
+Moškon, Miha
+Mramor-Kosta, Neža
+Mraz, Miha
+MUHIČ , ANDREJ (FMF)
+Orel, Bojan
+Pančur, Matjaž
+Pečar, Primož
+Peer, Peter
+PELJHAN, DARJA
+PEPELNJAK, IVAN
+Pesek, Matevž
+PIČULIN, MATEJ
+POLAJNAR, MATIJA
+Poženel, Marko
+PRESKAR, ROK
+Privošnik, Marko
+PROSTO, PROSTO
+Robič, Borut
+Robnik Šikonja, Marko
+Rožanc, Igor
+Rožanec, Alenka
+Rozman, Robert
+Rupnik, Rok
+Sadikov, Aleksander
+Šajn, Luka
+Šaša Bastinos, Ana
+ŠKERLAVAJ, MIHA
+Skočaj, Danijel
+Škraba, Igor
+Škraba, Primož
+Slivnik, Boštjan
+Sluga, Davor
+Smrdel, Aleš
+Solina, Franc
+Šonc, Damjan
+Štajdohar, Miha
+Starc, Iztok
+STARIČ, ANŽE
+Šter, Branko
+Štrancar, Andrej
+Štros Bračko, Marina
+ŠUBELJ, LOVRO
+Tonejc, Jernej
+Toplak, Marko
+Trček, Denis
+Trebar, Mira
+Vavpotič, Damjan
+Vidali, Janoš
+VIRK, ŽIGA
+Vodopivec, Andrej
+Vračar, Petar
+Vrenčur, Damjan
+Vuk, Martin
+Zidarič, Nuša
+Zimic, Nikolaj
+Zrnec, Aljaž
+Zupan, Blaž
+Zupančič, Eva
+Zupančič, Tadej
 
