@@ -166,6 +166,6 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 try:
-    import local_settings
-except:
+    from local_settings import *
+except ImportError:
     pass
