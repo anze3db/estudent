@@ -10,9 +10,9 @@ public class ExamDetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.exam_details_fragment);
 		
-//		Intent launchingIntent = getIntent();
+		Bundle extras = getIntent().getExtras();
 	    ExamDetailsFragment viewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
-	    viewer.showData("", "", "", "");
+	    viewer.showData(extras.getString("id"), extras.getString("name"), extras.getString("teacher"), extras.getString("date"));
 	}
 
 }

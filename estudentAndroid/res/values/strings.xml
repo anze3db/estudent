@@ -21,4 +21,12 @@
     <string name="applied_exams_name">Prikaz izpitov</string>
     <string name="applied_exams_desc">Izpis vseh prijavljanih izpitov</string>
     
+    <!-- izpis izpita -->
+    
+    <string name="examTitle">Podatki o izpitu: </string>
+    <string name="examID">Šifra predmeta: </string>
+    <string name="examName">Ime predmeta: </string>
+    <string name="examTeacher">Izvajalec: </string>
+    <string name="examDate">Datum izpita: </string>
+    
 </resources>
