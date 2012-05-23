@@ -243,6 +243,9 @@ class Curriculum(models.Model):
     module = models.ForeignKey("Module", null=True, blank=True)
     only_exam   = models.BooleanField()
 
+    @staticmethod
+    def getNonMandatory(program, year):
+        return Curriculum.objects.filter(program=program, class_year = year, mandatory = 0)
 
     def __unicode__(self):
         return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
