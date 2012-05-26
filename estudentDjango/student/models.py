@@ -1,3 +1,4 @@
+from itertools import chain
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -78,13 +79,22 @@ class Student(models.Model):
         for e in enroll:
             #course["enrollment"]=e
             #course["courses"]=e.get_courses()
-            allClass= allClass+[e.get_courses()]
+            #allClass= allClass+[e.get_classes()]
+            allClass=list(e.get_classes())
 
         return allClass
 
     def get_current_exam_dates(self):
-        courses = self.get_current_classes()
-        return list(ExamDate.objects.filter(course__in=courses))
+        rlist=[]
+        courses = self.get_all_classes()
+        for c in courses:
+            cc=c.course
+            exam=ExamDate.objects.filter(course=cc)
+            rlist.append(exam)
+
+        #result_list = list(chain(selectiveCourse,man,mod))
+
+        return rlist
 
 
 
@@ -151,6 +161,23 @@ class Enrollment(models.Model):
                     allCourses=allCourses+[i]
 
         return allCourses
+
+
+    def get_classes(self):
+        courses =[]
+        modules=Module.objects.get(enrollment=self)
+        allInProgram=Curriculum.objects.filter(program=self.program)
+        selectiveCourse =  Course.objects.filter(enrollment__student=self.student)
+
+        mandatory=allInProgram.filter(mandatory=1)
+        mod = Curriculum.objects.filter(module=modules) #todo check if module is null
+        select=Curriculum.objects.filter(course=selectiveCourse)
+
+        result_list = list(chain(select,mandatory,mod))
+
+        return result_list
+
+
 
     class Meta:
         verbose_name_plural = _("enrollments")
