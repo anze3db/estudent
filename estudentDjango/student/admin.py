@@ -10,18 +10,23 @@ class AddressInLine(admin.TabularInline):
     max_num = 2
     raw_id_fields = ("country","region","post")
     
+class PhoneInLine(admin.TabularInline):
+    model = Phone
+    max_num = 2
+    
 class StudentAdmin(admin.ModelAdmin):
     model = Student
     search_fields = ('enrollment_number', 'name', 'surname')
-    inlines = [AddressInLine]
+    inlines = [PhoneInLine, AddressInLine]
     form = StudentForm
     raw_id_fields = ("birth_country","birth_region")
 
 
 class EnrollmentAdmin(admin.ModelAdmin):
     model = Enrollment
+    search_fields = ('student__name','student__surname', 'student__enrollment_number')
     raw_id_fields = ("student","program")
-    list_filter = ('study_year', 'class_year', 'modules', 'program', 'enrol_type');
+    list_filter = ('study_year', 'class_year', 'modules', 'program', 'courses', 'enrol_type', 'regular');
     
 
 class CurriculumAdmin(admin.ModelAdmin):
