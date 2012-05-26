@@ -208,7 +208,25 @@ class ExamDate(models.Model):
 
 
     def already_signedUp(self, student):
-        return bool(ExamSignUp.objects.filter(examdate__course__in=codelist.Course.objects.filter(examdate__examsignup__enrollment__student=student)))
+        #if fals, Ok to signUp
+        flag=False
+        for c in Course.objects.filter(course__examsignup__enroll__student=student):
+            if(c==self.course):
+                flag=True
+
+        return flag
+
+    def already_positive(self, student):
+        all=list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
+
+        for a in all:
+            if not a.VP and a.is_positive():
+                return True
+        return False
+
+    
+
+
 
 
 class ExamSignUp(models.Model):
@@ -234,6 +252,28 @@ class ExamSignUp(models.Model):
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+
+    def je_opravil(self):
+        try:
+            ocena = Ocene.objects.get(prijava_izpit=self)
+            if PredmetProgram.objects.filter(predmet=self.izpitnirok.predmet)[0].ena_ocena:
+                return ocena.ocena_izpit > 5
+            else:
+                return ocena.ocena_izpit > 5 and ocena.ocena_vaje > 5
+        except:
+            return False
+
+    def is_positive(self):
+
+            if self.result_exam=='NR':
+                return False
+            if int(self.result_exam)>5:
+                return True
+            else:
+                return False
+
+
+
 
     def __unicode__(self):
         return force_unicode(str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result_exam) + ')')
