@@ -25,15 +25,18 @@ $(document).ready(function() {
     		// Create inverse hash for quicker lookup
         	var hash = {};
         	array.each(function(index, element){
-        		hash[$(element).val()] = index;
+        		if($(element).val() != "")
+        			hash[$(element).val()] = index;
         	});
         	return hash;
         };
         this.filter = function(){
+        	if($(element).length==0) return;
+        	
         	var filtered = [];
         	$.getJSON(getUrl(), function(data){
         		for ( var i in data) {
-    				filtered[filtered.length] = all[hash[data[i].fields[field]]];
+    				filtered[filtered.length] = field(i, all, hash, data);
     			}
     			$(element).html(filtered);
         	});
@@ -43,21 +46,13 @@ $(document).ready(function() {
     	var field = field;
     	var all  = $(element + " option");
     	var hash = createHash(all);
-    	
     };
     
-    // Filter courses:
-    var courseFilter = new filter("#id_courses", function(){
-		return '/api/getFilteredCoursesModules/?program='
-					   +$("#id_program").val()+'&year='
-					   +$("#id_class_year").val();
-    }, "course");
-    courseFilter.filter();
     
     $.fn.busyChange = function(func){
     	/** Checks for a change ever 1/10s. Do not overuse! :D */
-    	
     	var element = this;
+    	if($(element).length==0) return;
     	var tmp = this.val();
     	setInterval(function(){
     		if(tmp != element.val()){
@@ -68,19 +63,30 @@ $(document).ready(function() {
     	
     };
 
-	$("#id_class_year").busyChange(function(){
-		courseFilter.filter();
-	});
-	$("#id_program").busyChange(function(){
-		courseFilter.filter();
-	});
+    // Filter courses:
+    var courseFilter = new filter("#id_courses", function(){
+    	return '/api/getFilteredCoursesModules/?program='
+    	+$("#id_program").val()+'&year='
+    	+$("#id_class_year").val();
+    }, function(i, all, hash, data){
+    	 return all[hash[data[i].fields["course"]]];
+    });
+    courseFilter.filter();
 
-    var instructorsFilter=new filter("#id_groupinstructors", function(){
+    var instructorsFilter=new filter("#id_instructors", function(){
         return '/api/getFilteredGroupInstructorsForCourses/?courseId='
             +$("#id_course").val();
-    }, "instructors");
+    }, function(i, all, hash, data){
+    	return all[hash[data[i]["pk"]]];
+    });
     instructorsFilter.filter();
 
+    $("#id_class_year").busyChange(function(){
+    	courseFilter.filter();
+    });
+    $("#id_program").busyChange(function(){
+    	courseFilter.filter();
+    });
 
     $("#id_course").busyChange(function(){
         instructorsFilter.filter();
