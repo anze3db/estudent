@@ -224,7 +224,7 @@ class ExamDate(models.Model):
                 return True
         return False
 
-    
+
 
 
 
@@ -253,15 +253,7 @@ class ExamSignUp(models.Model):
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
-    def je_opravil(self):
-        try:
-            ocena = Ocene.objects.get(prijava_izpit=self)
-            if PredmetProgram.objects.filter(predmet=self.izpitnirok.predmet)[0].ena_ocena:
-                return ocena.ocena_izpit > 5
-            else:
-                return ocena.ocena_izpit > 5 and ocena.ocena_vaje > 5
-        except:
-            return False
+    
 
     def is_positive(self):
 
