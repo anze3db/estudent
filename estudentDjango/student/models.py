@@ -115,6 +115,9 @@ class Address(models.Model):
         verbose_name_plural = _("addresses")
         verbose_name = _("address")
 
+    def __unicode__(self):
+        return u'%s, %s' % (self.street, self.post)
+
 class Phone(models.Model):
     
     
@@ -143,7 +146,7 @@ class Enrollment(models.Model):
     enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
-    regular       = models.BooleanField(_("regural"), default=True)
+    regular       = models.BooleanField(_("regular"), default=True)
     
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
@@ -198,7 +201,7 @@ class ExamDate(models.Model):
 
     
     def __unicode__(self):
-        return force_unicode(str(self.date) + ' ' + str(self.course))
+        return force_unicode(self.date.strftime("%d.%m.%Y") + ' ' + str(self.course))
 
     class Meta:
         verbose_name_plural = _("exam dates")
@@ -272,7 +275,7 @@ class Curriculum(models.Model):
 
 
     def __unicode__(self):
-        return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
+        return u'%s   (%s)' % (self.course, 'Obvezni' if self.mandatory else 'Izbirni')
         #return u'%s %s (letnik:%d,  obvezni:%s, aktiven:%s)' % (self.course, self.program, self.class_year,  'DA' if self.mandatory else 'NE', 'DA' if self.valid else 'NE')
 
     class Meta:
