@@ -1,4 +1,7 @@
 from django.forms.models import ModelForm
+from student.models import ExamDate
+
+
 
 
 class StudentForm(ModelForm):
@@ -12,3 +15,10 @@ class StudentForm(ModelForm):
         def clean_enrollment_number(self):
             return self.instance.enrollment_number
         
+
+
+class ExamDateForm(ModelForm):
+    class Meta:
+        model= ExamDate
+
+

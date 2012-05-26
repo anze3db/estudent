@@ -87,19 +87,19 @@ def getCoursesforEnrollment(request):
 
 def getAllCourses(request):
     enrollment_id = request.GET['id']
-    #response={'course_name':"",'course_code':""}
 
-    student = Student.objects.get(enrollment_number=enrollment_id)
-    #enrollment = Enrollment.objects.get(student=student)
-    courses = []
-    for i in  student.get_all_classes():
-        courses=courses+[i]
+    try:
+        student = Student.objects.get(enrollment_number=enrollment_id)
+        courses=student.get_all_classes()
 
 
-        # response = serializers.serialize("json",  courses, relations=('program',))
+        #return HttpResponse(serializers.serialize("json", courses))
+        return HttpResponse(courses,mimetype="application/json")
 
+    except:
 
-    return HttpResponse(courses,mimetype="application/json")
+        return HttpResponse('error: try /?id=[enrollmentNr]')
+
 
 
 def examDates(request):
@@ -155,3 +155,24 @@ def getFilteredGroupInstructorsForCourses(request):
 
 
     return HttpResponse(serializers.serialize("json", ins))
+
+
+
+def getAllExamDates(request):
+    enrollment_id = request.GET['id']
+
+
+    student = Student.objects.get(enrollment_number=enrollment_id)
+    enroll = Enrollment.objects.filter(student = student)
+
+
+    exams=student.get_current_exam_dates()
+
+
+
+    #return HttpResponse(serializers.serialize("json", exams))
+    return HttpResponse(exams,mimetype="application/json")
+
+
+
+

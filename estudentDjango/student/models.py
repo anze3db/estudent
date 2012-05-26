@@ -99,8 +99,6 @@ class Student(models.Model):
         return result_list
 
 
-
-
 class Address(models.Model):
     
     ADDRESS_TYPES = (
@@ -171,6 +169,8 @@ class Enrollment(models.Model):
         select=Curriculum.objects.filter(course=selectiveCourse)
 
         result_list = list(chain(select,mandatory,mod))
+
+
 
         return result_list
 
