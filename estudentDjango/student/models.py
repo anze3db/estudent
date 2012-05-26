@@ -82,12 +82,8 @@ class Student(models.Model):
 
     def get_all_classes(self):
         allClass=[]
-        #course={}
         enroll = Enrollment.objects.filter(student=self)
         for e in enroll:
-            #course["enrollment"]=e
-            #course["courses"]=e.get_courses()
-            #allClass= allClass+[e.get_classes()]
             allClass=list(e.get_classes())
 
         return allClass
@@ -96,13 +92,11 @@ class Student(models.Model):
         rlist=[]
         courses = self.get_all_classes()
         for c in courses:
-            cc=c.course
-            exam=ExamDate.objects.filter(course=cc)
+            exam=ExamDate.objects.filter(course=c.course)
             rlist.append(exam)
+        result_list = list(chain(rlist))
 
-        #result_list = list(chain(selectiveCourse,man,mod))
-
-        return rlist
+        return result_list
 
 
 
@@ -161,32 +155,10 @@ class Enrollment(models.Model):
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
 
-    
-
-
-    def get_courses(self):
-        courses =[]
-        modules=Module.objects.get(enrollment=self)
-        allInProgram=Curriculum.objects.filter(program=self.program)
-        mandatory=allInProgram.filter(mandatory=1)
-        for selectiveCourse in  Course.objects.filter(enrollment__student=self.student):
-            courses=courses+[selectiveCourse.course_code]
-        for man in mandatory:
-            courses=courses+[man.course_id]
-        for mod in Curriculum.objects.filter(module=modules): #todo check if module is null
-            courses=courses+[mod.course_id]
-
-        allCourses=[]
-        for i in Course.objects.all():
-            for j in courses:
-                if i.course_code==j:
-                    allCourses=allCourses+[i]
-
-        return allCourses
 
 
     def get_classes(self):
-        courses =[]
+
         modules=Module.objects.get(enrollment=self)
         allInProgram=Curriculum.objects.filter(program=self.program)
         selectiveCourse =  Course.objects.filter(enrollment__student=self.student)
@@ -307,16 +279,4 @@ class Curriculum(models.Model):
         verbose_name_plural = _("curriculum")
         ordering = ['program']
 
-
-#class StudentsGroup(models.Model):
-#    name = models.CharField(_("student group name"), max_length=255)
-#    student = models.ManyToManyField("Student", null=True, blank=True)
-#    canSignUp= models.BooleanField(default=True)
-#
-#    def __unicode__(self):
-#        return str(self.name)
-#
-#    class Meta:
-#        verbose_name = _("students group")
-#        verbose_name_plural = _("students groups")
 
