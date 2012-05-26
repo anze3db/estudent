@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.core import serializers
 from failedloginblocker.models import FailedAttempt
 from student.models import Student, Enrollment, ExamDate, ExamSignUp, Curriculum
-from codelist.models import  StudyProgram, Course
+from codelist.models import  StudyProgram, Course, GroupInstructors
 from student.models import *
 import json
 import codelist
@@ -145,4 +145,13 @@ def getFilteredCoursesModules(request):
     
     currs = Curriculum.getNonMandatory(program, year)
     return HttpResponse(serializers.serialize("json", currs))
-    
+
+def getFilteredGroupInstructorsForCourses(request):
+    courseID = request.GET['courseId']
+
+    course=Course.objects.get(course_code=courseID)
+    instr=Course.getAllInstructors(courseID)
+    ins= GroupInstructors.getAllInstr(courseID)
+
+
+    return HttpResponse(serializers.serialize("json", ins))

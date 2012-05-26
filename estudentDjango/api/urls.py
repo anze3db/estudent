@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     (r'^getCourses/$', 'api.views.getCoursesforEnrollment'),
     (r'^getAllCourses/$', 'api.views.getAllCourses'),
     (r'^getFilteredCoursesModules/$', 'api.views.getFilteredCoursesModules'),
+    (r'^getFilteredGroupInstructorsForCourses/$', 'api.views.getFilteredGroupInstructorsForCourses'),
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),

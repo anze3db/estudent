@@ -247,6 +247,8 @@ class Curriculum(models.Model):
     def getNonMandatory(program, year):
         return Curriculum.objects.filter(program=program, class_year = year, mandatory = 0)
 
+
+
     def __unicode__(self):
         return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
         #return u'%s %s (letnik:%d,  obvezni:%s, aktiven:%s)' % (self.course, self.program, self.class_year,  'DA' if self.mandatory else 'NE', 'DA' if self.valid else 'NE')

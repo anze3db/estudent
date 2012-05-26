@@ -28,6 +28,12 @@ class CurriculumAdmin(admin.ModelAdmin):
     model = Curriculum
     list_filter = ('mandatory', 'class_year', 'module', 'program');
 
+    search_fields = ('course',)
+
+
+
+
+
 class ModuleAdmin(admin.ModelAdmin):
     model = Module
     #list_filter = ('curriculum__course', 'mandatory');

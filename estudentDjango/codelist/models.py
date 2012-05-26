@@ -53,7 +53,7 @@ class Course(models.Model):
             c.save()
             i=i+1
 
-            
+    #TODO fix this
     def results(self, student):
         
         # enroll = Enrollment.objects.filter(student=student)        
@@ -66,7 +66,10 @@ class Course(models.Model):
             result = result + [{ 'result': res}]
             
         return result
-                    
+
+    @staticmethod
+    def getAllInstructors(course_code):
+        return Course.objects.filter(course_code=course_code)
                     
     class Meta:
         verbose_name_plural =_("courses")
@@ -277,6 +280,10 @@ class GroupInstructors(models.Model):
 
     def generateName(self):
         return
+
+    @staticmethod
+    def getAllInstr(course_code):
+        return GroupInstructors.objects.filter(course__course_code=course_code)
 
     class Meta:
         verbose_name_plural = _("groups of instructors")

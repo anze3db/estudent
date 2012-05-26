@@ -62,3 +62,80 @@ Uporabniški vmesniki
 Veščine v znanstvenem delu 2
 Vhodno-izhodne naprave
 Zanesljivost in zmogljivost računalniških sistemov
+Algoritmi in podatkovne strukture
+Algoritmi in podatkovne strukture 1
+Angleški jezik nivo B
+Arhitektura računalniških sistemov
+Brezžična senzorska omrežja
+Digitalna vezja
+Digitalno načrtovanje
+Digitalno procesiranje signalov
+Diskretna matematika
+Diskretne strukture
+Diskretne strukture
+E-izobraževanje
+Ekonomika in organizacija informatike
+Elektronsko in mobilno poslovanje
+Elektronsko poslovanje
+Fizika
+Grafično oblikovanje
+Informacijska varnost in zasebnost
+Informacijski sistemi
+Informatika
+Inteligentni sistemi
+Izračunljivost in računska zahtevnost
+Komuniciranje in vodenje projektov
+Komunikacijski protokoli
+Komunikacijski protokoli in omrežna varnost
+Management proizvodnih in storitvenih procesov
+Matematika
+Matematika II
+Modeliranje računalniških omrežij
+Multimedijske tehnologije
+Multimedijski sistemi
+Nekonvencionalne platforme in metode procesiranja
+Numerične metode
+Obdelava biomedicinskih signalov in slik
+Odločitveni sistemi
+Organizacija računalnikov
+Osnove digitalnih vezij
+Osnove informacijskih sistemov
+Osnove matematične analize
+Osnove programiranja
+Osnove umetne inteligence
+Podatkovne baze 2
+Porazdeljeni sistemi
+Poslovna inteligenca
+Postopki razvoja programske opreme
+Procesna avtomatika
+Programiranje
+Programiranje 1
+Projektni praktikum
+Računalniška arhitektura
+Računalniška grafika
+Računalniška grafika in tehnologija iger
+Računalniški sistemi
+Računska zahtevnost in hervistično programiranje
+Razvoj informacijskih sistemov
+Razvoj programske opreme
+Robotika in računalniško zaznavanje
+Seminar 1 in Seminar 3
+Sistemska programska oprema
+Sistemska programska oprema
+Spletno programiranje
+Strateško planiranje informatike
+Strojno učenje
+Tehnologija iger in navidezna resničnost
+Tehnologija programske opreme
+Tehnologija upravljanja podatkov
+Umetna inteligenca
+Umetna inteligenca 1
+Umetno zaznavanje
+Uporba IKT v narav. in tehniki -UN (FKKT)
+Uvod v bioinformatiko
+Uvod v računalništvo
+Verjetnost in statistika
+Veščine v znanstvenem delu 1
+Vgrajeni sistemi
+Vzporedni in porazdeljnei sistemi in tehnologije
+Zaznavanje v kognitivnih sistemih

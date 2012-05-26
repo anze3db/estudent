@@ -74,6 +74,18 @@ $(document).ready(function() {
 	$("#id_program").busyChange(function(){
 		courseFilter.filter();
 	});
+
+    var instructorsFilter=new filter("#id_groupinstructors", function(){
+        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+            +$("#id_course").val();
+    }, "instructors");
+    instructorsFilter.filter();
+
+
+    $("#id_course").busyChange(function(){
+        instructorsFilter.filter();
+    });
+
 });
 
 
