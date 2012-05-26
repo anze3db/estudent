@@ -6,6 +6,8 @@ from django.utils.encoding import force_unicode
 from codelist.models import *
 
 import re
+import string
+from django.core.exceptions import ValidationError
 
 
 ALGO = 'sha1'
@@ -22,14 +24,21 @@ class Student(models.Model):
             return last.filter()[0].enrollment_number + 1   
         else:
             return 63110001
+        
+    def validate_name(value): #@NoSelf
+        if re.search(r'[\d\s_]', value):
+            raise ValidationError(u'Polje lahko vsebuje samo znake abecede.')
+        if re.search(r'[^\w]', value, re.UNICODE) != None:
+            raise ValidationError(u'Polje lahko vsebuje samo znake abecede.')
 
-    num_regex = re.compile(r'^63[0-9]{6}$')         
+    num_regex = re.compile(r'^63[0-9]{6}$')    
+    name_regex = re.compile("[^\W\d_]+", re.UNICODE)
     enrollment_number = models.IntegerField(_("enrollment number"), primary_key=True, unique=True, default=generateEnrollment, validators=[RegexValidator(regex=num_regex)])
-    name = models.CharField(_(_("name")), max_length=255)
-    surname = models.CharField(_("surname"), max_length=255)
+    name = models.CharField(_(_("name")), max_length=255, validators=[validate_name])
+    surname = models.CharField(_("surname"), max_length=255, validators=[validate_name])
     
-    ss_regex = re.compile(r'^[0-3][0-9][0-1][0-9][0-9]{3}50[0-9]{4}$')
-    social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True, validators=[RegexValidator(regex=ss_regex)])
+    ss_regex = re.compile(r'^[0-3][0-9][0-1][0-9][0-9]{3}50[0-9]{4}$|^[0-3][0-9][0-1][0-9]0{9}$')
+    social_security_number = models.CharField(_("social security number"), max_length=13, validators=[RegexValidator(regex=ss_regex)])
     #social_security_number = models.CharField(_("social security number"), max_length=13, blank = True, null = True)
     tax_number = models.CharField(_("tax number"), max_length=8)
     email = models.EmailField(_("email"), max_length=255)
@@ -44,7 +53,6 @@ class Student(models.Model):
     birth_country = models.ForeignKey("codelist.Country", related_name="birth_country", verbose_name = _("country of birth"))
     birth_place = models.CharField(_("place of birth"), max_length=255)
     birth_region = models.ForeignKey("codelist.Region", related_name="region", verbose_name=_("region of birth"))
-    
     password = models.CharField(_('password'), max_length=128, blank = True, null = True)
     
     def save(self, *args, **kwargs):
@@ -106,6 +114,20 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = _("addresses")
         verbose_name = _("address")
+
+class Phone(models.Model):
+    
+    
+    TELEPHONE_TYPES = (
+        ('H', _('home number')),
+        ('W', _('work number')),
+        ('M', _('mobile number')),
+    )
+    
+    num_regex = re.compile(r'^[\d +\-()/]*$') 
+    type = models.CharField(max_length = 1, choices = TELEPHONE_TYPES)
+    number = models.CharField(max_length = 255, validators=[RegexValidator(regex=num_regex)])
+    student = models.ForeignKey("Student", related_name=("student_phone"))
 
 class Enrollment(models.Model):
     student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
