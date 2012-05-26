@@ -169,7 +169,7 @@ admin.site.register(Faculty, FacultyAdmin)
         
 class CourseAdmin(CodelistAdmin):
     model = Course
-    list_display = ('name', _('instructors_str'), 'valid',)
+    list_display = ('name', 'predavatelji', 'valid',)
     list_filter = ('valid','instructors')
     ordering = ('name',)
     search_fields = ('name',)

@@ -28,7 +28,8 @@ class Course(models.Model):
    # selectivefor = models.ManyToManyField("StudyProgram", related_name=("selectivefor"), blank=True)
     program     = models.ManyToManyField("StudyProgram", through='student.Curriculum', blank= True)
 
-    def instructors_str(self):
+    #bug v lokalizaciji - mora imeti tako ime
+    def predavatelji(self):
         return ' / '.join([str(i) for i in self.instructors.all()])
 
     def __unicode__(self):
