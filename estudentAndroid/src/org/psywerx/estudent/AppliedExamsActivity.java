@@ -19,29 +19,29 @@ import android.widget.Toast;
 
 public class AppliedExamsActivity extends ListActivity {
 
-	private ProgressDialog m_ProgressDialog = null;
-	private ArrayList<MenuItem> m_orders = null;
-	private OrderAdapter m_adapter;
-	private Runnable viewOrders;
+	private ProgressDialog mProgressDialog = null;
+	private ArrayList<MenuItem> mOrders = null;
+	private OrderAdapter mAdapter;
+	private Runnable mViewOrders;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_layout);
-		m_orders = new ArrayList<MenuItem>();
-		this.m_adapter = new OrderAdapter(this, R.layout.exams_row, m_orders);
-		setListAdapter(this.m_adapter);
+		mOrders = new ArrayList<MenuItem>();
+		this.mAdapter = new OrderAdapter(this, R.layout.exams_row, mOrders);
+		setListAdapter(this.mAdapter);
 		
 		registerForContextMenu(getListView());
 
-		viewOrders = new Runnable(){
+		mViewOrders = new Runnable(){
 			public void run() {
 				getExamsList();
 			}
 		};
-		Thread thread =  new Thread(null, viewOrders, "MagentoBackground");
+		Thread thread =  new Thread(null, mViewOrders, "MagentoBackground");
 		thread.start();
-		m_ProgressDialog = ProgressDialog.show(AppliedExamsActivity.this,    
+		mProgressDialog = ProgressDialog.show(AppliedExamsActivity.this,    
 				"Please wait...", "Retrieving data ...", true);
 	}
 	
@@ -61,29 +61,29 @@ public class AppliedExamsActivity extends ListActivity {
 	
 	private Runnable returnRes = new Runnable() {
 		public void run() {
-			if(m_orders != null && m_orders.size() > 0){
-				m_adapter.notifyDataSetChanged();
-				for(int i=0;i<m_orders.size();i++)
-					m_adapter.add(m_orders.get(i));
+			if(mOrders != null && mOrders.size() > 0){
+				mAdapter.notifyDataSetChanged();
+				for(int i=0;i<mOrders.size();i++)
+					mAdapter.add(mOrders.get(i));
 			}
-			m_ProgressDialog.dismiss();
-			m_adapter.notifyDataSetChanged();
+			mProgressDialog.dismiss();
+			mAdapter.notifyDataSetChanged();
 		}
 	};
 	
 	private void getExamsList(){		
 		try{
-			m_orders = new ArrayList<MenuItem>();
+			mOrders = new ArrayList<MenuItem>();
 			MenuItem o1 = new MenuItem();
 			o1.setItemName("SF services");
 			o1.setItemDescription("Pending");
 			MenuItem o2 = new MenuItem();
 			o2.setItemName("SF Advertisement");
 			o2.setItemDescription("Completed");
-			m_orders.add(o1);
-			m_orders.add(o2);
+			mOrders.add(o1);
+			mOrders.add(o2);
 			Thread.sleep(1500);
-			Log.i("ARRAY", ""+ m_orders.size());
+			Log.i("ARRAY", ""+ mOrders.size());
 		} catch (Exception e) {
 			Log.e("BACKGROUND_PROC", e.getMessage());
 		}

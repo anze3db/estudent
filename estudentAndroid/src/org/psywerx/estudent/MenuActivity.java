@@ -18,6 +18,7 @@ public class MenuActivity extends ListActivity{
 
 	private static final int ACTION_LOGOUT = 0;
 	private static final int ACTION_DISPLAY_MY_EXAMS = 1;
+	private static final int ACTION_DISPLAY_EXAM_LIST = 2;
 
 	protected static String username;
 	protected static String password;
@@ -50,14 +51,15 @@ public class MenuActivity extends ListActivity{
 
 	private void fillMenuItems(){
 		mMenuItemsList = new ArrayList<MenuItem>();
-		MenuItem o1 = new MenuItem("odjava","odjava iz sistema",ACTION_LOGOUT);
-		o1.setIcon(MenuItem.LOGOUT_ICON);
-		MenuItem o2 = new MenuItem("izpis","izpis mojih izpitov",ACTION_DISPLAY_MY_EXAMS);
-		o2.setIcon(MenuItem.NOTEPAD_ICON);
-		mMenuItemsList.add(o1);
-		mMenuItemsList.add(o2);
+		
+		mMenuItemsList.add(new MenuItem("odjava","odjava iz sistema",
+				ACTION_LOGOUT, MenuItem.LOGOUT_ICON));
+		mMenuItemsList.add(new MenuItem("izpis","mojih izpitov",
+				ACTION_DISPLAY_MY_EXAMS, MenuItem.NOTEPAD_ICON));
+		mMenuItemsList.add(new MenuItem("izpis","izpitnih rokov",
+				ACTION_DISPLAY_EXAM_LIST, MenuItem.NOTEPAD_ICON));
 
-		D.dbgi("Menu items: "+ mMenuItemsList.size());
+		D.dbgv("Menu items: "+ mMenuItemsList.size());
 
 		if(mMenuItemsList != null && mMenuItemsList.size() > 0){
 			mMenuAdapter.notifyDataSetChanged();

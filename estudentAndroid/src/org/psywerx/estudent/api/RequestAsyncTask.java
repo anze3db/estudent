@@ -1,4 +1,4 @@
-package org.psywerx.estudent;
+package org.psywerx.estudent.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +10,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.psywerx.estudent.D;
+import org.psywerx.estudent.HelperFunctions;
+import org.psywerx.estudent.ResponseListener;
 import org.psywerx.estudent.json.User;
 
 import android.os.AsyncTask;
@@ -18,7 +21,7 @@ import com.google.gson.Gson;
 
 
 
-class RequestAsyncTask extends AsyncTask<String, Void, Object> {
+public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
 	private static final String SERVER_URL = "http://192.168.1.4/api/";
 	private String mApiSubDir = "";
@@ -34,7 +37,7 @@ class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 	/**
 	 * Class constructor 
 	 */
-	protected RequestAsyncTask(ResponseListener r, String apiClass) {
+	public RequestAsyncTask(ResponseListener r, String apiClass) {
 		responseListener = r;
 		mApiSubDir = apiClass;
 	}

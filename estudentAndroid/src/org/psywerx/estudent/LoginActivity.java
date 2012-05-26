@@ -3,6 +3,7 @@ package org.psywerx.estudent;
 import org.psywerx.estudent.json.User;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class LoginActivity extends Activity implements ResponseListener{
 	private EditText mEditPassword;
 	private Button mBtnConfirm;
 	private ResponseListener mListener;
+	private ProgressDialog mProgressDialog = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,6 @@ public class LoginActivity extends Activity implements ResponseListener{
 	}
 
 	private void init() {
-
 		mListener = this;
 		mEditUsername = (EditText) findViewById(R.id.eUsername);
 		mEditPassword = (EditText) findViewById(R.id.ePassword);
@@ -49,6 +50,8 @@ public class LoginActivity extends Activity implements ResponseListener{
 					mEditPassword.setError(getText(R.string.error_required));
 					return;
 				}
+				mProgressDialog = ProgressDialog.show(LoginActivity.this,    
+						"Please wait...", "Retrieving data ...", true);
 				Api.loginRequest(mListener, username, password);
 			}
 		});
@@ -60,7 +63,8 @@ public class LoginActivity extends Activity implements ResponseListener{
 	}
 	
 	public void onServerResponse(Object o) {
-		if (o != null){
+		mProgressDialog.dismiss();
+		if (o != null && o instanceof User){
 			User user = (User) o;
 			if (user.getLogin()){
 				Intent intent = new Intent(this, MenuActivity.class);

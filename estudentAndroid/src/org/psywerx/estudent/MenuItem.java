@@ -18,6 +18,12 @@ public class MenuItem {
     	this.itemDescription = itemDescription;
     	this.action = action;
 	}
+    public MenuItem(String itemName, String itemDescription, int action,int icon) {
+    	this.itemName = itemName;
+    	this.itemDescription = itemDescription;
+    	this.action = action;
+    	this.icon = icon;
+	}
     
     public String getItemName() {
         return itemName;
