@@ -168,11 +168,39 @@ def getAllExamDates(request):
 
     exams=student.get_current_exam_dates()
 
-
-
-    #return HttpResponse(serializers.serialize("json", exams))
-    return HttpResponse(exams,mimetype="application/json")
+    return HttpResponse(serializers.serialize("json", exams))
+    #return HttpResponse(exams,mimetype="application/json")
 
 
 
 
+def test(request):
+    enrollment_id = request.GET['id']
+    student = Student.objects.get(enrollment_number=enrollment_id)
+    exam=ExamDate.objects.get(id=2);
+
+    #test=exam.already_signedUp(student)
+    test=exam.signUp_allowed(student)
+
+
+    return HttpResponse(test,mimetype="application/json")
+
+
+def addSignUp(request):
+
+    examDateId = int(request.GET['examId'])
+    enrollment_id = request.GET['id']
+    student = Student.objects.get(enrollment_number=enrollment_id)
+
+    exam=ExamDate.objects.get(id=examDateId);
+
+    error_msgs = exam.signUp_allowed(student)
+    if error_msgs != None: return HttpResponse('{"error": "' + error_msgs[0] + '"}')
+
+    if exam.already_signedUp(student):return HttpResponse('{"error": "Na ta predmet ste ze prijavljeni, ali se ni bila vnesena ocena"}')
+    if exam.already_positive(student):return  HttpResponse('{"error": "Za ta predmet ze obstaja pozitivna ocena"}')
+
+    enroll = list(Enrollment.objects.filter(student=student))[-1]
+    ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
+
+    return HttpResponse('Uspesna prijava na izpit'+ str(exam),mimetype="application/json")

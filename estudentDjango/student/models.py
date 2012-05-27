@@ -89,14 +89,10 @@ class Student(models.Model):
         return allClass
 
     def get_current_exam_dates(self):
-        rlist=[]
         courses = self.get_all_classes()
-        for c in courses:
-            exam=ExamDate.objects.filter(course=c.course)
-            rlist.append(exam)
-        result_list = list(chain(rlist))
+        classes=Course.objects.filter(curriculum__in=courses)
 
-        return result_list
+        return ExamDate.objects.filter(course__in=classes)
 
 
 class Address(models.Model):
@@ -225,7 +221,38 @@ class ExamDate(models.Model):
         return False
 
 
+    def signUp_allowed(self, student):
+        errors = []
 
+        enroll=list(Enrollment.objects.filter(student=student))[-1]
+        signUp_thisYear=ExamSignUp.objects.filter(enroll=enroll, examDate__course=self.course, VP=False)
+        signUps=list(signUp_thisYear)
+
+
+        #preveri to solsko leto
+        if len(signUps)>3:
+            errors.append("Presegli ste dovoljeno stevilo prijav v tem solskem letu (3)")
+            return errors
+
+        #preveri vse prijave
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
+        max=6
+
+        for x in all_signUps:
+            type=x.enroll.enrol_type
+            if type != 'V1' and type !='AB':
+                max=max+3
+            if x.VP: max=max+1
+
+        if len(all_signUps)>6:
+            errors.append("Presegli ste dovoljeno stevilo prijav  (6)")
+            return errors
+
+
+
+        if len(errors) != 0: return errors
+
+        return None # no error
 
 
 
@@ -253,7 +280,7 @@ class ExamSignUp(models.Model):
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
-    
+
 
     def is_positive(self):
 
