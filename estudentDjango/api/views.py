@@ -93,8 +93,8 @@ def getAllCourses(request):
         courses=student.get_all_classes()
 
 
-        #return HttpResponse(serializers.serialize("json", courses))
-        return HttpResponse(courses,mimetype="application/json")
+        return HttpResponse(serializers.serialize("json", courses))
+        #return HttpResponse(courses,mimetype="application/json")
 
     except:
 

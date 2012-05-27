@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 		        {'document_root': settings.STATIC_DOC_ROOT}),
 	(r'^api/', include('api.urls')),
     (r'', include(admin.site.urls)),
+    (r'^admin/student/ExamGrades/$', 'student.views.exam_grades_view'),
+
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),
     # url(r'^estudentDjango/', include('estudentDjango.foo.urls')),
