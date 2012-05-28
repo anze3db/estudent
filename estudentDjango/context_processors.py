@@ -13,6 +13,12 @@ IGNORE_APPS = (
     "contenttypes",
     'south',
 )
+IGNORE_MODEL = (
+    "Message",
+    "Permission",
+    "Address",
+    "Phone",
+)
 
 def app_list(request):
     '''
@@ -26,6 +32,8 @@ def app_list(request):
         model_admin = admin_class(model, None)
         app_label = model._meta.app_label
         if app_label in IGNORE_APPS:
+            continue
+        if model.__name__ in IGNORE_MODEL:
             continue
         has_module_perms = user.has_module_perms(app_label)
         if has_module_perms:
