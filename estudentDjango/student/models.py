@@ -131,6 +131,10 @@ class Phone(models.Model):
     student = models.ForeignKey("Student", related_name=("student_phone"))
 
 class Enrollment(models.Model):
+    
+    def check_if_grade(self):
+        pass
+    
     student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
     program = models.ForeignKey("codelist.StudyProgram",related_name="study_program", verbose_name=_("study program"))
     study_year = models.PositiveIntegerField(_("study year"))
@@ -146,6 +150,8 @@ class Enrollment(models.Model):
     modules      = models.ManyToManyField("Module", null=True, blank=True)
     regular       = models.BooleanField(_("regular"), default=True)
     
+    def _id(self):
+        return u'<a href="/student/enrollment/%s/">%s</a>' % (self.id, self.id,)
     def _vpisna(self):
         return self.student.enrollment_number
     def _ime(self):

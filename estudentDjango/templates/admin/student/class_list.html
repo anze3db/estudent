@@ -1,0 +1,13 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<form action="/student/ClassList/" method="post">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Submit" />
+</form>
+
+{% for s in students %}
+<p>{{s}}</p>
+{% endfor %}
+{% endblock %}

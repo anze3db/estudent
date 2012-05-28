@@ -1,10 +1,12 @@
 # Create your views here.
+from codelist.models import Course
+from django import forms
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import context, loader
 from django.template.context import RequestContext, Context
-from student.models import ExamSignUp, ExamDate, Student
+from student.models import ExamSignUp, ExamDate, Enrollment, Student
 
 
 def exam_grades_index(request):
@@ -41,6 +43,28 @@ def exam_grades_view(request, exam_Id): #show list of all objects
 
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result}, RequestContext(request))
 
+def class_list(request):
+    
+    class ClassForm(forms.Form):
+        
+        choices = []
+        for c in Course.objects.all():
+            choices.append((c.pk, c.__unicode__()))
+        
+        courses = forms.ChoiceField(choices=choices)
+        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)])
+        
+    students = []
+    if request.method == 'POST':
+        form = ClassForm(request.POST)
+        if 'year' in request.POST:
+            students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['courses'])
+            
+        
+    else:
+        form = ClassForm()
+        
+    return render_to_response('admin/student/class_list.html', {'form':form, 'students': students}, RequestContext(request))
 
 
 def exam_sign_up_index(request):

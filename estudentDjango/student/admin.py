@@ -28,32 +28,28 @@ class StudentAdmin(admin.ModelAdmin):
 
 class EnrollmentAdmin(admin.ModelAdmin):
     
+    
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        
-        all = ('id','_vpisna','_ime', '_priimek', 'study_year', 'class_year', 'program', 'enrol_type', 'regular')
-        filter = []
-        if 'study_year' in request.GET:
-            filter.append('study_year')
-        if 'class_year' in request.GET:
-            filter.append('class_year')
-        if 'program' in request.GET:
-            filter.append('program')
-        if 'enrol_type__exact' in request.GET:
-            filter.append('enrol_type')
-        if 'regular__exact' in request.GET:
-            filter.append('regular')
+        self.list_display = ['action_checkbox', '__str__','_vpisna','_ime', '_priimek',]
+        if 'study_year' not in request.GET:
+            self.list_display.append('study_year')
+        if 'class_year' not in request.GET:
+            self.list_display.append('class_year')
+        if 'program' not in request.GET:
+            self.list_display.append('program')
+        if 'enrol_type__exact' not in request.GET:
+            self.list_display.append('enrol_type')
+        if 'regular__exact' not in request.GET:
+            self.list_display.append('regular')
             
-        
-        self.list_display = (a for a in all if a not in filter)
         return admin.ModelAdmin.changelist_view(self, request, extra_context=extra_context)
     
     model = Enrollment
     search_fields = ('student__name','student__surname', 'student__enrollment_number')
     raw_id_fields = ("student","program")
     list_filter = ('study_year', 'class_year', 'modules', 'program', 'courses', 'enrol_type', 'regular');
-    #list_display = setFields()
-    
+    #list_display_links = ('id', )
 
 class CurriculumAdmin(admin.ModelAdmin):
     model = Curriculum

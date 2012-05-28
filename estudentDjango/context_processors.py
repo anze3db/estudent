@@ -68,11 +68,15 @@ def app_list(request):
         }
         app_dict['student']['models'].append(model_dict)
         model_dict = {
+            'name': capfirst(_("ClassList")),
+            'admin_url': mark_safe('%s/%s/' % ('student', 'ClassList')),
+        }
+        app_dict['student']['models'].append(model_dict)
+    	model_dict = {
             'name': capfirst(_("ExamSignUp")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'ExamSignUp')),
-            }
+        }
         app_dict['student']['models'].append(model_dict)
-    
     
     app_list = app_dict.values()
 
