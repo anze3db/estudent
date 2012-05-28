@@ -7,7 +7,11 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MenuActivity extends ListActivity {
@@ -40,26 +44,42 @@ public class MenuActivity extends ListActivity {
 		
 		mMenuAdapter = new MenuAdapter(mContext, items);
 		setListAdapter(mMenuAdapter);
+		registerForContextMenu(getListView());
+		Bundle extras = getIntent().getExtras();
+		setTitle(String.format("%s %s (%s)", extras.getString("firstname"), extras.getString("lastname"), extras.getString("username")));
 	}
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Intent intent = null;
+		//Intent intent = null;
 		switch (mMenuAdapter.getItem(position).getAction()) {
 		case ACTION_DISPLAY_MY_EXAMS:
 			//Toast.makeText(mContext, "prikazi izpite", Toast.LENGTH_SHORT).show();
-			intent = new Intent(mContext, ExamsActivity.class);
-			startActivity(intent);
+			//intent = new Intent(mContext, ExamsActivity.class);
+			//startActivity(intent);
+			l.showContextMenuForChild(v);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
 			//Toast.makeText(mContext, "prikazi izpite", Toast.LENGTH_SHORT).show();
-			intent = new Intent(mContext, ExamsActivity.class);
-			startActivity(intent);
+			//intent = new Intent(mContext, ExamsActivity.class);
+			//startActivity(intent);
+			l.showContextMenuForChild(v);
 			break;
 		case ACTION_LOGOUT:
 			finish();
 			break;
+		}
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle(R.string.exams_contextTitle);
+		String[] menuItems = {"prvi", "drugi"}; //dobi prave podatke
+		for(String s: menuItems) {
+			menu.add(Menu.NONE, 0, 0, s);
 		}
 	}
 }
