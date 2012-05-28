@@ -204,3 +204,21 @@ def addSignUp(request):
     ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
 
     return HttpResponse('Uspesna prijava na izpit'+ str(exam),mimetype="application/json")
+
+
+
+def getEnrollmentExamDates(request):
+    enrollment_id = request.GET['enroll_id']
+
+    enroll = Enrollment.objects.get(pk =enrollment_id)
+    courses=enroll.get_classes()
+    classes=Course.objects.filter(curriculum__in=courses)
+
+    exams = ExamDate.objects.filter(course__in=classes)
+
+    return HttpResponse(serializers.serialize("json", exams))
+
+def getStudentEnrollments(request):
+    student_id = request.GET['student_id']
+    enroll = Enrollment.objects.filter(student__enrollment_number=student_id)
+    return HttpResponse(serializers.serialize("json", enroll))

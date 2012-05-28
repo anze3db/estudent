@@ -42,3 +42,7 @@ def exam_grades_view(request, exam_Id): #show list of all objects
 
 
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result}, RequestContext(request))
+
+
+
+#def exam_sign_up_index(request):
