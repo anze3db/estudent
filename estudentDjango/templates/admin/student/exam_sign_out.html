@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <h2>Študent je prijavljen na sledeče izpitne roke, izberite rok, katerega želite spremeniti, ali odjaviti.</h2>
+    <ul>
+        {% for p in Prijave %}
+            <li><a href="/student/examsignup/{{p.pk}}/">{{p}}</a></li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
