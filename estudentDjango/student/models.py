@@ -1,3 +1,4 @@
+from itertools import chain
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -81,20 +82,17 @@ class Student(models.Model):
 
     def get_all_classes(self):
         allClass=[]
-        #course={}
         enroll = Enrollment.objects.filter(student=self)
         for e in enroll:
-            #course["enrollment"]=e
-            #course["courses"]=e.get_courses()
-            allClass= allClass+[e.get_courses()]
+            allClass=list(e.get_classes())
 
         return allClass
 
     def get_current_exam_dates(self):
-        courses = self.get_current_classes()
-        return list(ExamDate.objects.filter(course__in=courses))
+        courses = self.get_all_classes()
+        classes=Course.objects.filter(curriculum__in=courses)
 
-
+        return ExamDate.objects.filter(course__in=classes)
 
 
 class Address(models.Model):
@@ -114,6 +112,9 @@ class Address(models.Model):
     class Meta:
         verbose_name_plural = _("addresses")
         verbose_name = _("address")
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.street, self.post)
 
 class Phone(models.Model):
     
@@ -143,7 +144,7 @@ class Enrollment(models.Model):
     enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
-    regular       = models.BooleanField(_("regural"), default=True)
+    regular       = models.BooleanField(_("regular"), default=True)
     
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
@@ -151,28 +152,25 @@ class Enrollment(models.Model):
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
 
-    
 
 
-    def get_courses(self):
-        courses =[]
+    def get_classes(self):
+
         modules=Module.objects.get(enrollment=self)
         allInProgram=Curriculum.objects.filter(program=self.program)
+        selectiveCourse =  Course.objects.filter(enrollment__student=self.student)
+
         mandatory=allInProgram.filter(mandatory=1)
-        for selectiveCourse in  Course.objects.filter(enrollment__student=self.student):
-            courses=courses+[selectiveCourse.course_code]
-        for man in mandatory:
-            courses=courses+[man.course_id]
-        for mod in Curriculum.objects.filter(module=modules): #todo check if module is null
-            courses=courses+[mod.course_id]
+        mod = Curriculum.objects.filter(module=modules) #todo check if module is null
+        select=Curriculum.objects.filter(course=selectiveCourse)
 
-        allCourses=[]
-        for i in Course.objects.all():
-            for j in courses:
-                if i.course_code==j:
-                    allCourses=allCourses+[i]
+        result_list = list(chain(select,mandatory,mod))
 
-        return allCourses
+
+
+        return result_list
+
+
 
     class Meta:
         verbose_name_plural = _("enrollments")
@@ -198,7 +196,7 @@ class ExamDate(models.Model):
 
     
     def __unicode__(self):
-        return force_unicode(str(self.date) + ' ' + str(self.course))
+        return force_unicode(self.date.strftime("%d.%m.%Y") + ' ' + str(self.course))
 
     class Meta:
         verbose_name_plural = _("exam dates")
@@ -206,7 +204,56 @@ class ExamDate(models.Model):
 
 
     def already_signedUp(self, student):
-        return bool(ExamSignUp.objects.filter(examdate__course__in=codelist.Course.objects.filter(examdate__examsignup__enrollment__student=student)))
+        #if fals, Ok to signUp
+        flag=False
+        for c in Course.objects.filter(course__examsignup__enroll__student=student):
+            if(c==self.course):
+                flag=True
+
+        return flag
+
+    def already_positive(self, student):
+        all=list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
+
+        for a in all:
+            if not a.VP and a.is_positive():
+                return True
+        return False
+
+
+    def signUp_allowed(self, student):
+        errors = []
+
+        enroll=list(Enrollment.objects.filter(student=student))[-1]
+        signUp_thisYear=ExamSignUp.objects.filter(enroll=enroll, examDate__course=self.course, VP=False)
+        signUps=list(signUp_thisYear)
+
+
+        #preveri to solsko leto
+        if len(signUps)>3:
+            errors.append("Presegli ste dovoljeno stevilo prijav v tem solskem letu (3)")
+            return errors
+
+        #preveri vse prijave
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
+        max=6
+
+        for x in all_signUps:
+            type=x.enroll.enrol_type
+            if type != 'V1' and type !='AB':
+                max=max+3
+            if x.VP: max=max+1
+
+        if len(all_signUps)>6:
+            errors.append("Presegli ste dovoljeno stevilo prijav  (6)")
+            return errors
+
+
+
+        if len(errors) != 0: return errors
+
+        return None # no error
+
 
 
 class ExamSignUp(models.Model):
@@ -232,6 +279,20 @@ class ExamSignUp(models.Model):
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
+
+
+
+    def is_positive(self):
+
+            if self.result_exam=='NR':
+                return False
+            if int(self.result_exam)>5:
+                return True
+            else:
+                return False
+
+
+
 
     def __unicode__(self):
         return force_unicode(str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result_exam) + ')')
@@ -272,7 +333,7 @@ class Curriculum(models.Model):
 
 
     def __unicode__(self):
-        return u'%s   ( obvezni: %s)' % (  self.course, 'DA' if self.mandatory else 'NE')
+        return u'%s   (%s)' % (self.course, 'Obvezni' if self.mandatory else 'Izbirni')
         #return u'%s %s (letnik:%d,  obvezni:%s, aktiven:%s)' % (self.course, self.program, self.class_year,  'DA' if self.mandatory else 'NE', 'DA' if self.valid else 'NE')
 
     class Meta:
@@ -280,16 +341,4 @@ class Curriculum(models.Model):
         verbose_name_plural = _("curriculum")
         ordering = ['program']
 
-
-#class StudentsGroup(models.Model):
-#    name = models.CharField(_("student group name"), max_length=255)
-#    student = models.ManyToManyField("Student", null=True, blank=True)
-#    canSignUp= models.BooleanField(default=True)
-#
-#    def __unicode__(self):
-#        return str(self.name)
-#
-#    class Meta:
-#        verbose_name = _("students group")
-#        verbose_name_plural = _("students groups")
 

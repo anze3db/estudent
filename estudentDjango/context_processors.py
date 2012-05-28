@@ -3,6 +3,7 @@ from django.db.models import get_models
 from django.utils.safestring import mark_safe
 from django.contrib.admin import ModelAdmin
 from django.contrib.admin.validation import validate
+from django.utils.translation import ugettext as _
 
 # get_models returns all the models, but there are some which we would like to ignore
 IGNORE_APPS = (
@@ -10,6 +11,7 @@ IGNORE_APPS = (
     "sessions",
     "admin",
     "contenttypes",
+    'south',
 )
 
 def app_list(request):
@@ -43,8 +45,24 @@ def app_list(request):
                         'app_url': app_label + '/',
                         'has_module_perms': has_module_perms,
                         'models': [model_dict],
-                    }
+                }
+                    
+    def in_groups(group_names):
+        if user.is_authenticated():
+            if bool(user.groups.filter(name__in=group_names)) or user.is_superuser:
+                return True
+        return False
+    # Add custom views:
+    if in_groups(('referentka',)):
+        model_dict = {
+            'name': capfirst(_("ExamGrades")),
+            'admin_url': mark_safe('%s/%s/' % ('student', 'ExamGrades')),
+        }
+        app_dict['student']['models'].append(model_dict)
+    
+    
     app_list = app_dict.values()
+
     app_list.sort(key=lambda x: x['name'])
     for app in app_list:
         app['models'].sort(key=lambda x: x['name'])
