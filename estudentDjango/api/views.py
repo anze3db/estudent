@@ -222,3 +222,9 @@ def getStudentEnrollments(request):
     student_id = request.GET['student_id']
     enroll = Enrollment.objects.filter(student__enrollment_number=student_id)
     return HttpResponse(serializers.serialize("json", enroll))
+
+def getStudentEnrollmentsForYear(request):
+    student_id = request.GET['student_id']
+    year=request.GET['year']
+    enroll = Enrollment.objects.filter(student__enrollment_number=student_id, study_year=year)
+    return HttpResponse(serializers.serialize("json", enroll))
