@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical" 
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="50dp" >
 
     <TextView
@@ -12,9 +13,26 @@
         android:textColor="@android:color/white"
         android:textSize="40dp" />
 
-    <include  layout="@layout/exam_details_item" android:id="@+id/examID" />
-    <include  layout="@layout/exam_details_item" android:id="@+id/examName" />
-    <include  layout="@layout/exam_details_item" android:id="@+id/examTeacher" />
-    <include  layout="@layout/exam_details_item" android:id="@+id/examDate" />
+    <include
+        android:id="@+id/examID"
+        layout="@layout/exam_details_item" />
+
+    <include
+        android:id="@+id/examName"
+        layout="@layout/exam_details_item" />
+
+    <include
+        android:id="@+id/examTeacher"
+        layout="@layout/exam_details_item" />
+
+    <include
+        android:id="@+id/examDate"
+        layout="@layout/exam_details_item" />
+
+    <Button
+        android:id="@+id/btnApplyUnapply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/applyExam" />
 
 </LinearLayout>

@@ -23,6 +23,7 @@
     
     <string name="all_exams_list_name">Prikaz izpitov</string>
     <string name="all_exams_list_desc">Izpis vseh izpitnih rokov</string>
+    <string name="exams_contextTitle">Izberi študijsko leto</string>
     
     <!-- izpis izpita -->
     
@@ -31,6 +32,9 @@
     <string name="examName">Ime predmeta: </string>
     <string name="examTeacher">Izvajalec: </string>
     <string name="examDate">Datum izpita: </string>
+    
+    <string name="applyExam">Prijava na izpit</string>
+    <string name="unapplyExam">Odjava od izpita</string>
 
     
     <!-- napake -->
