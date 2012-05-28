@@ -21,6 +21,9 @@
     <string name="applied_exams_name">Prikaz izpitov</string>
     <string name="applied_exams_desc">Izpis vseh prijavljanih izpitov</string>
     
+    <string name="all_exams_list_name">Prikaz izpitov</string>
+    <string name="all_exams_list_desc">Izpis vseh izpitnih rokov</string>
+    
     <!-- izpis izpita -->
     
     <string name="examTitle">Podatki o izpitu: </string>
@@ -28,5 +31,15 @@
     <string name="examName">Ime predmeta: </string>
     <string name="examTeacher">Izvajalec: </string>
     <string name="examDate">Datum izpita: </string>
+
+    
+    <!-- napake -->
+    
+    <string name="communication_error">Napaka pri komunikaciji </string>
+    
+    <!-- loading dialogi -->
+    
+    <string name="loading_please_wait">Prosim pocakajte …</string>
+    <string name="loading_verifying_login">Preverjanje vpisa.</string>
     
 </resources>
