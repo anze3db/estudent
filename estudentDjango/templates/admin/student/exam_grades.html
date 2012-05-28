@@ -10,7 +10,9 @@
             <th>Priimek</th>
             <th>Ime</th>
             <th>Vpisna številka</th>
-            <th>Rezultat</th>
+            <th>Število Točk</th>
+            <th>Ocena Pisni</th>
+            <th>Ocena Vaje</th>
         </tr>
         {% for p in prijave %}
             <tr class="{% cycle 'row1' 'row2' %}">
@@ -18,6 +20,21 @@
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
                 <td>{{p.vpisna_st}}</td>
+                <td><input type="text" value={{ p.tocke }}/></td>
+                <td>
+                    <select>
+                    {% for choice in p.opcije %}
+                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        {% for choice in p.opcije %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
 
             </tr>
         {% endfor %}
