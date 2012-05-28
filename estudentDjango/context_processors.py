@@ -11,6 +11,7 @@ IGNORE_APPS = (
     "sessions",
     "admin",
     "contenttypes",
+    'south',
 )
 
 def app_list(request):
