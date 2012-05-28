@@ -71,15 +71,24 @@ public class MenuActivity extends ListActivity {
 			break;
 		}
 	}
+	
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
+		int ID = item.getItemId();
+		//TODO
+		return true;
+	}
 
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.setHeaderTitle(R.string.exams_contextTitle);
 		String[] menuItems = {"prvi", "drugi"}; //dobi prave podatke
-		for(String s: menuItems) {
-			menu.add(Menu.NONE, 0, 0, s);
+		int[] menuIDs = {1,2};
+		for (int i = 0; i<menuItems.length; i++) {
+			menu.add(Menu.NONE, menuIDs[i], Menu.NONE, menuItems[i]);
 		}
 	}
 }
