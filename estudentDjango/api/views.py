@@ -95,11 +95,11 @@ def getAllCourses(request):
     for i in  student.get_all_classes():
         courses=courses+[i]
 
+    print courses
+    response = serializers.serialize("json",  courses, relations=('program',))
 
-        # response = serializers.serialize("json",  courses, relations=('program',))
 
-
-    return HttpResponse(courses,mimetype="application/json")
+    return HttpResponse(response,mimetype="application/json")
 
 
 def examDates(request):
