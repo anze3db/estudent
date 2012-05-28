@@ -146,6 +146,14 @@ class Enrollment(models.Model):
     modules      = models.ManyToManyField("Module", null=True, blank=True)
     regular       = models.BooleanField(_("regular"), default=True)
     
+    def _vpisna(self):
+        return self.student.enrollment_number
+    def _ime(self):
+        return self.student.name
+    def _priimek(self):
+        return self.student.surname
+    
+    
     def __unicode__(self):
         return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
     
