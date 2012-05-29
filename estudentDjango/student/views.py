@@ -55,9 +55,9 @@ def class_list(request):
         for p in StudyProgram.objects.all():
             programs.append((p.pk, p.__unicode__()))
         
-        prog = forms.ChoiceField(choices=programs)
-        cour = forms.ChoiceField(choices=choices)
-        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)])
+        prog = forms.ChoiceField(choices=programs, label="Program")
+        cour = forms.ChoiceField(choices=choices, label="Izbirni predmet")
+        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)], label="Leto")
         
         
     students = []
@@ -101,26 +101,32 @@ def exam_sign_up_index(request):
 
 def exam_sign_up(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)
+    student = Student.objects.get(enrollment_number=student_Id)
 
     class EnrollForm(forms.Form):
         enrolls=[]
-        for enroll in Enrollment.objects.filter(student=s):
-            enrolls.append(enroll)
+        ePk=[]
+        if len(Enrollment.objects.filter(student=student))>1:
+            for enroll in Enrollment.objects.filter(student=student):
+                enrolls.append((enroll.pk, enroll.__unicode__()))
+        else:
+            Enrollment.objects.get(student=student)
 
 
         enrolments=forms.ChoiceField(choices=enrolls)
 
-    classes=[]
+    exams=[]
     if request.method == 'POST':
         form = EnrollForm(request.POST)
-        enroll= Enrollment.objects.get(student=request.POST['enrolments'])
+        enroll= Enrollment.objects.get(id=request.POST['enrolments'])
         classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
+        exams=ExamDate.objects.filter(course__in=classes)
 
     else:
         form=EnrollForm()
 
 
-    return render_to_response('admin/student/exam_sign_up.html', {'form':form,'Vpis':classes, 'Student':s.enrollment_number}, RequestContext(request))
+    return render_to_response('admin/student/exam_sign_up.html', {'form':form,'Roki':exams, 'Student':student_Id}, RequestContext(request))
 
 def exam_sign_out(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)
@@ -137,7 +143,6 @@ def student_index(request):
         if student_Id.isdigit():
             try:
                 student = Student.objects.get(enrollment_number=student_Id)
-
                 if 'zadnje' in request.POST:
                     return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 1]))
                 else:
@@ -157,8 +162,9 @@ def student_index(request):
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
     s = get_object_or_404(Student, enrollment_number=student_Id)
-
     response = []
+    response={'student_name':"",'study_program':"",'courses':""}       
+    response["student_name"] = s.name
 
     enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
     prog = ""
@@ -170,27 +176,23 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
             prog = out['program']
 
         out['enroll'] = enroll
-        
         courses = []
+        
         for p in enroll.courses.order_by('course_code'):
             try:
-                course={}
-                course["name"]=p.name
+            course={}
+            course["name"]=p.name
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
                 print display
                 if display == "1":
                     signups = signups[-1:]
-
+            
                 course["signups"] = signups
-
-                courses = courses+[course]
+            courses = courses+[course]
             except:
                 pass
         out["courses"]=courses
         response = response + [out]
-        
 
     return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
-    
-    

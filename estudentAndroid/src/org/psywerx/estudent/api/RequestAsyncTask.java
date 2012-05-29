@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 
 
 
+@SuppressWarnings("rawtypes")
 public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
 	private static final String SERVER_URL = "http://192.168.11.138/api/";
@@ -36,6 +37,7 @@ public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 		mClass = c;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Object doInBackground(String... data) {
 		Object result = null;
 		try{
