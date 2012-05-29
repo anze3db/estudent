@@ -15,10 +15,25 @@
 <script src="/site_media/jquery.js"></script>
 <script src="/site_media/bootstrap/js/bootstrap.js"></script>
 <script src="/site_media/site.js"></script>
+
+
+<link type="text/css" href="/site_media/jqueryUI/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/jqueryUI/js/jquery-ui-1.8.20.custom.min.js"></script>
+
 </head>
 {% load i18n %}
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+{% if students %}
+<script>
+    $(document).ready(function() {
+        data = {{ students|safe }};
+        $("input[name=vpisna]").autocomplete({source : data});
+    });        
+</script>
+{% endif %}
+
 
 <!-- Container -->
 <div id="container">

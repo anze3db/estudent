@@ -1,7 +1,6 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
-
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
     <form action="" method="POST">{% csrf_token %}
 
@@ -9,12 +8,5 @@
         <input type="submit" value="Vsa polaganja" name="" />
         <input type="submit" value="Zadnje polaganje" name="zadnje"/>
     </form>
-
-
-
-    <ul>
-
-    </ul>
-
 
 {% endblock %}
