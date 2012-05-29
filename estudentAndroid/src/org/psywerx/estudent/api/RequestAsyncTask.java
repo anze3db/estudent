@@ -12,8 +12,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.psywerx.estudent.extra.D;
 import org.psywerx.estudent.extra.HelperFunctions;
-import org.psywerx.estudent.json.StudentEnrollments;
-import org.psywerx.estudent.json.User;
 
 import android.os.AsyncTask;
 
@@ -25,7 +23,7 @@ public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
 	private static final String SERVER_URL = "http://192.168.11.138/api/";
 	private String mApiSubDir = "";
-	private Class mClass = null;
+	private Class mClass = Object.class;
 	
 	private ResponseListener responseListener;
 
