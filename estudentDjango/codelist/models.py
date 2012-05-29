@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_unicode, force_unicode
 from django.utils.translation import ugettext as _
 from settings import PROJECT_PATH
 from urllib import urlopen, urlencode
@@ -125,7 +125,7 @@ class StudyProgram(models.Model):
         verbose_name = _("study program")
         
     def __unicode__(self):
-        return self.descriptor
+        return force_unicode(self.descriptor)
     
     @classmethod
     def updateAll(cls):

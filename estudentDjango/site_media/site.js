@@ -85,6 +85,14 @@ $(document).ready(function() {
     	return all[hash[data[i]["pk"]]];
     });
     instructorsFilter.filter();
+    
+    var courseProgramFilter=new filter("#id_cour", function(){
+        return '/api/getFilteredCourses/?programId='
+            +$("#id_prog").val();
+    }, function(i, all, hash, data){
+    	return all[hash[data[i]['fields']['course']]];
+    });
+    courseProgramFilter.filter();
 
     $("#id_class_year").busyChange(function(){
     	courseFilter.filter();
@@ -96,6 +104,10 @@ $(document).ready(function() {
     $("#id_course").busyChange(function(){
         instructorsFilter.filter();
     });
+    $("#id_prog").busyChange(function(){
+    	courseProgramFilter.filter();
+    });
+
 
 });
 

@@ -68,6 +68,27 @@ def index(request):
     
     return HttpResponse(json.dumps(response),mimetype="application/json")
 
+def getStudentEnrollments(request):
+    student_id = request.GET['student_id']
+
+    response=[]
+
+
+    enroll={'key':"",'study_program':"",'study_year':"", 'class_year':""}
+    for e in  Enrollment.objects.filter(student__enrollment_number=student_id):
+
+        enroll['key']=e.pk
+        enroll['study_program']=e.program.descriptor
+        enroll['study_year']=e.study_year
+        enroll['class_year']=e.class_year
+        response.append(enroll)
+
+
+    return HttpResponse(json.dumps(response),mimetype="application/json")
+
+
+
+
 
 def getCoursesforEnrollment(request):
     enrollment_id = request.GET['id']
@@ -156,6 +177,13 @@ def getFilteredGroupInstructorsForCourses(request):
 
     return HttpResponse(serializers.serialize("json", ins))
 
+def getFilteredCourses(request):
+    programId = request.GET['programId']
+
+    courses = Curriculum.objects.filter(program = programId, mandatory = False)
+    print courses
+    return HttpResponse(serializers.serialize("json", courses))
+
 
 
 def getAllExamDates(request):
@@ -210,18 +238,22 @@ def addSignUp(request):
 def getEnrollmentExamDates(request):
     enrollment_id = request.GET['enroll_id']
 
-    enroll = Enrollment.objects.get(pk =enrollment_id)
-    courses=enroll.get_classes()
-    classes=Course.objects.filter(curriculum__in=courses)
+    enroll = Enrollment.objects.get(pk=enrollment_id)
+    classes=Course.objects.filter(curriculum__in=enroll.get_classes())
 
-    exams = ExamDate.objects.filter(course__in=classes)
+    response=[]
 
-    return HttpResponse(serializers.serialize("json", exams))
+    for e in ExamDate.objects.filter(course__in=classes):
+        ex={}
+        ex['exam_key']=e.pk
+        ex['course']=e.course.name
+        ex['date']=str(e.date)
+        ex['instructors']=e.instructors
+        response.append(ex)
 
-def getStudentEnrollments(request):
-    student_id = request.GET['student_id']
-    enroll = Enrollment.objects.filter(student__enrollment_number=student_id)
-    return HttpResponse(serializers.serialize("json", enroll))
+    return HttpResponse(json.dumps(response),mimetype="application/json")
+
+
 
 def getStudentEnrollmentsForYear(request):
     student_id = request.GET['student_id']

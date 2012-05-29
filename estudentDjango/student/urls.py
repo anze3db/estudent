@@ -7,14 +7,11 @@ urlpatterns = patterns('',
     (r'^ExamGrades/$', 'student.views.exam_grades_index'),
     (r'^ExamGrades/(?P<exam_Id>\d+)/$', 'student.views.exam_grades_view'),
 	(r'^ClassList/$', 'student.views.class_list'),    
-	
 	(r'^ExamSignUp/$', 'student.views.exam_sign_up_index'),
     (r'^ExamSignUp/(?P<student_Id>\d+)/signUp/$', 'student.views.exam_sign_up'),
     (r'^ExamSignUp/(?P<student_Id>\d+)/signOut/$', 'student.views.exam_sign_out'),
-
 	(r'^StudentIndex/$', 'student.views.student_index'),
     (r'^StudentIndex/(?P<student_Id>\d+)/$', 'student.views.student_index_list'),
-
     #(r'^index/$', 'api.views.index'),
 
     #(r'^admin/student/ExamGrades/$', 'student.views.exam_grades_view'),
