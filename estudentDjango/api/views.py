@@ -237,8 +237,10 @@ def test(request):
     for c in classes:
         sth={}
         sth['predmet']=c.name
-        sth['poskusi']=c.nr_attempts_this_year(student)
+        sth['letos']=c.nr_attempts_this_year(student)
         sth['pozitivna']=c.already_signedUp(student)
+        sth['ta vpis']=c.nr_attempts_this_enroll(enroll)
+        sth['vsa polaganja']=c.nr_attempts_all(student)
         aaa.append(sth)
 
     #exam=ExamDate.objects.get(id=2);
