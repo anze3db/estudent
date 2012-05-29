@@ -2,18 +2,21 @@ package org.psywerx.estudent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.psywerx.estudent.api.Api;
 import org.psywerx.estudent.api.ResponseListener;
-import org.psywerx.estudent.json.User;
+import org.psywerx.estudent.json.EnrollmentExamDates;
+import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
+import org.psywerx.estudent.json.StudentEnrollments;
+import org.psywerx.estudent.json.StudentEnrollments.StudentEnrollment;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -31,8 +34,10 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 		
 	private MenuAdapter mMenuAdapter;
 	private ProgressDialog mProgressDialog = null;
+	
 	private HashMap<Integer, String> mEnrollments = new HashMap<Integer, String>();
 	private String mUsername;
+		
 	private ResponseListener mListener;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,34 +66,19 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 		Bundle extras = getIntent().getExtras();
 		mUsername = extras.getString("username");
 		setTitle(String.format("%s %s (%s)", extras.getString("firstname"), extras.getString("lastname"), mUsername));
-
-	
-		mEnrollments.put(1, "2010");
-		mEnrollments.put(2, "kr neki");
-		mEnrollments.put(1234, "zakaj");
 	}
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		//Intent intent = null;
 		switch (mMenuAdapter.getItem(position).getAction()) {
 		case ACTION_DISPLAY_MY_EXAMS:
-			//Toast.makeText(mContext, "prikazi izpite", Toast.LENGTH_SHORT).show();
-			//intent = new Intent(mContext, ExamsActivity.class);
-			//startActivity(intent);
 			mProgressDialog = ProgressDialog.show(MenuActivity.this,    
 					getString(R.string.loading_please_wait), 
 					getString(R.string.loading_verifying_login), true);
-			Api.examListRequest(mListener, mUsername);
+			Api.studentEnrollmentsRequest(mListener, mUsername);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
-			//Toast.makeText(mContext, "prikazi izpite", Toast.LENGTH_SHORT).show();
-			//intent = new Intent(mContext, ExamsActivity.class);
-			//startActivity(intent);
-			/*mProgressDialog = ProgressDialog.show(MenuActivity.this,    
-					getString(R.string.loading_please_wait), 
-					getString(R.string.loading_verifying_login), true);*/
 			l.showContextMenuForChild(v);
 			break;
 		case ACTION_LOGOUT:
@@ -99,11 +89,10 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 	
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
-		int ID = item.getItemId();
-		//TODO
-		Toast.makeText(mContext, "leto: "+ID, Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(mContext, ExamsActivity.class);
-		startActivity(intent);
+		mProgressDialog = ProgressDialog.show(MenuActivity.this,    
+				getString(R.string.loading_please_wait), 
+				getString(R.string.loading_verifying_login), true);
+		Api.enrollmentExamDatesRequest(mListener, ""+item.getItemId());
 		return true;
 	}
 
@@ -120,9 +109,25 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 
 	public void onServerResponse(Object o) {
 		mProgressDialog.dismiss();
-		if(o == null)
-			Log.d("majcn", "tega ni");
-		else
-			Log.d("majcn", o.getClass().getName());
+		if (o != null && o instanceof StudentEnrollments) {
+			StudentEnrollments le = (StudentEnrollments)o;
+			mEnrollments.clear();
+			for(Iterator<StudentEnrollment> i = le.enrollments.iterator(); i.hasNext(); ) {
+				StudentEnrollment e = i.next();
+				mEnrollments.put(e.key, e.study_program + "(" + e.study_year + ")");
+			}
+			getListView().showContextMenu();
+		} else if (o != null && o instanceof EnrollmentExamDates) {
+			EnrollmentExamDates le = (EnrollmentExamDates)o;
+			StaticData.mEnrollmentExamDates.clear();
+			for(Iterator<EnrollmentExamDate> i = le.EnrollmentExamDates.iterator(); i.hasNext(); ) {
+				EnrollmentExamDate e = i.next();
+				StaticData.mEnrollmentExamDates.put(e.exam_key, e);
+			}
+			Intent intent = new Intent(this, ExamsActivity.class);
+			startActivity(intent);
+		} else {
+			Toast.makeText(this, getString(R.string.communication_error), 2000).show();
+		}
 	}
 }
