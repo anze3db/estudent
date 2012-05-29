@@ -7,8 +7,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import context, loader
 from django.template.context import RequestContext, Context
 from student.models import ExamSignUp, ExamDate, Enrollment, Student
-from codelist.models import Course
-from django.core import serializers
 
 
 def exam_grades_index(request):
@@ -67,8 +65,7 @@ def class_list(request):
         form = ClassForm(request.POST)
         if 'year' in request.POST:
             students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['cour'], program = request.POST['prog'])
-            
-        
+ 
     else:
         form = ClassForm()
         
@@ -76,9 +73,6 @@ def class_list(request):
 
 
 def exam_sign_up_index(request):
-    student_enrolls = Student.objects.all()
-    student_enrolls = "[ " + ", ".join([ '"' + str(s.pk) + '"' for s in student_enrolls]) + " ]"
-
     try:
         student_Id=request.POST['vpisna']
         if student_Id.isdigit():
@@ -95,12 +89,11 @@ def exam_sign_up_index(request):
                 pass
                 
         return render_to_response('admin/student/exam_sign_up_index.html', {
-            'error_message': "Student s to vpisno stevilko ne obstaja",
-            'students':student_enrolls
+            'error_message': "Student with this number does not exist",
             }, context_instance=RequestContext(request))
 
     except:
-        return render_to_response('admin/student/exam_sign_up_index.html', {'students':student_enrolls}, context_instance=RequestContext(request))
+        return render_to_response('admin/student/exam_sign_up_index.html', {}, context_instance=RequestContext(request))
 
 
 
@@ -125,7 +118,7 @@ def exam_sign_up(request, student_Id):
     if request.method == 'POST':
         form = EnrollForm(request.POST)
         enroll= Enrollment.objects.get(id=request.POST['enrolments'])
-        classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
+        classes=Course.objects.filter(curriculum__in=enroll.get_classes())
         exams=ExamDate.objects.filter(course__in=classes)
 
     else:
@@ -144,14 +137,12 @@ def exam_sign_out(request, student_Id):
     
     
 def student_index(request):
-    student_enrolls = Student.objects.all()
-    student_enrolls = "[ " + ", ".join([ '"' + str(s.pk) + '"' for s in student_enrolls]) + " ]"
-    
     try:
         student_Id = request.POST['vpisna']
         if student_Id.isdigit():
             try:
                 student = Student.objects.get(enrollment_number=student_Id)
+
                 if 'zadnje' in request.POST:
                     return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 1]))
                 else:
@@ -163,11 +154,10 @@ def student_index(request):
                 pass
                 
         return render_to_response('admin/student/student_index.html', {
-            'error_message': "Student s to vpisno stevilko ne obstaja",
-            'students':student_enrolls
+            'error_message': "Student with this number does not exist",
             }, context_instance=RequestContext(request))
     except:
-        return render_to_response('admin/student/student_index.html', {'students':student_enrolls}, context_instance=RequestContext(request))
+        return render_to_response('admin/student/student_index.html', {}, context_instance=RequestContext(request))
 
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
@@ -187,19 +177,13 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         out['enroll'] = enroll
         
         courses = []
-        classes = enroll.get_classes()
-        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
-        
-        for p in courses2:
+        for p in enroll.courses.order_by('course_code'):
             try:
                 course={}
                 course["name"]=p.name
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
-
-                #course["signupscnt"] = len(signups) 
-                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
-
+                print display
                 if display == "1":
                     signups = signups[-1:]
 
@@ -211,10 +195,16 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         out["courses"]=courses
         response = response + [out]
         
+
+<<<<<<< HEAD
     return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
     
     
-    
+=======
+    return render_to_response('admin/student/student_index_list.html', {}, RequestContext(request))
+
+
 def sign_up_confirm(request):
 
-    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))    
+    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))
+>>>>>>> 15f03ec5435201fb97245c9804acd6ff711ba8d6
