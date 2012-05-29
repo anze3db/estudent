@@ -114,7 +114,7 @@ def exam_sign_up(request, student_Id):
 
         enrolments=forms.ChoiceField(choices=enrolls)
 
-    classes=[]
+    exams=[]
     if request.method == 'POST':
         form = EnrollForm(request.POST)
         enroll= Enrollment.objects.get(id=request.POST['enrolments'])
