@@ -64,7 +64,7 @@ def class_list(request):
     if request.method == 'POST':
         form = ClassForm(request.POST)
         if 'year' in request.POST:
-            students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['courses'])
+            students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['cour'], program = request.POST['prog'])
             
         
     else:

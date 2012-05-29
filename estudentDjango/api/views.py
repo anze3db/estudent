@@ -159,7 +159,7 @@ def getFilteredGroupInstructorsForCourses(request):
 def getFilteredCourses(request):
     programId = request.GET['programId']
 
-    courses = Curriculum.objects.filter(program = programId)
+    courses = Curriculum.objects.filter(program = programId, mandatory = False)
     print courses
     return HttpResponse(serializers.serialize("json", courses))
 
