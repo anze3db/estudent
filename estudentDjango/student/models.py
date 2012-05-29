@@ -277,6 +277,8 @@ class ExamDate(models.Model):
 
         return None # no error
 
+
+    #doesn't probably work: see student/admin.py ExamDate for something similar.
     def exam_on_date_exist(self):
         exams=ExamDate.objects.filter(course=self.course)
         for e in exams:
