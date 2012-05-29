@@ -75,9 +75,15 @@ $(document).ready(function() {
 
     // Filter courses:
     var courseFilter = new filter("#id_courses", function(){
+    	var url = document.URL.split('/');
+    	var id  = url[url.length-2];
+    	var modules = ($("#id_modules").val() instanceof Array) ? $("#id_modules").val().join(',') : $("#id_modules").val();
     	return '/api/getFilteredCoursesModules/?program='
     	+$("#id_program").val()+'&year='
-    	+$("#id_class_year").val();
+    	+$("#id_class_year").val()+'&modules='
+    	+modules+'&student='
+    	+$("#id_student").val()+'&id='
+    	+id;
     }, function(i, all, hash, data){
     	 return all[hash[data[i].fields["course"]]];
     });
@@ -103,6 +109,12 @@ $(document).ready(function() {
     	courseFilter.filter();
     });
     $("#id_program").busyChange(function(){
+    	courseFilter.filter();
+    });
+    $("#id_modules").change(function(){
+    	courseFilter.filter();
+    });
+    $("#id_student").busyChange(function(){
     	courseFilter.filter();
     });
 
