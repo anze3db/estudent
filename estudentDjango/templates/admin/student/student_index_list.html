@@ -2,43 +2,39 @@
 
 {% block content %}
 
-<h2>Rezultati izpita: {{izpitnirok.course}}, {{izpitnirok.date|date:"d.m.Y" }}</h2>
-
-    <table cellpadding="0" cellspacing="0" class="sortable">
-        <tr class="first-row">
-            <th>#</th>
-            <th>Priimek</th>
-            <th>Ime</th>
-            <th>Vpisna številka</th>
-            <th>Število Točk</th>
-            <th>Ocena Pisni</th>
-            <th>Ocena Vaje</th>
-        </tr>
-        {% for p in prijave %}
-            <tr class="{% cycle 'row1' 'row2' %}">
-                <td>{{forloop.counter}}</td>
-                <td>{{p.priimek}}</td>
-                <td>{{p.ime}}</td>
-                <td>{{p.vpisna_st}}</td>
-                <td><input type="text" value={{ p.tocke }}/></td>
-                <td>
-                    <select>
-                    {% for choice in p.opcije %}
-                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                    {% endfor %}
-                    </select>
-                </td>
-                <td>
-                    <select>
-                        {% for choice in p.opcije %}
-                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-
+<h2>Kartotečni list za: {{student}}</h2>
+    {% for d in data %}
+        {% if d.noprogram %}
+        <strong>Študijski program:</strong> {{d.program}}<br>
+        {% endif %}
+        <strong>Študijsko leto:</strong> {{d.enroll.study_year}}<br>
+        
+        {% if d.noprogram %}
+        <table cellpadding="0" cellspacing="0" class="sortable" style="width:70%">
+            <tr class="first-row">
+                <td style="width:50%"><strong>Predmet</strong></td>
+                <td style="width:50%"><strong>Polaganje</strong></td>
             </tr>
-        {% endfor %}
-    </table>
+            {% for c in d.courses %}
+            <tr>
+            <td>{{c.name}}</td>
+            <td>
+                {% if c.signups %}
+                    {% for s in c.signups %}
+                    {{s.student_index_view}}<br>
+                    {% endfor %}
+                {% else %}
+                    Ni polaganj
+                {% endif %}                
+            </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            Za študijsko leto ni predmetov<br>
+        {% endif %}
+        <br>
+    {% endfor %}
 
 
 

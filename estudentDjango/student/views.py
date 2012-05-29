@@ -137,7 +137,14 @@ def student_index(request):
         if student_Id.isdigit():
             try:
                 student = Student.objects.get(enrollment_number=student_Id)
-                return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number]))
+
+                if 'zadnje' in request.POST:
+                    return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 1]))
+                else:
+                    return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 0]))
+
+
+                return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 0]))
             except:
                 pass
                 
@@ -148,25 +155,42 @@ def student_index(request):
         return render_to_response('admin/student/student_index.html', {}, context_instance=RequestContext(request))
 
 
-def student_index_list(request, student_Id):
+def student_index_list(request, student_Id, display): #0=all, 1=last
     s = get_object_or_404(Student, enrollment_number=student_Id)
+
     response = []
-    response={'student_name':"",'study_program':"",'courses':""}       
-    response["student_name"] = s.name
 
-    enroll = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
-    for v in enroll:
-        response["study_program"]=v.program.descriptor
-        courses = []
+    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
+    prog = ""
+    for enroll in enrolls:
+        out={}
+        out['program'] = enroll.program.descriptor
+        if prog != out['program']:
+            out['noprogram'] = True
+            prog = out['program']
+
+        out['enroll'] = enroll
         
-        for p in v.courses.order_by('course_code'):
-            course={}
-            course["name"]=p.name
-            ocene = p.results(s)
-            
-            for o in ocene:
-                course['result'] = o['result']
-            courses = courses+[course]
-        response["courses"]=courses
+        courses = []
+        for p in enroll.courses.order_by('course_code'):
+            try:
+                course={}
+                course["name"]=p.name
+                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
+                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+                print display
+                if display == "1":
+                    signups = signups[-1:]
 
-    return render_to_response('admin/student/student_index_list.html', {}, RequestContext(request))
+                course["signups"] = signups
+
+                courses = courses+[course]
+            except:
+                pass
+        out["courses"]=courses
+        response = response + [out]
+        
+
+    return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
+    
+    
