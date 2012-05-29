@@ -206,7 +206,7 @@ class ExamDate(models.Model):
     """
     course = models.ForeignKey("codelist.Course", related_name=("course"), verbose_name = _("course"))
     instructors = models.ForeignKey("codelist.GroupInstructors", verbose_name=_("group of instructors"), null=True, blank=True)
-    study_year = models.PositiveIntegerField(_("study year"),db_index=True)
+    study_year = models.PositiveIntegerField(_("study year"),db_index=True, default=2011)
     location    = models.CharField(_("location"),max_length=7)
     date = models.DateField(_("date"))
     nr_SignUp   = models.PositiveIntegerField(_("nr of Sign up"))

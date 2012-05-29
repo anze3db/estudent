@@ -60,22 +60,38 @@ class Course(models.Model):
 
     def nr_attempts_this_year(self, student):
         from student.models import ExamSignUp
+
+
         year=datetime.date.today().year
+#        month_today=datetime.date.today().month
+#        begin=datetime.date(year-1, 10, 1)
+#        end=datetime.date(year, 9, 31)
+#        if 10<=month_today<=12:
+#            begin=datetime.date(year, 10, 1)
+#            end=datetime.date(year+1,9, 31)
 
         exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
         nr_try=0
         y=0
+
         for t in exSig:
             if t.examDate.date.year==year:
                 nr_try=nr_try+1
                 y=t.examDate.date.year
 
-        #all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
 
-
-        #all=len(all_signUps)
-        #v_solskem_letu = len(polaganja.filter(izpitnirok__leto = get_solsko_leto()))
         return nr_try
+
+    def nr_attempts_all(self, student):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        return len(all_signUps)
+
+    def nr_attempts_this_enroll(self, enroll):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll=enroll, examDate__course=self))
+        return len(all_signUps)
+
 
     def already_signedUp(self, student):
         from student.models import ExamSignUp
