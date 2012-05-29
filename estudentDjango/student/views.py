@@ -101,7 +101,25 @@ def exam_sign_up_index(request):
 def exam_sign_up(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)
 
-    return render_to_response('admin/student/exam_sign_up.html', {}, RequestContext(request))
+    class EnrollForm(forms.Form):
+        enrolls=[]
+        for enroll in Enrollment.objects.filter(student=s):
+            enrolls.append(enroll)
+
+
+        enrolments=forms.ChoiceField(choices=enrolls)
+
+    classes=[]
+    if request.method == 'POST':
+        form = EnrollForm(request.POST)
+        enroll= Enrollment.objects.get(student=request.POST['enrolments'])
+        classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
+
+    else:
+        form=EnrollForm()
+
+
+    return render_to_response('admin/student/exam_sign_up.html', {'form':form,'Vpis':classes, 'Student':s.enrollment_number}, RequestContext(request))
 
 def exam_sign_out(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)

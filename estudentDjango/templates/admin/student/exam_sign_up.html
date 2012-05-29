@@ -1,1 +1,20 @@
 {% extends "admin/base_site.html" %}
+
+
+{% block content %}
+
+
+
+    <form action="/student/ExamSignUp/{{s}}/signUp/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+
+    {% for v in Vpis %}
+        <p>{{v}}</p>
+    {% endfor %}
+
+
+
+{% endblock %}

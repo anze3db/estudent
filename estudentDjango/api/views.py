@@ -89,6 +89,7 @@ def getStudentEnrollments(request):
 
 
 
+
 def getCoursesforEnrollment(request):
     enrollment_id = request.GET['id']
     #response={'course_name':"",'course_code':""}
@@ -237,13 +238,20 @@ def addSignUp(request):
 def getEnrollmentExamDates(request):
     enrollment_id = request.GET['enroll_id']
 
-    enroll = Enrollment.objects.get(pk =enrollment_id)
-    courses=enroll.get_classes()
-    classes=Course.objects.filter(curriculum__in=courses)
+    enroll = Enrollment.objects.get(pk=enrollment_id)
+    classes=Course.objects.filter(curriculum__in=enroll.get_classes())
 
-    exams = ExamDate.objects.filter(course__in=classes)
+    response=[]
 
-    return HttpResponse(serializers.serialize("json", exams))
+    for e in ExamDate.objects.filter(course__in=classes):
+        ex={}
+        ex['exam_key']=e.pk
+        ex['course']=e.course.name
+        ex['date']=str(e.date)
+        ex['instructors']=e.instructors
+        response.append(ex)
+
+    return HttpResponse(json.dumps(response),mimetype="application/json")
 
 
 
