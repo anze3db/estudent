@@ -277,6 +277,16 @@ class ExamDate(models.Model):
 
         return None # no error
 
+    def exam_on_date_exist(self):
+        exams=ExamDate.objects.filter(course=self.course)
+        for e in exams:
+            if e.instructors==self.instructors & e.date==self.date:
+                return True
+            else:
+                return False
+
+
+
 
 
 class ExamSignUp(models.Model):
