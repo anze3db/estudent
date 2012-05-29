@@ -1,5 +1,5 @@
 # Create your views here.
-from codelist.models import Course
+from codelist.models import Course, StudyProgram
 from django import forms
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -51,14 +51,20 @@ def class_list(request):
         for c in Course.objects.all():
             choices.append((c.pk, c.__unicode__()))
         
-        courses = forms.ChoiceField(choices=choices)
+        programs = []
+        for p in StudyProgram.objects.all():
+            programs.append((p.pk, p.__unicode__()))
+        
+        prog = forms.ChoiceField(choices=programs)
+        cour = forms.ChoiceField(choices=choices)
         year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)])
+        
         
     students = []
     if request.method == 'POST':
         form = ClassForm(request.POST)
         if 'year' in request.POST:
-            students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['courses'])
+            students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['cour'], program = request.POST['prog'])
             
         
     else:
