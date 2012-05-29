@@ -73,17 +73,17 @@ public class LoginActivity extends Activity implements ResponseListener{
 		mProgressDialog.dismiss();
 		if (o != null && o instanceof User){
 			User user = (User) o;
-			if (user.getLogin()){
+			if (user.login){
 				Intent intent = new Intent(this, MenuActivity.class);
 			    Bundle bundle = new Bundle();
-			    bundle.putString("firstname", user.getName());
-			    bundle.putString("lastname", user.getSurname());
+			    bundle.putString("firstname", user.name);
+			    bundle.putString("lastname", user.surname);
 			    bundle.putString("username", mEditUsername.getText().toString());
 			    bundle.putString("password", mEditPassword.getText().toString());
 			    intent.putExtras(bundle);
 				startActivity(intent);
 			}else{
-				Toast.makeText(this, user.getErrors(), 2000).show();
+				Toast.makeText(this, user.errors, 2000).show();
 			}
 		}else{
 			Toast.makeText(this, getString(R.string.communication_error), 2000).show();
