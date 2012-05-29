@@ -112,8 +112,8 @@ def getAllCourses(request):
         courses=student.get_all_classes()
 
 
-        return HttpResponse(serializers.serialize("json", courses))
-        #return HttpResponse(courses,mimetype="application/json")
+        #return HttpResponse(serializers.serialize("json", courses))
+        return HttpResponse(courses,mimetype="application/json")
 
     except:
 
@@ -211,14 +211,35 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    student = Student.objects.get(enrollment_number=enrollment_id)
-    exam=ExamDate.objects.get(id=2);
+    #student = Student.objects.get(enrollment_number=enrollment_id)
+    enroll = Enrollment.objects.get(pk=enrollment_id)
+    student=enroll.student
+    #courses=student.get_all_classes()
+    #
+    # classes=Course.objects.filter(curriculum__in=courses)
+
+    courses= enroll.get_classes();
+    classes=Course.objects.filter(curriculum__in=courses)
+
+    aaa=[]
+
+    for c in classes:
+        sth={}
+        sth['predmet']=c.name
+        sth['letos']=c.nr_attempts_this_year(student)
+        sth['pozitivna']=c.already_signedUp(student)
+        sth['ta vpis']=c.nr_attempts_this_enroll(enroll)
+        sth['vsa polaganja']=c.nr_attempts_all(student)
+        aaa.append(sth)
+
+    #exam=ExamDate.objects.get(id=2);
+
 
     #test=exam.already_signedUp(student)
-    test=exam.signUp_allowed(student)
+    #test=exam.signUp_allowed(student)
 
-
-    return HttpResponse(test,mimetype="application/json")
+    #return HttpResponse(serializers.serialize("json", student)
+    return HttpResponse(aaa,mimetype="application/json")
 
 
 def addSignUp(request):

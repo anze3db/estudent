@@ -12,7 +12,7 @@ public class ExamDetailsActivity extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 	    ExamDetailsFragment viewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
-	    viewer.showData(extras.getString("id"), extras.getString("name"), extras.getString("teacher"), extras.getString("date"));
+	    viewer.showData(extras.getString("id"), extras.getString("name"), extras.getString("teacher"), extras.getString("date"), extras.getBoolean("signedup"));
 	}
 
 }

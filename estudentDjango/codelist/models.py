@@ -1,3 +1,4 @@
+from mx.DateTime.mxDateTime.test import year
 from django.db import models
 from django.utils.encoding import smart_unicode, force_unicode
 from django.utils.translation import ugettext as _
@@ -9,6 +10,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 import re 
 import os
+import datetime
 
 
 class Course(models.Model):
@@ -53,6 +55,37 @@ class Course(models.Model):
             c.name = line
             c.save()
             i=i+1
+
+
+
+    def nr_attempts_this_year(self, student):
+        from student.models import ExamSignUp
+        year=datetime.date.today().year
+
+        exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
+        nr_try=0
+        y=0
+        for t in exSig:
+            if t.examDate.date.year==year:
+                nr_try=nr_try+1
+                y=t.examDate.date.year
+
+        #all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+
+
+        #all=len(all_signUps)
+        #v_solskem_letu = len(polaganja.filter(izpitnirok__leto = get_solsko_leto()))
+        return nr_try
+
+    def already_signedUp(self, student):
+        from student.models import ExamSignUp
+        all=list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+
+        if(len(all))>0:
+            return True
+        else:
+            return False
+
 
     #TODO fix this
     def results(self, student):

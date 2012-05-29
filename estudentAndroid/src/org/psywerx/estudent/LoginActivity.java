@@ -74,13 +74,10 @@ public class LoginActivity extends Activity implements ResponseListener{
 		if (o != null && o instanceof User){
 			User user = (User) o;
 			if (user.login){
+				StaticData.firstName = user.name;
+				StaticData.lastName = user.surname;
+				StaticData.username = mEditUsername.getText().toString();
 				Intent intent = new Intent(this, MenuActivity.class);
-			    Bundle bundle = new Bundle();
-			    bundle.putString("firstname", user.name);
-			    bundle.putString("lastname", user.surname);
-			    bundle.putString("username", mEditUsername.getText().toString());
-			    bundle.putString("password", mEditPassword.getText().toString());
-			    intent.putExtras(bundle);
 				startActivity(intent);
 			}else{
 				Toast.makeText(this, user.errors, 2000).show();

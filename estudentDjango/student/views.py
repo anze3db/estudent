@@ -8,6 +8,7 @@ from django.template import context, loader
 from django.template.context import RequestContext, Context
 from student.models import ExamSignUp, ExamDate, Enrollment, Student
 from codelist.models import Course
+from django.core import serializers
 
 
 def exam_grades_index(request):
@@ -75,6 +76,9 @@ def class_list(request):
 
 
 def exam_sign_up_index(request):
+    student_enrolls = Student.objects.all()
+    student_enrolls = "[ " + ", ".join([ '"' + str(s.pk) + '"' for s in student_enrolls]) + " ]"
+
     try:
         student_Id=request.POST['vpisna']
         if student_Id.isdigit():
@@ -91,11 +95,12 @@ def exam_sign_up_index(request):
                 pass
                 
         return render_to_response('admin/student/exam_sign_up_index.html', {
-            'error_message': "Student with this number does not exist",
+            'error_message': "Student s to vpisno stevilko ne obstaja",
+            'students':student_enrolls
             }, context_instance=RequestContext(request))
 
     except:
-        return render_to_response('admin/student/exam_sign_up_index.html', {}, context_instance=RequestContext(request))
+        return render_to_response('admin/student/exam_sign_up_index.html', {'students':student_enrolls}, context_instance=RequestContext(request))
 
 
 
@@ -139,6 +144,9 @@ def exam_sign_out(request, student_Id):
     
     
 def student_index(request):
+    student_enrolls = Student.objects.all()
+    student_enrolls = "[ " + ", ".join([ '"' + str(s.pk) + '"' for s in student_enrolls]) + " ]"
+    
     try:
         student_Id = request.POST['vpisna']
         if student_Id.isdigit():
@@ -155,10 +163,11 @@ def student_index(request):
                 pass
                 
         return render_to_response('admin/student/student_index.html', {
-            'error_message': "Student with this number does not exist",
+            'error_message': "Student s to vpisno stevilko ne obstaja",
+            'students':student_enrolls
             }, context_instance=RequestContext(request))
     except:
-        return render_to_response('admin/student/student_index.html', {}, context_instance=RequestContext(request))
+        return render_to_response('admin/student/student_index.html', {'students':student_enrolls}, context_instance=RequestContext(request))
 
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
@@ -187,6 +196,9 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 course["name"]=p.name
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+
+                #course["signupscnt"] = len(signups) 
+                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
 
                 if display == "1":
                     signups = signups[-1:]

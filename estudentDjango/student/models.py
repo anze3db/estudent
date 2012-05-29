@@ -84,9 +84,15 @@ class Student(models.Model):
         allClass=[]
         enroll = Enrollment.objects.filter(student=self)
         for e in enroll:
-            allClass=list(e.get_classes())
+            allClass.append(e.get_classes())
 
         return allClass
+
+    def get_all_classes_clean(self):
+        courses = self.get_all_classes()
+
+        return Course.objects.filter(curriculum__in=courses)
+
 
     def get_current_exam_dates(self):
         courses = self.get_all_classes()
@@ -217,6 +223,8 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
 
+    def year(self):
+        self.date.year
 
     def already_signedUp(self, student):
         #if fals, Ok to signUp
@@ -295,20 +303,20 @@ class ExamSignUp(models.Model):
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 
-
-
     def is_positive(self):
+        if self.result_exam=='NR':
+            return False
+        if int(self.result_exam)>5:
+            return True
+        else:
+            return False
 
-            if self.result_exam=='NR':
-                return False
-            if int(self.result_exam)>5:
-                return True
-            else:
-                return False
 
-
-    def student_index_view(self):
-        return force_unicode(str(self.examDate) + ' (' + str(self.result_exam) + ')')
+    #keeeel meeeee
+    def student_index_view_examDate(self):
+        return force_unicode(str(self.examDate.date.strftime("%d.%m.%Y")))
+    def student_index_view_result(self):
+        return force_unicode(str(self.result_exam)+"/"+str(self.result_practice));
 
     def __unicode__(self):
         return force_unicode(str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result_exam) + ')')
