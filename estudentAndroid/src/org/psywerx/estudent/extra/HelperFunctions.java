@@ -2,6 +2,8 @@ package org.psywerx.estudent.extra;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class HelperFunctions {
 	/**
@@ -27,5 +29,14 @@ public class HelperFunctions {
 			D.dbge("error encoding url parameteres", e);
 		}
 		return result;
+	}
+	
+	public static String dateToSlo(String date) {
+		try {
+			return new SimpleDateFormat("dd.mm.yyyy").format(new SimpleDateFormat("yyyy-mm-dd").parse(date));
+		} catch (ParseException e) {
+			D.dbge("narobe datum",e);
+			return "1.1.2000";
+		}
 	}
 }
