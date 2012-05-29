@@ -25,7 +25,7 @@ public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
 	private static final String SERVER_URL = "http://192.168.11.138/api/";
 	private String mApiSubDir = "";
-	private Class mClass = null;
+	private Class mClass = Object.class;
 	
 	private ResponseListener responseListener;
 

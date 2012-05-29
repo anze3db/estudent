@@ -4,5 +4,5 @@ import java.util.List;
 
 
 public class StudentEnrollments {
-	public List<StudentEnrolment> e;
+	public List<StudentEnrolment> enrollments;
 }
