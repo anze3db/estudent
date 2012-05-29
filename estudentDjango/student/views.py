@@ -162,9 +162,8 @@ def student_index(request):
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
     s = get_object_or_404(Student, enrollment_number=student_Id)
+
     response = []
-    response={'student_name':"",'study_program':"",'courses':""}       
-    response["student_name"] = s.name
 
     enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
     prog = ""
@@ -176,23 +175,30 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
             prog = out['program']
 
         out['enroll'] = enroll
-        courses = []
         
+        courses = []
         for p in enroll.courses.order_by('course_code'):
             try:
-            course={}
-            course["name"]=p.name
+                course={}
+                course["name"]=p.name
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
                 print display
                 if display == "1":
                     signups = signups[-1:]
-            
+
                 course["signups"] = signups
-            courses = courses+[course]
+
+                courses = courses+[course]
             except:
                 pass
         out["courses"]=courses
         response = response + [out]
-
+        
     return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
+    
+    
+    
+def sign_up_confirm(request):
+
+    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))    
