@@ -100,11 +100,16 @@ def exam_sign_up_index(request):
 
 def exam_sign_up(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)
+    student = Student.objects.get(enrollment_number=student_Id)
 
     class EnrollForm(forms.Form):
         enrolls=[]
-        for enroll in Enrollment.objects.filter(student=s):
-            enrolls.append(enroll)
+        ePk=[]
+        if len(Enrollment.objects.filter(student=student))>1:
+            for enroll in Enrollment.objects.filter(student=student):
+                enrolls.append((enroll.pk, enroll.__unicode__()))
+        else:
+            Enrollment.objects.get(student=student)
 
 
         enrolments=forms.ChoiceField(choices=enrolls)
@@ -112,14 +117,15 @@ def exam_sign_up(request, student_Id):
     classes=[]
     if request.method == 'POST':
         form = EnrollForm(request.POST)
-        enroll= Enrollment.objects.get(student=request.POST['enrolments'])
-        classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
+        enroll= Enrollment.objects.get(id=request.POST['enrolments'])
+        classes=Course.objects.filter(curriculum__in=enroll.get_classes())
+        exams=ExamDate.objects.filter(course__in=classes)
 
     else:
         form=EnrollForm()
 
 
-    return render_to_response('admin/student/exam_sign_up.html', {'form':form,'Vpis':classes, 'Student':s.enrollment_number}, RequestContext(request))
+    return render_to_response('admin/student/exam_sign_up.html', {'form':form,'Roki':exams, 'Student':student_Id}, RequestContext(request))
 
 def exam_sign_out(request, student_Id):
     s = get_object_or_404(Student, enrollment_number=student_Id)
