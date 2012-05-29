@@ -1,6 +1,11 @@
 $('.dropdown-toggle').dropdown();
 
 $(document).ready(function() {
+	
+	$('select[multiple=multiple]').attr('size', 20);
+	$('select[multiple=multiple]#id_year').attr('size', 4);
+	
+	
     var last_valid_selection = null;
 
     $.fn.maxSelect = function(max){
