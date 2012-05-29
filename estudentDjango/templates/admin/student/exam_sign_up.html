@@ -5,14 +5,15 @@
 
 
 
-    <form action="/student/ExamSignUp/{{s}}/signUp/" method="post">
+    <form action="/student/ExamSignUp/{{Student}}/signUp/" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit" />
+        {{form}}
+        <input type="submit" value="Izberi" />
     </form>
 
-    {% for v in Vpis %}
-        <p>{{v}}</p>
+    <h2>Predmeti za katere so razpisani izpitni roki</h2>
+    {% for v in Roki %}
+        <li><a href="/student/ExamSignUp/{{v.pk}}/confirm/">{{v}}</a></li>
     {% endfor %}
 
 

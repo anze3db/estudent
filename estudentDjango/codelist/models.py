@@ -266,7 +266,7 @@ class Instructor(models.Model):
 class GroupInstructors(models.Model):
     instructor = models.ManyToManyField("Instructor", null=True, blank=True)
     def __unicode__(self):
-        return ', '.join([i.surname for i in self.instructor.all()])
+        return force_unicode(', '.join([i.surname for i in self.instructor.all()]))
     def get1st(self):
         instructor = self.instructor.all()
         return instructor[0].surname if len(instructor) >= 1 else ''

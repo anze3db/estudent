@@ -306,7 +306,8 @@ class ExamSignUp(models.Model):
                 return False
 
 
-
+    def student_index_view(self):
+        return force_unicode(str(self.examDate) + ' (' + str(self.result_exam) + ')')
 
     def __unicode__(self):
         return force_unicode(str(self.examDate) + ' ' + str(self.enroll) + ' (' + str(self.result_exam) + ')')

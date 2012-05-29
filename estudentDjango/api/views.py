@@ -7,6 +7,7 @@ from codelist.models import  StudyProgram, Course, GroupInstructors
 from student.models import *
 import json
 import codelist
+from django.db.models import Q
 
 def login(request):
     user = request.GET['id']
@@ -74,17 +75,17 @@ def getStudentEnrollments(request):
     response=[]
 
 
-    enroll={'key':"",'study_program':"",'study_year':"", 'class_year':""}
     for e in  Enrollment.objects.filter(student__enrollment_number=student_id):
-
+        enroll={}
         enroll['key']=e.pk
         enroll['study_program']=e.program.descriptor
         enroll['study_year']=e.study_year
         enroll['class_year']=e.class_year
+        print enroll
         response.append(enroll)
 
 
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps({"enrollments":response}),mimetype="application/json")
 
 
 
@@ -160,11 +161,28 @@ def examSignUp(request):
 def getFilteredCoursesModules(request):
     program = request.GET['program'] if 'program' in request.GET else ''
     year = request.GET['year'] if 'year' in request.GET else ''
+    modules = request.GET['modules'].split(',')
+    student = request.GET['student']
+    id = request.GET['id']
+    
+    enrollments = Enrollment.objects.filter(student = student).exclude(pk=id)
+    for e in enrollments:
+        pass
+        #print Curriculum.getNonMandatory(e.program, e.class_year)
+        #print e.courses
+        #
+        #print e.modules
     
     if program == '' or year == '':
         return HttpResponse(serializers.serialize("json", []))
+
+    
     
     currs = Curriculum.getNonMandatory(program, year)
+    module_courses = Curriculum.objects.filter(module__in = modules)
+    # filtriramo vse predmete, ki so v izbranih coursih:
+    currs = [c for c in currs if c not in module_courses]
+    
     return HttpResponse(serializers.serialize("json", currs))
 
 def getFilteredGroupInstructorsForCourses(request):
@@ -248,10 +266,10 @@ def getEnrollmentExamDates(request):
         ex['exam_key']=e.pk
         ex['course']=e.course.name
         ex['date']=str(e.date)
-        ex['instructors']=e.instructors
+        ex['instructors']=str(e.instructors)
         response.append(ex)
 
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
 
 
 
