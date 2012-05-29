@@ -170,13 +170,14 @@ class Enrollment(models.Model):
 
     def get_classes(self):
 
-        modules=Module.objects.get(enrollment=self)
+        
+        modules=Module.objects.filter(enrollment=self)
         allInProgram=Curriculum.objects.filter(program=self.program)
-        selectiveCourse =  Course.objects.filter(enrollment__student=self.student)
+        selectiveCourse =  Course.objects.filter(enrollment=self)
 
         mandatory=allInProgram.filter(mandatory=1)
-        mod = Curriculum.objects.filter(module=modules) #todo check if module is null
-        select=Curriculum.objects.filter(course=selectiveCourse)
+        mod = Curriculum.objects.filter(module__in=modules) #todo check if module is null
+        select=Curriculum.objects.filter(course__in=selectiveCourse)
 
         result_list = list(chain(select,mandatory,mod))
 
