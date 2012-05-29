@@ -35,7 +35,14 @@
     });        
 </script>
 {% endif %}
-
+<script>
+    $(document).ready(function() {
+        if($("body").hasClass('student-examdate')) 
+        {
+            $(".study_year").hide();
+        }
+    });
+</script>
 
 <!-- Container -->
 <div id="container">
