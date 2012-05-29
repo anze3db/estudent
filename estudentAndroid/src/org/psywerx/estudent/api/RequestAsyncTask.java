@@ -12,32 +12,30 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.psywerx.estudent.extra.D;
 import org.psywerx.estudent.extra.HelperFunctions;
+import org.psywerx.estudent.json.StudentEnrollments;
 import org.psywerx.estudent.json.User;
 
 import android.os.AsyncTask;
+
 import com.google.gson.Gson;
 
 
 
 public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
-	private static final String SERVER_URL = "http://192.168.1.4/api/";
+	private static final String SERVER_URL = "http://192.168.11.138/api/";
 	private String mApiSubDir = "";
+	private Class mClass = null;
 	
 	private ResponseListener responseListener;
 
 	/**
 	 * Class constructor 
 	 */
-	protected RequestAsyncTask(ResponseListener r) {
-		responseListener = r;
-	}
-	/**
-	 * Class constructor 
-	 */
-	public RequestAsyncTask(ResponseListener r, String apiClass) {
+	public RequestAsyncTask(ResponseListener r, String apiClass, Class c) {
 		responseListener = r;
 		mApiSubDir = apiClass;
+		mClass = c;
 	}
 
 	protected Object doInBackground(String... data) {
@@ -50,7 +48,7 @@ public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 			
 			Gson g = new Gson();
 			if (!"".equals(responseString) && responseString != null){
-				result =  g.fromJson(responseString, User.class);
+				result =  g.fromJson(responseString, mClass);
 			}
 		} catch (Exception e) {
 			//error in fetch service should not effect the application at all !
