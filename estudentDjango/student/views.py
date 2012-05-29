@@ -187,7 +187,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 course["name"]=p.name
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
-                print display
+
                 if display == "1":
                     signups = signups[-1:]
 
