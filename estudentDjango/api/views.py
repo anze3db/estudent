@@ -68,7 +68,7 @@ def index(request):
     
     return HttpResponse(json.dumps(response),mimetype="application/json")
 
-def getEnrollments(request):
+def getStudentEnrollments(request):
     student_id = request.GET['student_id']
 
     response=[]
