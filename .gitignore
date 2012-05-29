@@ -1,3 +1,6 @@
+# merge
+*.orig
+
 # django
 
 *.log
