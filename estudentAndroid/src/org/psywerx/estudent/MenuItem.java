@@ -18,6 +18,8 @@ public class MenuItem {
 		this.action = action;
 		this.icon = -1;
 	}
+	public void addIcon(int icon) { this.icon = icon; }
+	public void removeIcon() { this.icon = -1; }
 	public String getName() { return name; }		
 	public String getDescription() { return description; }
 	public int getAction() { return action; }
