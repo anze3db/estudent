@@ -3,6 +3,9 @@ package org.psywerx.estudent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.psywerx.estudent.extra.HelperFunctions;
+import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
@@ -26,11 +29,15 @@ public class ExamsFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		mContext = getActivity().getApplicationContext();
 		
-		List<MenuItem> aaa = new ArrayList<MenuItem>();
-		aaa.add(new MenuItem("aaa", "neki", 0));
-		aaa.add(new MenuItem("bbb", "neki1", 1));
+		List<MenuItem> menu = new ArrayList<MenuItem>();
 		
-		mMenuAdapter = new MenuAdapter(mContext, aaa);
+		for(Integer k: StaticData.mEnrollmentExamDates.keySet()) {
+			EnrollmentExamDate e = StaticData.mEnrollmentExamDates.get(k);
+			menu.add(new MenuItem(e.course + " (" + e.exam_key + ")", HelperFunctions.dateToSlo(e.date), e.exam_key, R.drawable.check_ok_128));
+			//if prijavlen else menu.add(new MenuItem(e.course, "("+e.exam_key+")", e.exam_key));
+		}
+
+		mMenuAdapter = new MenuAdapter(mContext, menu);
 		setListAdapter(mMenuAdapter);
 	}
 	

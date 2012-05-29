@@ -7,6 +7,7 @@ from codelist.models import  StudyProgram, Course, GroupInstructors
 from student.models import *
 import json
 import codelist
+from django.db.models import Q
 
 def login(request):
     user = request.GET['id']
@@ -160,11 +161,28 @@ def examSignUp(request):
 def getFilteredCoursesModules(request):
     program = request.GET['program'] if 'program' in request.GET else ''
     year = request.GET['year'] if 'year' in request.GET else ''
+    modules = request.GET['modules'].split(',')
+    student = request.GET['student']
+    id = request.GET['id']
+    
+    enrollments = Enrollment.objects.filter(student = student).exclude(pk=id)
+    for e in enrollments:
+        pass
+        #print Curriculum.getNonMandatory(e.program, e.class_year)
+        #print e.courses
+        #
+        #print e.modules
     
     if program == '' or year == '':
         return HttpResponse(serializers.serialize("json", []))
+
+    
     
     currs = Curriculum.getNonMandatory(program, year)
+    module_courses = Curriculum.objects.filter(module__in = modules)
+    # filtriramo vse predmete, ki so v izbranih coursih:
+    currs = [c for c in currs if c not in module_courses]
+    
     return HttpResponse(serializers.serialize("json", currs))
 
 def getFilteredGroupInstructorsForCourses(request):

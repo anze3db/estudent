@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import context, loader
 from django.template.context import RequestContext, Context
 from student.models import ExamSignUp, ExamDate, Enrollment, Student
+from codelist.models import Course
 
 
 def exam_grades_index(request):
@@ -65,7 +66,8 @@ def class_list(request):
         form = ClassForm(request.POST)
         if 'year' in request.POST:
             students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['cour'], program = request.POST['prog'])
- 
+            
+        
     else:
         form = ClassForm()
         
@@ -118,7 +120,7 @@ def exam_sign_up(request, student_Id):
     if request.method == 'POST':
         form = EnrollForm(request.POST)
         enroll= Enrollment.objects.get(id=request.POST['enrolments'])
-        classes=Course.objects.filter(curriculum__in=enroll.get_classes())
+        classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
         exams=ExamDate.objects.filter(course__in=classes)
 
     else:
@@ -142,7 +144,13 @@ def student_index(request):
         if student_Id.isdigit():
             try:
                 student = Student.objects.get(enrollment_number=student_Id)
-                return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number]))
+                if 'zadnje' in request.POST:
+                    return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 1]))
+                else:
+                    return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 0]))
+
+
+                return HttpResponseRedirect(reverse('student.views.student_index_list', args=[student.enrollment_number, 0]))
             except:
                 pass
                 
@@ -153,30 +161,48 @@ def student_index(request):
         return render_to_response('admin/student/student_index.html', {}, context_instance=RequestContext(request))
 
 
-def student_index_list(request, student_Id):
+def student_index_list(request, student_Id, display): #0=all, 1=last
     s = get_object_or_404(Student, enrollment_number=student_Id)
+
     response = []
-    response={'student_name':"",'study_program':"",'courses':""}       
-    response["student_name"] = s.name
 
-    enroll = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
-    for v in enroll:
-        response["study_program"]=v.program.descriptor
-        courses = []
+    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
+    prog = ""
+    for enroll in enrolls:
+        out={}
+        out['program'] = enroll.program.descriptor
+        if prog != out['program']:
+            out['noprogram'] = True
+            prog = out['program']
+
+        out['enroll'] = enroll
         
-        for p in v.courses.order_by('course_code'):
-            course={}
-            course["name"]=p.name
-            ocene = p.results(s)
-            
-            for o in ocene:
-                course['result'] = o['result']
-            courses = courses+[course]
-        response["courses"]=courses
+        courses = []
+        classes = enroll.get_classes()
+        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
+        
+        for p in courses2:
+            try:
+                course={}
+                course["name"]=p.name
+                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
+                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
 
-    return render_to_response('admin/student/student_index_list.html', {}, RequestContext(request))
+                if display == "1":
+                    signups = signups[-1:]
 
+                course["signups"] = signups
 
+                courses = courses+[course]
+            except:
+                pass
+        out["courses"]=courses
+        response = response + [out]
+        
+    return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
+    
+    
+    
 def sign_up_confirm(request):
 
-    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))
+    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))    
