@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from student.forms import StudentForm
 from student.models import *
+from django import forms
 
 class AddressInLine(admin.TabularInline):
     model = Address
@@ -66,10 +67,29 @@ class ModuleAdmin(admin.ModelAdmin):
     #list_filter = ('curriculum__course', 'mandatory');
     
     
+    
+class ExamDateForm(forms.ModelForm):
+    class Meta:
+        model = ExamDate
+    def clean(self):
+        super(ExamDateForm, self).clean()        
+        try:
+            #TODO: detect same date
+            #ExamDate.objects.all().filter(date==self.cleaned_data.get("date"))
+            #raise forms.ValidationError(u'Na ta dan ze obstaja izpit.')
+        except:
+            pass
+            
+        return self.cleaned_data
+
+class ExamDateAdmin(admin.ModelAdmin):
+    model = ExamDate
+    form = ExamDateForm
+    
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
 admin.site.register(Enrollment, EnrollmentAdmin)        
-admin.site.register(ExamDate)
+admin.site.register(ExamDate, ExamDateAdmin)
 admin.site.register(ExamSignUp)
 admin.site.register(Curriculum, CurriculumAdmin)
 admin.site.register(Module, ModuleAdmin)
