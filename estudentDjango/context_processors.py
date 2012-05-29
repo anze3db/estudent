@@ -67,17 +67,25 @@ def app_list(request):
             'admin_url': mark_safe('%s/%s/' % ('student', 'ExamGrades')),
         }
         app_dict['student']['models'].append(model_dict)
+
         model_dict = {
             'name': capfirst(_("Seznam za izbirne predmete")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'ClassList')),
         }
         app_dict['student']['models'].append(model_dict)
+
     	model_dict = {
             'name': capfirst(_("Prijava na izpit")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'ExamSignUp')),
         }
         app_dict['student']['models'].append(model_dict)
     
+    	model_dict = {
+            'name': capfirst(_("Kartotecni list")),
+            'admin_url': mark_safe('%s/%s/' % ('student', 'StudentIndex')),
+        }
+        app_dict['student']['models'].append(model_dict)
+
     app_list = app_dict.values()
 
     app_list.sort(key=lambda x: x['name'])
