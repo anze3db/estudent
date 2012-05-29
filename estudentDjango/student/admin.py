@@ -77,6 +77,7 @@ class ExamDateForm(forms.ModelForm):
             #TODO: detect same date
             #ExamDate.objects.all().filter(date==self.cleaned_data.get("date"))
             #raise forms.ValidationError(u'Na ta dan ze obstaja izpit.')
+            pass
         except:
             pass
             
