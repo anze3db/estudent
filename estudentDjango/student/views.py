@@ -55,9 +55,9 @@ def class_list(request):
         for p in StudyProgram.objects.all():
             programs.append((p.pk, p.__unicode__()))
         
-        prog = forms.ChoiceField(choices=programs)
-        cour = forms.ChoiceField(choices=choices)
-        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)])
+        prog = forms.ChoiceField(choices=programs, label="Program")
+        cour = forms.ChoiceField(choices=choices, label="Izbirni predmet")
+        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)], label="Leto")
         
         
     students = []
@@ -65,8 +65,7 @@ def class_list(request):
         form = ClassForm(request.POST)
         if 'year' in request.POST:
             students = Enrollment.objects.filter(study_year__in = request.POST.getlist('year'), courses = request.POST['cour'], program = request.POST['prog'])
-            
-        
+ 
     else:
         form = ClassForm()
         
