@@ -297,6 +297,7 @@ def getEnrollmentExamDates(request):
         
     enroll = Enrollment.objects.get(pk=enrollment_id)
     classes=Course.objects.filter(curriculum__in=enroll.get_classes())
+    student=enroll.student
 
     response=[]
 
@@ -307,6 +308,10 @@ def getEnrollmentExamDates(request):
         ex['date']=str(e.date)
         ex['instructors']=str(e.instructors)
         ex['signedup']=e.already_signedUp(enroll.student)
+        ex['all_attempts']=e.course.nr_attempts_all(student)
+        ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
+        ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
+        ex['enroll_type']=enroll.enrol_type
         response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
