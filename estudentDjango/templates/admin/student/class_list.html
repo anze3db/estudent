@@ -1,13 +1,26 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+
 <form action="/student/ClassList/" method="post">
 {% csrf_token %}
-{{ form }}
+{{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
-
+<table>
+<tr>
+<th>#</th>
+<th>Vpisna Številka</th>
+<th>Ime</th>
+<th>Priimek</th>
+</tr>
 {% for s in students %}
-<p>{{s}}</p>
+<tr>
+<td>0</td>
+<td>{{s.student.enrollment_number}}</td>
+<td>{{s.student.name}}</td>
+<td>{{s.student.surname}}</td>
+</tr>
 {% endfor %}
+</table>
 {% endblock %}
