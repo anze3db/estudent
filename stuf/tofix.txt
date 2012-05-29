@@ -18,3 +18,16 @@ iskanje po studentih pri vnosu vpisne
     
 kartotecni list
     
+vrsta vpisa
+nacin studija
+
+osebni podatki - izpis brez spreminjaja
+
+vpisi studenta:
+    zaporedna stevilka
+    studijsko leto
+    letnik
+    
+    
+    1 2011/12 1 L200 Rac. in inf. uni, brez smeri [vrsta vpisa] [nacin studija]
+    2 201
