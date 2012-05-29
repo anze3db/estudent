@@ -175,3 +175,8 @@ def student_index_list(request, student_Id):
         response["courses"]=courses
 
     return render_to_response('admin/student/student_index_list.html', {}, RequestContext(request))
+
+
+def sign_up_confirm(request):
+
+    return render_to_response('admin/student/exam_sign_up_confirm.html', {}, RequestContext(request))

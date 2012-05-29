@@ -248,7 +248,7 @@ def getEnrollmentExamDates(request):
         ex['exam_key']=e.pk
         ex['course']=e.course.name
         ex['date']=str(e.date)
-        ex['instructors']=e.instructors
+        ex['instructors']=str(e.instructors)
         response.append(ex)
 
     return HttpResponse(json.dumps(response),mimetype="application/json")
