@@ -114,8 +114,8 @@ def getAllCourses(request):
         courses=student.get_all_classes()
 
 
-        return HttpResponse(serializers.serialize("json", courses))
-        #return HttpResponse(courses,mimetype="application/json")
+        #return HttpResponse(serializers.serialize("json", courses))
+        return HttpResponse(courses,mimetype="application/json")
 
     except:
 
@@ -204,14 +204,16 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    student = Student.objects.get(enrollment_number=enrollment_id)
-    exam=ExamDate.objects.get(id=2);
+    #student = Student.objects.get(enrollment_number=enrollment_id)
+    enroll = Enrollment.objects.get(pk=enrollment_id)
+    classes=enroll.get_classes()
+    #exam=ExamDate.objects.get(id=2);
 
     #test=exam.already_signedUp(student)
-    test=exam.signUp_allowed(student)
+    #test=exam.signUp_allowed(student)
 
 
-    return HttpResponse(test,mimetype="application/json")
+    return HttpResponse(classes,mimetype="application/json")
 
 
 def addSignUp(request):
