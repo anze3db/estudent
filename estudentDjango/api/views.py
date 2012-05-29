@@ -68,6 +68,26 @@ def index(request):
     
     return HttpResponse(json.dumps(response),mimetype="application/json")
 
+def getEnrollments(request):
+    student_id = request.GET['student_id']
+
+    response=[]
+
+
+    enroll={'key':"",'study_program':"",'study_year':"", 'class_year':""}
+    for e in  Enrollment.objects.filter(student__enrollment_number=student_id):
+
+        enroll['key']=e.pk
+        enroll['study_program']=e.program.descriptor
+        enroll['study_year']=e.study_year
+        enroll['class_year']=e.class_year
+        response.append(enroll)
+
+
+    return HttpResponse(json.dumps(response),mimetype="application/json")
+
+
+
 
 def getCoursesforEnrollment(request):
     enrollment_id = request.GET['id']
@@ -218,10 +238,7 @@ def getEnrollmentExamDates(request):
 
     return HttpResponse(serializers.serialize("json", exams))
 
-def getStudentEnrollments(request):
-    student_id = request.GET['student_id']
-    enroll = Enrollment.objects.filter(student__enrollment_number=student_id)
-    return HttpResponse(serializers.serialize("json", enroll))
+
 
 def getStudentEnrollmentsForYear(request):
     student_id = request.GET['student_id']
