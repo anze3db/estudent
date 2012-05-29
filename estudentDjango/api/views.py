@@ -50,8 +50,8 @@ def index(request):
     
     
     
-    enroll = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
-    for v in enroll:
+    enrollments = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
+    for v in enrollments:
         response["study_program"]=v.program.descriptor
         courses = []
         
@@ -86,9 +86,6 @@ def getStudentEnrollments(request):
 
 
     return HttpResponse(json.dumps({"enrollments":response}),mimetype="application/json")
-
-
-
 
 
 def getCoursesforEnrollment(request):
@@ -149,14 +146,6 @@ def enrolemntList(request):
     
     return HttpResponse(response,mimetype="application/json")
 
-
-def examSignUp(request):
-    student = request.GET['id']
-    course = request.GET['courseId']
-
-    response = {''}
-
-    return HttpResponse(response,mimetype="application/json")
 
 def getFilteredCoursesModules(request):
     program = request.GET['program'] if 'program' in request.GET else ''
@@ -254,29 +243,58 @@ def test(request):
 
 
 def addSignUp(request):
-
-    examDateId = int(request.GET['examId'])
-    enrollment_id = request.GET['id']
-    student = Student.objects.get(enrollment_number=enrollment_id)
+    message = {"msg":"","error":""}
+    
+    examDateId = int(request.GET['exam_id'])
+    student_id = request.GET['student_id']
+    student = Student.objects.get(enrollment_number=student_id)
 
     exam=ExamDate.objects.get(id=examDateId);
-
     error_msgs = exam.signUp_allowed(student)
-    if error_msgs != None: return HttpResponse('{"error": "' + error_msgs[0] + '"}')
+    
+    if error_msgs != None: 
+        message["error"]= error_msgs[0]
+    elif exam.already_signedUp(student):
+        message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
+    elif exam.already_positive(student):
+        message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    else:
+        enroll = list(Enrollment.objects.filter(student=student))[-1]
+        ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
+        message["msg"]='Uspesna prijava na izpit'+ str(exam)
 
-    if exam.already_signedUp(student):return HttpResponse('{"error": "Na ta predmet ste ze prijavljeni, ali se ni bila vnesena ocena"}')
-    if exam.already_positive(student):return  HttpResponse('{"error": "Za ta predmet ze obstaja pozitivna ocena"}')
+    return HttpResponse(json.dumps(message),mimetype="application/json")
 
-    enroll = list(Enrollment.objects.filter(student=student))[-1]
-    ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
 
-    return HttpResponse('Uspesna prijava na izpit'+ str(exam),mimetype="application/json")
 
+def removeSignUp(request):
+    message = {"msg":"","error":""}
+    
+    examDateId = int(request.GET['exam_id'])
+    student_id = request.GET['student_id']
+    student = Student.objects.get(enrollment_number=student_id)
+
+    exam=ExamDate.objects.get(id=examDateId);
+    error_msgs = exam.signUp_allowed(student)
+    
+    if error_msgs != None: 
+        message["error"]= error_msgs[0]
+    elif not exam.already_signedUp(student):
+        message["error"]='Na ta predmet niste prijavljeni'
+    elif exam.already_positive(student):
+        message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    else:
+        enroll = list(Enrollment.objects.filter(student=student))[-1]
+        examSignUp = ExamSignUp.objects.get(enroll=enroll, examDate=exam)
+        examSignUp.delete()
+        message["msg"]='Uspesna odjava od izpita'+ str(exam)
+
+    return HttpResponse(json.dumps(message),mimetype="application/json")
 
 
 def getEnrollmentExamDates(request):
     enrollment_id = request.GET['enroll_id']
-
+        
     enroll = Enrollment.objects.get(pk=enrollment_id)
     classes=Course.objects.filter(curriculum__in=enroll.get_classes())
 
@@ -288,6 +306,7 @@ def getEnrollmentExamDates(request):
         ex['course']=e.course.name
         ex['date']=str(e.date)
         ex['instructors']=str(e.instructors)
+        ex['signedup']=e.already_signedUp(enroll.student)
         response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
