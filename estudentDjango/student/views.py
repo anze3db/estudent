@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import context, loader
 from django.template.context import RequestContext, Context
 from student.models import ExamSignUp, ExamDate, Enrollment, Student
+from codelist.models import Course
 
 
 def exam_grades_index(request):
@@ -177,7 +178,10 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         out['enroll'] = enroll
         
         courses = []
-        for p in enroll.courses.order_by('course_code'):
+        classes = enroll.get_classes()
+        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
+        
+        for p in courses2:
             try:
                 course={}
                 course["name"]=p.name

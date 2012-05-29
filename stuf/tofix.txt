@@ -1,0 +1,20 @@
+vpisni list
+    preveri rojstni datum + emso
+    tuja drzava emso rojstni datum00000000 hardcodano
+    leto izpis 2011/2012
+    zaporedna st. pri vpisu
+    sifra pri st. programu
+    povezava emso tujci
+    
+seznam izbirnih 
+    urejanje po priimku
+    čšžčšždsf
+    
+    pri tisku se ne sme spreminjat content
+    
+iskanje po studentih pri vnosu vpisne
+    kartotecni list
+    exam signup, ...
+    
+kartotecni list
+    
