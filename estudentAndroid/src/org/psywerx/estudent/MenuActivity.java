@@ -36,7 +36,6 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 	private ProgressDialog mProgressDialog = null;
 	
 	private HashMap<Integer, String> mEnrollments = new HashMap<Integer, String>();
-	private String mUsername;
 		
 	private ResponseListener mListener;
 	
@@ -63,9 +62,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 		setListAdapter(mMenuAdapter);
 		registerForContextMenu(getListView());
 		
-		Bundle extras = getIntent().getExtras();
-		mUsername = extras.getString("username");
-		setTitle(String.format("%s %s (%s)", extras.getString("firstname"), extras.getString("lastname"), mUsername));
+		setTitle(String.format("%s %s (%s)", StaticData.username, StaticData.lastName, StaticData.username));
 	}
 	
 	@Override
@@ -76,7 +73,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 			mProgressDialog = ProgressDialog.show(MenuActivity.this,    
 					getString(R.string.loading_please_wait), 
 					getString(R.string.loading_verifying_login), true);
-			Api.studentEnrollmentsRequest(mListener, mUsername);
+			Api.studentEnrollmentsRequest(mListener, StaticData.username);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
 			l.showContextMenuForChild(v);

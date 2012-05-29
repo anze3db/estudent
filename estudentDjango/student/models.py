@@ -84,9 +84,15 @@ class Student(models.Model):
         allClass=[]
         enroll = Enrollment.objects.filter(student=self)
         for e in enroll:
-            allClass=list(e.get_classes())
+            allClass.append(e.get_classes())
 
         return allClass
+
+    def get_all_classes_clean(self):
+        courses = self.get_all_classes()
+
+        return Course.objects.filter(curriculum__in=courses)
+
 
     def get_current_exam_dates(self):
         courses = self.get_all_classes()
@@ -217,6 +223,8 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
 
+    def year(self):
+        self.date.year
 
     def already_signedUp(self, student):
         #if fals, Ok to signUp

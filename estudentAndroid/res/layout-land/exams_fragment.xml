@@ -10,7 +10,7 @@
 	    android:layout_width="0dp"
 	    android:layout_height="match_parent" 
 	    android:name="org.psywerx.estudent.ExamsFragment"
-	    android:layout_weight="30" >
+	    android:layout_weight="35" >
 	</fragment>
 	
 	<fragment
@@ -18,7 +18,7 @@
 	    android:layout_width="0dp"
 	    android:layout_height="match_parent" 
 	    android:name="org.psywerx.estudent.ExamDetailsFragment"
-	    android:layout_weight="70" >
+	    android:layout_weight="65" >
 	</fragment>
 	
 </LinearLayout>
