@@ -74,17 +74,17 @@ def getStudentEnrollments(request):
     response=[]
 
 
-    enroll={'key':"",'study_program':"",'study_year':"", 'class_year':""}
     for e in  Enrollment.objects.filter(student__enrollment_number=student_id):
-
+        enroll={}
         enroll['key']=e.pk
         enroll['study_program']=e.program.descriptor
         enroll['study_year']=e.study_year
         enroll['class_year']=e.class_year
+        print enroll
         response.append(enroll)
 
 
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps({"enrollments":response}),mimetype="application/json")
 
 
 
@@ -248,10 +248,10 @@ def getEnrollmentExamDates(request):
         ex['exam_key']=e.pk
         ex['course']=e.course.name
         ex['date']=str(e.date)
-        ex['instructors']=e.instructors
+        ex['instructors']="neki neki, andreja to poprav" #e.instructors
         response.append(ex)
 
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
 
 
 
