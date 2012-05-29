@@ -8,6 +8,7 @@ public class EnrollmentExamDates {
 		public int exam_key;
 		public String instructors;
 		public String course;
+		public boolean signedup;
 	}
 	public List<EnrollmentExamDate> EnrollmentExamDates;
 }

@@ -1,6 +1,7 @@
 package org.psywerx.estudent.api;
 
 import org.psywerx.estudent.json.EnrollmentExamDates;
+import org.psywerx.estudent.json.Signup;
 import org.psywerx.estudent.json.StudentEnrollments;
 import org.psywerx.estudent.json.User;
 
@@ -21,5 +22,17 @@ public class Api {
 		String apiSubDirectory = "getEnrollmentExamDates/";
 		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,EnrollmentExamDates.class);
 		task.execute("enroll_id",key);
+	}
+	
+	public static void applyExam(ResponseListener rl, String un, String key) {
+		String apiSubDirectory = "addSignUp/";
+		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Signup.class);
+		task.execute("student_id", un, "exam_id", key);
+	}
+	
+	public static void unapplyExam(ResponseListener rl, String un, String key) {
+		String apiSubDirectory = "removeSignUp/";
+		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Signup.class);
+		task.execute("student_id",un, "exam_id", key);
 	}
 }

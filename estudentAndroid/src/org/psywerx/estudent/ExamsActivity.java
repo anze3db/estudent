@@ -12,42 +12,54 @@ import android.os.Bundle;
 public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelectedListener {
 	
 	private Context mContext;
-	private ExamDetailsFragment mViewer;
+	private ExamsFragment mViewer;
+	private ExamDetailsFragment mDetailsViewer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.exams_fragment);
 
-		mViewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
+		mViewer = (ExamsFragment) getFragmentManager().findFragmentById(R.id.examsFragment);
+		mDetailsViewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
+		
 		mContext = getApplicationContext();
 		
-		if (mViewer != null && mViewer.isInLayout()) {
+		if (mDetailsViewer != null && mDetailsViewer.isInLayout()) {
+			mDetailsViewer.setmSignListener(mViewer);
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			ft.hide(mViewer);
+			ft.hide(mDetailsViewer);
 			ft.commit();
 		}
+		
+		setTitle(String.format("%s %s (%s)", StaticData.username, StaticData.lastName, StaticData.username));
 	}
 	
 	public void onExamSelected(int action) {
 		EnrollmentExamDate e = StaticData.mEnrollmentExamDates.get(action);
-		if (mViewer == null || !mViewer.isInLayout()) {
+		if (mDetailsViewer == null || !mDetailsViewer.isInLayout()) {
     		Intent showContent = new Intent(mContext, ExamDetailsActivity.class);
     		showContent.putExtra("id", ""+e.exam_key);
     		showContent.putExtra("name", e.course);
     		showContent.putExtra("teacher", e.instructors);
     		showContent.putExtra("date", HelperFunctions.dateToSlo(e.date));
+    		showContent.putExtra("signedup", e.signedup);
             startActivity(showContent);
     	} else {
-			if(mViewer.isHidden()) {
+			if(mDetailsViewer.isHidden()) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
 				ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-				ft.show(mViewer);
+				ft.show(mDetailsViewer);
 				ft.commit();
 			}
-    		mViewer.showData(""+e.exam_key, e.course, e.instructors, HelperFunctions.dateToSlo(e.date));
+    		mDetailsViewer.showData(""+e.exam_key, e.course, e.instructors, HelperFunctions.dateToSlo(e.date), e.signedup);
     	}
 	}
 	
+	@Override
+	protected void onResume() {
+		mViewer.reloadData();
+		super.onResume();
+	}
 	
 }
