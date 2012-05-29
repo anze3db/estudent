@@ -223,6 +223,8 @@ class ExamDate(models.Model):
         verbose_name_plural = _("exam dates")
         verbose_name = _("exam date")
 
+    def year(self):
+        self.date.year
 
     def already_signedUp(self, student):
         #if fals, Ok to signUp

@@ -224,14 +224,31 @@ def test(request):
     enrollment_id = request.GET['id']
     #student = Student.objects.get(enrollment_number=enrollment_id)
     enroll = Enrollment.objects.get(pk=enrollment_id)
-    classes=enroll.get_classes()
+    student=enroll.student
+    #courses=student.get_all_classes()
+    #
+    # classes=Course.objects.filter(curriculum__in=courses)
+
+    courses= enroll.get_classes();
+    classes=Course.objects.filter(curriculum__in=courses)
+
+    aaa=[]
+
+    for c in classes:
+        sth={}
+        sth['predmet']=c.name
+        sth['poskusi']=c.nr_attempts_this_year(student)
+        sth['pozitivna']=c.already_signedUp(student)
+        aaa.append(sth)
+
     #exam=ExamDate.objects.get(id=2);
+
 
     #test=exam.already_signedUp(student)
     #test=exam.signUp_allowed(student)
 
-
-    return HttpResponse(classes,mimetype="application/json")
+    #return HttpResponse(serializers.serialize("json", student)
+    return HttpResponse(aaa,mimetype="application/json")
 
 
 def addSignUp(request):
