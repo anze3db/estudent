@@ -272,31 +272,24 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    #student = Student.objects.get(enrollment_number=enrollment_id)
-    enroll = Enrollment.objects.get(pk=enrollment_id)
+    student = Student.objects.get(enrollment_number=enrollment_id)
+    #enroll = Enrollment.objects.get(pk=enrollment_id)
     #student=enroll.student
     #courses=student.get_all_classes()
     #
     # classes=Course.objects.filter(curriculum__in=courses)
 
-    courses= enroll.get_classes();
-    classes=Course.objects.filter(curriculum__in=courses)
 
-    aaa=[]
 
 
 
     exam=ExamDate.objects.get(id=2);
-    x=exam.date < (datetime.date.today()+ datetime.timedelta(days=3))
-    #x=exam.date+ datetime.timedelta(days=1)
-
-    #x= x>50
-
-    #test=exam.already_signedUp(student)
-    #test=exam.signUp_allowed(student)
+    last=exam.last_try(student)
+    e=ExamDate.objects.get(examsignup=last)
+    t= exam.date > (e.date + datetime.date(days=14))
 
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(x,mimetype="application/json")
+    return HttpResponse(t,mimetype="application/json")
 
 
 def addSignUp(request):

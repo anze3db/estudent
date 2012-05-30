@@ -232,6 +232,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
             rep=exam.repeat_class(student)
 
 
+
             if error_msgs != None:
                 message["error"]= error_msgs[0]
             elif exam.already_positive(student):
@@ -244,6 +245,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
             elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
                 message["error"]='Rok za prijavo na izpit je potekel'
+           
 
             else:
 

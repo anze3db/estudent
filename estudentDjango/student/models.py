@@ -265,6 +265,13 @@ class ExamDate(models.Model):
                 return True
         return False
 
+    def last_try(self, student):
+        all=len(list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course).order_by('-examDate__date')))
+        last=ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course).order_by('-examDate__date')
+        if all>1:
+            last=list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course).order_by('-examDate__date'))[0]
+
+        return last
 
     def signUp_allowed(self, student):
         errors = []
