@@ -21,8 +21,8 @@
     <string name="applied_exams_name">Prikaz izpitov</string>
     <string name="applied_exams_desc">Izpis vseh prijavljanih izpitov</string>
     
-    <string name="all_exams_list_name">Prikaz izpitov</string>
-    <string name="all_exams_list_desc">Izpis vseh izpitnih rokov</string>
+    <string name="all_exams_list_name">Kartotecni list</string>
+    <string name="all_exams_list_desc">Izpis kartotecnega lista</string>
     <string name="exams_contextTitle">Izberi študijsko leto</string>
     
     <!-- izpis izpita -->

@@ -343,6 +343,8 @@ def removeSignUp(request):
         message["error"]='Na ta predmet niste prijavljeni'
     elif exam.already_positive(student):
         message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
+        message["error"]='Rok za odjavo izpita je potekel'        
     else:
         enroll = list(Enrollment.objects.filter(student=student))[-1]
         examSignUp = ExamSignUp.objects.get(enroll=enroll, examDate=exam)

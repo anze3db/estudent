@@ -52,10 +52,10 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 				getString(R.string.applied_exams_name), 
 				getString(R.string.applied_exams_desc), 
 				ACTION_DISPLAY_MY_EXAMS, R.drawable.notepad_icon_128));
-//		items.add(new MenuItem(
-//				getString(R.string.all_exams_list_name), 
-//				getString(R.string.all_exams_list_desc), 
-//				ACTION_DISPLAY_ALL_EXAMS, R.drawable.notepad_icon_128));
+		items.add(new MenuItem(
+				getString(R.string.all_exams_list_name), 
+				getString(R.string.all_exams_list_desc), 
+				ACTION_DISPLAY_ALL_EXAMS, R.drawable.notepad_icon_128));
 		
 		mMenuAdapter = new MenuAdapter(mContext, items);
 		setListAdapter(mMenuAdapter);
@@ -75,7 +75,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 			Api.studentEnrollmentsRequest(mListener, StaticData.username);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
-			l.showContextMenuForChild(v);
+			//l.showContextMenuForChild(v);
 			break;
 		case ACTION_LOGOUT:
 			finish();

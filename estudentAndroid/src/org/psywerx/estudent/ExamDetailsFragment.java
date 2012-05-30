@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.psywerx.estudent.api.Api;
 import org.psywerx.estudent.api.ResponseListener;
+import org.psywerx.estudent.extra.HelperFunctions;
 import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
 import org.psywerx.estudent.json.Signup;
 
@@ -76,10 +77,10 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	public void showData() {
 		if (mExam != null){
 			//TODO: to ni sifra: 
-			data.get(R.id.examID).setText(""+mExam.course_code);
+			data.get(R.id.examID).setText(""+mExam.course_key);
 			data.get(R.id.examName).setText(mExam.course);
 			data.get(R.id.examTeacher).setText(mExam.instructors);
-			data.get(R.id.examDate).setText(mExam.date);
+			data.get(R.id.examDate).setText(HelperFunctions.dateToSlo(mExam.date));
 			data.get(R.id.attempts).setText(mExam.all_attempts+"-"+mExam.repeat_class_exams);
 			if(signedUp())
 				btnApplyUnapply.setText(R.string.unapplyExam);
