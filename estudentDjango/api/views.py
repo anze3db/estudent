@@ -211,9 +211,9 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    #student = Student.objects.get(enrollment_number=enrollment_id)
+    student = Student.objects.get(enrollment_number=enrollment_id)
     enroll = Enrollment.objects.get(pk=enrollment_id)
-    student=enroll.student
+    #student=enroll.student
     #courses=student.get_all_classes()
     #
     # classes=Course.objects.filter(curriculum__in=courses)
@@ -223,14 +223,7 @@ def test(request):
 
     aaa=[]
 
-    for c in classes:
-        sth={}
-        sth['predmet']=c.name
-        sth['letos']=c.nr_attempts_this_year(student)
-        sth['pozitivna']=c.already_signedUp(student)
-        sth['ta vpis']=c.nr_attempts_this_enroll(enroll)
-        sth['vsa polaganja']=c.nr_attempts_all(student)
-        aaa.append(sth)
+    enroll = list(Enrollment.objects.filter(student=student))[-1]
 
     #exam=ExamDate.objects.get(id=2);
 
@@ -239,7 +232,7 @@ def test(request):
     #test=exam.signUp_allowed(student)
 
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(aaa,mimetype="application/json")
+    return HttpResponse(enroll,mimetype="application/json")
 
 
 def addSignUp(request):
@@ -247,6 +240,7 @@ def addSignUp(request):
     
     examDateId = int(request.GET['exam_id'])
     student_id = request.GET['student_id']
+    enroll_id = request.GET['enroll_id']
     student = Student.objects.get(enrollment_number=student_id)
 
     exam=ExamDate.objects.get(id=examDateId);
@@ -259,7 +253,7 @@ def addSignUp(request):
     elif exam.already_positive(student):
         message["error"]='Za ta predmet ze obstaja pozitivna ocena'
     else:
-        enroll = list(Enrollment.objects.filter(student=student))[-1]
+        enroll = Enrollment.objects.get(pk=enroll_id)
         ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
         message["msg"]='Uspesna prijava na izpit'+ str(exam)
 
