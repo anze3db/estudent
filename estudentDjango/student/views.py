@@ -1,4 +1,5 @@
 # Create your views here.
+import datetime
 from codelist.models import Course, StudyProgram
 from django import forms
 from django.core.urlresolvers import reverse
@@ -229,7 +230,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
             nr_all= exam.course.nr_attempts_all(student)
             nr_this=exam.course.nr_attempts_this_year(student)
             rep=exam.repeat_class(student)
-            
+
 
             if error_msgs != None:
                 message["error"]= error_msgs[0]
@@ -241,6 +242,9 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 message["error"]='Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
             elif nr_all>=6:
                 message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
+            elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
+                message["error"]='Rok za prijavo na izpit je potekel'
+
             else:
 
                 ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()

@@ -272,7 +272,7 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    student = Student.objects.get(enrollment_number=enrollment_id)
+    #student = Student.objects.get(enrollment_number=enrollment_id)
     enroll = Enrollment.objects.get(pk=enrollment_id)
     #student=enroll.student
     #courses=student.get_all_classes()
@@ -284,16 +284,19 @@ def test(request):
 
     aaa=[]
 
-    enroll = list(Enrollment.objects.filter(student=student))[-1]
 
-    #exam=ExamDate.objects.get(id=2);
 
+    exam=ExamDate.objects.get(id=2);
+    x=exam.date < (datetime.date.today()+ datetime.timedelta(days=3))
+    #x=exam.date+ datetime.timedelta(days=1)
+
+    #x= x>50
 
     #test=exam.already_signedUp(student)
     #test=exam.signUp_allowed(student)
 
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(enroll,mimetype="application/json")
+    return HttpResponse(x,mimetype="application/json")
 
 
 def addSignUp(request):
@@ -319,6 +322,9 @@ def addSignUp(request):
         message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
     elif exam.already_signedUp(student):
         message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
+    elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
+        message["error"]='Rok za prijavo na izpit je potekel'
+
     else:
         enroll = Enrollment.objects.get(pk=enroll_id)
         ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
