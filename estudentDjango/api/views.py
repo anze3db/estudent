@@ -373,6 +373,7 @@ def getEnrollmentExamDates(request):
         ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
         ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
         ex['enroll_type']=enroll.enrol_type
+        ex['repeat_class_exams']=e.repeat_class(student)
         response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
