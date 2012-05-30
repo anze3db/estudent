@@ -30,7 +30,11 @@
                     </td>
                     <td>
                     {% for s in c.signups %}
-                        {{s.student_index_view_result}}<br>
+                        {% if s.VP %}
+                            VP<br>
+                        {% else %}
+                            {{s.student_index_view_result}}<br>
+                        {% endif %}
                     {% endfor %}
                     </td>
                 {% else %}
