@@ -60,12 +60,12 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 					mProgressDialog = ProgressDialog.show(getActivity(),    
 							getString(R.string.loading_please_wait), 
 							getString(R.string.loading_verifying_login), true);
-					Api.unapplyExam(mListener, StaticData.username, data.get(R.id.examID).getText().toString());
+					Api.unapplyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
 				} else {
 					mProgressDialog = ProgressDialog.show(getActivity(),    
 							getString(R.string.loading_please_wait), 
 							getString(R.string.loading_verifying_login), true);
-					Api.applyExam(mListener, data.get(R.id.examID).getText().toString(), StaticData.username, mEnrollmentId);
+					Api.applyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
 				}
 			}
 		});
@@ -76,7 +76,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	public void showData() {
 		if (mExam != null){
 			//TODO: to ni sifra: 
-			data.get(R.id.examID).setText(""+mExam.exam_key);
+			data.get(R.id.examID).setText(""+mExam.course_code);
 			data.get(R.id.examName).setText(mExam.course);
 			data.get(R.id.examTeacher).setText(mExam.instructors);
 			data.get(R.id.examDate).setText(mExam.date);
