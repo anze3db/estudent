@@ -128,7 +128,7 @@ def index(request):
         out["courses"]=courses
         response = response + [out]
         
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
 
 def getStudentEnrollments(request):
     student_id = request.GET['student_id']
