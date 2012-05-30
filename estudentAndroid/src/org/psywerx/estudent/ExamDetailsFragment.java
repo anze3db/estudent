@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.psywerx.estudent.api.Api;
 import org.psywerx.estudent.api.ResponseListener;
+import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
 import org.psywerx.estudent.json.Signup;
 
 import android.app.Fragment;
@@ -21,15 +22,16 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	
 	private HashMap<Integer, EditText> data = new HashMap<Integer, EditText>(); 
 	private Button btnApplyUnapply;
-	private boolean signedup = false;
 	
 	private ProgressDialog mProgressDialog = null;
 	private ResponseListener mListener;
-	
-	private ExamsFragment mSignListener;
+
+	private ExamsFragment mExamsFragment;
+	private EnrollmentExamDate mExam;
 	
 	public void setmSignListener(ExamsFragment mSignListener) {
-		this.mSignListener = mSignListener;
+		this.mExamsFragment = mSignListener;
+		this.mExam = this.mExamsFragment.mExam;
 	}
 	
 	@Override
@@ -50,7 +52,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 		btnApplyUnapply = (Button)v.findViewById(R.id.btnApplyUnapply);
 		btnApplyUnapply.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if(signedup) {
+				if(signedUp()) {
 					mProgressDialog = ProgressDialog.show(getActivity(),    
 							getString(R.string.loading_please_wait), 
 							getString(R.string.loading_verifying_login), true);
@@ -66,17 +68,19 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 		
 		return v;
 	}
-	
-	public void showData(String id, String name, String teacher, String date, boolean signedup) {
-		data.get(R.id.examID).setText(id);
-		data.get(R.id.examName).setText(name);
-		data.get(R.id.examTeacher).setText(teacher);
-		data.get(R.id.examDate).setText(date);
-		this.signedup = signedup;
-		if(signedup)
-			btnApplyUnapply.setText(R.string.unapplyExam);
-		else
-			btnApplyUnapply.setText(R.string.applyExam);
+
+	public void showData() {
+		if (mExam != null){
+			//TODO: to ni sifra: 
+			data.get(R.id.examID).setText(""+mExam.exam_key);
+			data.get(R.id.examName).setText(mExam.course);
+			data.get(R.id.examTeacher).setText(mExam.instructors);
+			data.get(R.id.examDate).setText(mExam.date);
+			if(signedUp())
+				btnApplyUnapply.setText(R.string.unapplyExam);
+			else
+				btnApplyUnapply.setText(R.string.applyExam);
+		}
 	}
 
 	public void onServerResponse(Object o) {
@@ -85,20 +89,34 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 			Signup e = (Signup)o;
 			if(e.error.isEmpty()) {
 				Toast.makeText(getActivity(), e.msg, Toast.LENGTH_LONG).show();
-				if(signedup) {
+				setSignedUp(!signedUp());
+				if(signedUp()) {
 					btnApplyUnapply.setText(R.string.unapplyExam);
-					this.signedup = false;
-					if(mSignListener != null)
-						mSignListener.onSign(false);
 				} else {
 					btnApplyUnapply.setText(R.string.applyExam);
-					this.signedup = true;
-					if(mSignListener != null)
-						mSignListener.onSign(true);
 				}
+				if(mExamsFragment != null)
+					mExamsFragment.reloadData();
 			} else {
 				Toast.makeText(getActivity(), e.error, Toast.LENGTH_LONG).show();
 			}	
+		}
+	}
+	private boolean signedUp(){
+		return mExam != null && mExam.signedup;
+	}
+
+	private void setSignedUp(boolean signedup){
+		if (mExam != null){
+			mExam.signedup = signedup;
+		}
+	}
+
+	public void setExam(EnrollmentExamDate exam) {
+		if (mExamsFragment!=null && mExamsFragment.mExam != null){
+			this.mExam = mExamsFragment.mExam;
+		} else{
+			this.mExam = exam;
 		}
 	}
 }

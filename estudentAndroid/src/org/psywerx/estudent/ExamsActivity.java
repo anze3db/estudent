@@ -1,7 +1,6 @@
 package org.psywerx.estudent;
 
-import org.psywerx.estudent.extra.HelperFunctions;
-import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
+import org.psywerx.estudent.extra.D;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -20,10 +19,14 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.exams_fragment);
 
+		D.dbgv("starting exams list");
 		mViewer = (ExamsFragment) getFragmentManager().findFragmentById(R.id.examsFragment);
 		mDetailsViewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
 		
 		mContext = getApplicationContext();
+		
+		Bundle b = getIntent().getExtras();
+		mViewer.setmEnrollmentId(b.getString("enrollment_id"));
 		
 		if (mDetailsViewer != null && mDetailsViewer.isInLayout()) {
 			mDetailsViewer.setmSignListener(mViewer);
@@ -36,30 +39,26 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 	}
 	
 	public void onExamSelected(int action) {
-		EnrollmentExamDate e = StaticData.mEnrollmentExamDates.get(action);
 		if (mDetailsViewer == null || !mDetailsViewer.isInLayout()) {
     		Intent showContent = new Intent(mContext, ExamDetailsActivity.class);
-    		showContent.putExtra("id", ""+e.exam_key);
-    		showContent.putExtra("name", e.course);
-    		showContent.putExtra("teacher", e.instructors);
-    		showContent.putExtra("date", HelperFunctions.dateToSlo(e.date));
-    		showContent.putExtra("signedup", e.signedup);
+    		showContent.putExtra("examId", mViewer.mExam);
             startActivity(showContent);
-    	} else {
+    	} else if (mDetailsViewer != null){
+			mDetailsViewer.setmSignListener(mViewer);
 			if(mDetailsViewer.isHidden()) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
 				ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 				ft.show(mDetailsViewer);
 				ft.commit();
 			}
-    		mDetailsViewer.showData(""+e.exam_key, e.course, e.instructors, HelperFunctions.dateToSlo(e.date), e.signedup);
+    		mDetailsViewer.showData();
     	}
 	}
 	
 	@Override
 	protected void onResume() {
-		mViewer.reloadData();
 		super.onResume();
+		mViewer.fetchData();
 	}
 	
 }

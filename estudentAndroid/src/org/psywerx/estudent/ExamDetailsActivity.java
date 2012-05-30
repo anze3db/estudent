@@ -1,5 +1,7 @@
 package org.psywerx.estudent;
 
+import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
+
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -12,7 +14,8 @@ public class ExamDetailsActivity extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 	    ExamDetailsFragment viewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
-	    viewer.showData(extras.getString("id"), extras.getString("name"), extras.getString("teacher"), extras.getString("date"), extras.getBoolean("signedup"));
+	    viewer.setExam((EnrollmentExamDate) extras.getSerializable("examId"));
+	    viewer.showData();
 	}
 
 }
