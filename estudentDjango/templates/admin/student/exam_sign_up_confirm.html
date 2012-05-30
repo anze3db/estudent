@@ -1,5 +1,12 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+    <h2>Ali res želite prijaviti študenta: {{Student}} na izpitni rok: {{rok}}</h2>
 
-{% endblockblock %}
+    <form action="" method="POST">{% csrf_token %}
+    <input type="submit" value="Da, prijavi" name="prijava" />
+    <input type="submit" value="Ne, nazaj" name="nazaj"/>
+        </form>
+
+    <p>{{msg}}</p>
+{% endblock %}

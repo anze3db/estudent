@@ -4,6 +4,7 @@ from django.core import serializers
 from failedloginblocker.models import FailedAttempt
 from student.models import Student, Enrollment, ExamDate, ExamSignUp, Curriculum
 from codelist.models import  StudyProgram, Course, GroupInstructors
+from django.shortcuts import get_object_or_404
 from student.models import *
 import json
 import codelist
@@ -41,33 +42,93 @@ def login(request):
                 
     return HttpResponse(json.dumps(response), mimetype="application/json")
 
+    s = get_object_or_404(Student, enrollment_number=student_Id)
+
+    response = []
+
+    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
+    prog = ""
+    for enroll in enrolls:
+        out={}
+        out['program'] = enroll.program.descriptor
+        if prog != out['program']:
+            out['noprogram'] = True
+            prog = out['program']
+
+        out['enroll'] = enroll
+        
+        courses = []
+        classes = enroll.get_classes()
+        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
+        
+        for p in courses2:
+            try:
+                course={}
+                course["name"]=p.name
+                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
+                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+
+                #course["signupscnt"] = len(signups) 
+                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
+
+                if display == "1":
+                    signups = signups[-1:]
+
+                course["signups"] = signups
+
+                courses = courses+[course]
+            except:
+                pass
+        out["courses"]=courses
+        response = response + [out]
+        
+    return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
+
 def index(request):
     student_id = request.GET['id']
-    response={'student_name':"",'study_program':"",'courses':""}       
+    display = request.GET['display'] #0-all, 1-last
+    s = get_object_or_404(Student, enrollment_number=student_id)
+    response = []
     
-    student = Student.authStudent(student_id, request.GET['password'])       
-    response["student_name"] = student.name
+    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
     
-    
-    
-    enrollments = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
-    for v in enrollments:
-        response["study_program"]=v.program.descriptor
+    prog = ""
+    for enroll in enrolls:
+        out={}
+        out['program'] = enroll.program.descriptor
+        #if prog != out['program']:
+        #    out['noprogram'] = True
+        #    prog = out['program']
+        
+        
+        out['study_year'] = enroll.study_year
+        
         courses = []
+        classes = enroll.get_classes()
+        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
         
-        for p in v.courses.order_by('course_code'):
-            course={}
-            course["name"]=p.name
-            ocene = p.results(student)
-            
-            for o in ocene:
-                course['result'] = o['result']
-            courses = courses+[course]
-        response["courses"]=courses
+        for p in courses2:
+            try:
+                course={}
+                course["name"]=p.name
+                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
+                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+
+                #course["signupscnt"] = len(signups) 
+                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
+
+                if display == "1":
+                    signups = signups[-1:]
+
+                course["signups"] = [[sg.examDate.date.strftime("%d.%m.%Y"), sg.VP, sg.result_exam, sg.result_practice]  for sg in signups]
+
+                courses = courses+[course]
+            except:
+                raise
+        out["courses"]=courses
+        response = response + [out]
         
- 
-    
-    return HttpResponse(json.dumps(response),mimetype="application/json")
+    return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
 
 def getStudentEnrollments(request):
     student_id = request.GET['student_id']
@@ -211,9 +272,9 @@ def getAllExamDates(request):
 
 def test(request):
     enrollment_id = request.GET['id']
-    #student = Student.objects.get(enrollment_number=enrollment_id)
+    student = Student.objects.get(enrollment_number=enrollment_id)
     enroll = Enrollment.objects.get(pk=enrollment_id)
-    student=enroll.student
+    #student=enroll.student
     #courses=student.get_all_classes()
     #
     # classes=Course.objects.filter(curriculum__in=courses)
@@ -223,14 +284,7 @@ def test(request):
 
     aaa=[]
 
-    for c in classes:
-        sth={}
-        sth['predmet']=c.name
-        sth['letos']=c.nr_attempts_this_year(student)
-        sth['pozitivna']=c.already_signedUp(student)
-        sth['ta vpis']=c.nr_attempts_this_enroll(enroll)
-        sth['vsa polaganja']=c.nr_attempts_all(student)
-        aaa.append(sth)
+    enroll = list(Enrollment.objects.filter(student=student))[-1]
 
     #exam=ExamDate.objects.get(id=2);
 
@@ -239,7 +293,7 @@ def test(request):
     #test=exam.signUp_allowed(student)
 
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(aaa,mimetype="application/json")
+    return HttpResponse(enroll,mimetype="application/json")
 
 
 def addSignUp(request):
@@ -247,19 +301,23 @@ def addSignUp(request):
     
     examDateId = int(request.GET['exam_id'])
     student_id = request.GET['student_id']
+    enroll_id = request.GET['enroll_id']
     student = Student.objects.get(enrollment_number=student_id)
 
     exam=ExamDate.objects.get(id=examDateId);
     error_msgs = exam.signUp_allowed(student)
+    nr_this=exam.course.nr_attempts_this_year(student)
     
     if error_msgs != None: 
         message["error"]= error_msgs[0]
-    elif exam.already_signedUp(student):
-        message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
     elif exam.already_positive(student):
         message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    elif nr_this>=3:
+        message["error"]='Ta predmet ste letos opravljali ze 3x'
+    elif exam.already_signedUp(student):
+        message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
     else:
-        enroll = list(Enrollment.objects.filter(student=student))[-1]
+        enroll = Enrollment.objects.get(pk=enroll_id)
         ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
         message["msg"]='Uspesna prijava na izpit'+ str(exam)
 
@@ -297,6 +355,7 @@ def getEnrollmentExamDates(request):
         
     enroll = Enrollment.objects.get(pk=enrollment_id)
     classes=Course.objects.filter(curriculum__in=enroll.get_classes())
+    student=enroll.student
 
     response=[]
 
@@ -307,6 +366,10 @@ def getEnrollmentExamDates(request):
         ex['date']=str(e.date)
         ex['instructors']=str(e.instructors)
         ex['signedup']=e.already_signedUp(enroll.student)
+        ex['all_attempts']=e.course.nr_attempts_all(student)
+        ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
+        ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
+        ex['enroll_type']=enroll.enrol_type
         response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")

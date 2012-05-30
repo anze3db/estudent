@@ -13,7 +13,7 @@
 
     <h2>Predmeti za katere so razpisani izpitni roki</h2>
     {% for v in Roki %}
-        <li><a href="/student/ExamSignUp/{{v.pk}}/confirm/">{{v}}</a></li>
+        <li><a href="/student/ExamSignUp/{{Student}}/confirm/{{v.pk}}/{{Vpis.pk}}/">{{v}}</a></li>
     {% endfor %}
 
 

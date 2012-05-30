@@ -229,9 +229,17 @@ class ExamDate(models.Model):
     def already_signedUp(self, student):
         #if fals, Ok to signUp
         flag=False
+
         for c in Course.objects.filter(course__examsignup__enroll__student=student):
             if(c==self.course):
                 flag=True
+                ex=ExamSignUp.objects.filter(enroll__student=student, examDate__course=c)
+                for e in ex:
+                    if(e.result_exam=='NR'): flag=True
+                    #elif (len(list(ExamSignUp.object.filter(examDate=self)))!=0): flag=True
+                    elif (int(e.result_exam)<=5): flag=False
+                for e in ex:
+                    if e.examDate==self: flag=True
 
         return flag
 
@@ -276,6 +284,18 @@ class ExamDate(models.Model):
         if len(errors) != 0: return errors
 
         return None # no error
+
+
+    #doesn't probably work: see student/admin.py ExamDate for something similar.
+    def exam_on_date_exist(self):
+        exams=ExamDate.objects.filter(course=self.course)
+        for e in exams:
+            if e.instructors==self.instructors & e.date==self.date:
+                return True
+            else:
+                return False
+
+
 
 
 
