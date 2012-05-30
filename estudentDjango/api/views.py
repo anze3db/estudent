@@ -307,13 +307,16 @@ def addSignUp(request):
     exam=ExamDate.objects.get(id=examDateId);
     error_msgs = exam.signUp_allowed(student)
     nr_this=exam.course.nr_attempts_this_year(student)
+    nr_all= exam.course.nr_attempts_all(student)
     
     if error_msgs != None: 
         message["error"]= error_msgs[0]
     elif exam.already_positive(student):
         message["error"]='Za ta predmet ze obstaja pozitivna ocena'
     elif nr_this>=3:
-        message["error"]='Ta predmet ste letos opravljali ze 3x'
+        message["error"]='Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
+    elif nr_all>=6:
+        message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
     elif exam.already_signedUp(student):
         message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
     else:
