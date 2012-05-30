@@ -226,6 +226,20 @@ class ExamDate(models.Model):
     def year(self):
         self.date.year
 
+    def repeat_class(self, student):
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
+        all=len(all_signUps)
+        rep=0
+
+        for x in all_signUps:
+            type=x.enroll.enrol_type
+            if type == 'V2':
+                rep=rep+1
+
+        ost=all-rep
+        return rep
+
+
     def already_signedUp(self, student):
         #if fals, Ok to signUp
         flag=False
