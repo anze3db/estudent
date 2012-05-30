@@ -11,6 +11,7 @@ public class EnrollmentExamDates {
 		public int repeat_class_exams;
 		public int all_attempts;
 		public int exam_key;
+		public int course_code;
 		public String date;
 		public String instructors;
 		public String course;

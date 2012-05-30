@@ -364,6 +364,7 @@ def getEnrollmentExamDates(request):
     for e in ExamDate.objects.filter(course__in=classes):
         ex={}
         ex['exam_key']=e.pk
+        ex['course_key']=e.course.course_code
         ex['course']=e.course.name
         ex['date']=str(e.date)
         ex['instructors']=str(e.instructors)
