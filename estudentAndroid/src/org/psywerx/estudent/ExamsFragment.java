@@ -25,7 +25,7 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 	private OnExamSelectedListener mExamSelectedListener;
 	private EnrollmentExamDates mExamDates;
 	protected EnrollmentExamDate mExam;
-	private String mEnrollmentId;
+	protected String mEnrollmentId;
 
 	protected int mLastPosition = 0;
 
@@ -56,7 +56,6 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 			}
 		}
 	}
-
 
 	@Override
 	public void onAttach(Activity activity) {

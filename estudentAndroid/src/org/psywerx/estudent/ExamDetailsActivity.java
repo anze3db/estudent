@@ -14,7 +14,8 @@ public class ExamDetailsActivity extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 	    ExamDetailsFragment viewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
-	    viewer.setExam((EnrollmentExamDate) extras.getSerializable("examId"));
+	    viewer.setExam((EnrollmentExamDate) extras.getSerializable("exam"));
+	    viewer.setmEnrollmentId(extras.getString("enroll_id"));
 	    viewer.showData();
 	}
 

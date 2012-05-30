@@ -13,6 +13,7 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 	private Context mContext;
 	private ExamsFragment mViewer;
 	private ExamDetailsFragment mDetailsViewer;
+	private String mEnrollmentId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,8 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 		mContext = getApplicationContext();
 		
 		Bundle b = getIntent().getExtras();
-		mViewer.setmEnrollmentId(b.getString("enrollment_id"));
+		mEnrollmentId = b.getString("enrollment_id");
+		mViewer.setmEnrollmentId(mEnrollmentId);
 		
 		if (mDetailsViewer != null && mDetailsViewer.isInLayout()) {
 			mDetailsViewer.setmSignListener(mViewer);
@@ -35,13 +37,14 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 			ft.commit();
 		}
 		
-		setTitle(String.format("%s %s (%s)", StaticData.username, StaticData.lastName, StaticData.username));
+		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 	
 	public void onExamSelected(int action) {
 		if (mDetailsViewer == null || !mDetailsViewer.isInLayout()) {
     		Intent showContent = new Intent(mContext, ExamDetailsActivity.class);
-    		showContent.putExtra("examId", mViewer.mExam);
+    		showContent.putExtra("exam", mViewer.mExam);
+    		showContent.putExtra("enroll_id", mEnrollmentId);
             startActivity(showContent);
     	} else if (mDetailsViewer != null){
 			mDetailsViewer.setmSignListener(mViewer);

@@ -7,8 +7,11 @@ public class EnrollmentExamDates {
 	
 	public class EnrollmentExamDate implements Serializable {
 		private static final long serialVersionUID = 1L;
-		public String date;
+		public int attempts_this_year;
+		public int repeat_class_exams;
+		public int all_attempts;
 		public int exam_key;
+		public String date;
 		public String instructors;
 		public String course;
 		public boolean signedup;

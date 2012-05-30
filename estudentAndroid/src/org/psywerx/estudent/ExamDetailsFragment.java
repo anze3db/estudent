@@ -25,6 +25,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	
 	private ProgressDialog mProgressDialog = null;
 	private ResponseListener mListener;
+	private String mEnrollmentId;
 
 	private ExamsFragment mExamsFragment;
 	private EnrollmentExamDate mExam;
@@ -32,6 +33,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	public void setmSignListener(ExamsFragment mSignListener) {
 		this.mExamsFragment = mSignListener;
 		this.mExam = this.mExamsFragment.mExam;
+		this.mEnrollmentId = this.mExamsFragment.mEnrollmentId;
 	}
 	
 	@Override
@@ -43,11 +45,13 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 		((TextView)v.findViewById(R.id.examName).findViewById(R.id.title)).setText(getString(R.string.examName));
 		((TextView)v.findViewById(R.id.examTeacher).findViewById(R.id.title)).setText(getString(R.string.examTeacher));
 		((TextView)v.findViewById(R.id.examDate).findViewById(R.id.title)).setText(getString(R.string.examDate));
+		((TextView)v.findViewById(R.id.attempts).findViewById(R.id.title)).setText(getString(R.string.attempts));
 		
 		data.put(R.id.examID, (EditText)v.findViewById(R.id.examID).findViewById(R.id.description));
 		data.put(R.id.examName, (EditText)v.findViewById(R.id.examName).findViewById(R.id.description));
 		data.put(R.id.examTeacher, (EditText)v.findViewById(R.id.examTeacher).findViewById(R.id.description));
 		data.put(R.id.examDate, (EditText)v.findViewById(R.id.examDate).findViewById(R.id.description));
+		data.put(R.id.attempts, (EditText)v.findViewById(R.id.attempts).findViewById(R.id.description));
 		
 		btnApplyUnapply = (Button)v.findViewById(R.id.btnApplyUnapply);
 		btnApplyUnapply.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +65,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 					mProgressDialog = ProgressDialog.show(getActivity(),    
 							getString(R.string.loading_please_wait), 
 							getString(R.string.loading_verifying_login), true);
-					Api.applyExam(mListener, StaticData.username, data.get(R.id.examID).getText().toString());
+					Api.applyExam(mListener, data.get(R.id.examID).getText().toString(), StaticData.username, mEnrollmentId);
 				}
 			}
 		});
@@ -76,6 +80,7 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 			data.get(R.id.examName).setText(mExam.course);
 			data.get(R.id.examTeacher).setText(mExam.instructors);
 			data.get(R.id.examDate).setText(mExam.date);
+			data.get(R.id.attempts).setText(mExam.all_attempts+"-"+mExam.repeat_class_exams);
 			if(signedUp())
 				btnApplyUnapply.setText(R.string.unapplyExam);
 			else
@@ -102,6 +107,10 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 			}	
 		}
 	}
+	public void setmEnrollmentId(String mEnrollmentId) {
+		this.mEnrollmentId = mEnrollmentId;
+	}
+	
 	private boolean signedUp(){
 		return mExam != null && mExam.signedup;
 	}
