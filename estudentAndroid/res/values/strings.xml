@@ -32,6 +32,7 @@
     <string name="examName">Ime predmeta: </string>
     <string name="examTeacher">Izvajalec: </string>
     <string name="examDate">Datum izpita: </string>
+    <string name="attempts">Število Polaganj: </string>
     
     <string name="applyExam">Prijava na izpit</string>
     <string name="unapplyExam">Odjava od izpita</string>

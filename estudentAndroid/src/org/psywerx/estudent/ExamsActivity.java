@@ -1,7 +1,6 @@
 package org.psywerx.estudent;
 
-import org.psywerx.estudent.extra.HelperFunctions;
-import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
+import org.psywerx.estudent.extra.D;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -14,16 +13,22 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 	private Context mContext;
 	private ExamsFragment mViewer;
 	private ExamDetailsFragment mDetailsViewer;
+	private String mEnrollmentId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.exams_fragment);
 
+		D.dbgv("starting exams list");
 		mViewer = (ExamsFragment) getFragmentManager().findFragmentById(R.id.examsFragment);
 		mDetailsViewer = (ExamDetailsFragment) getFragmentManager().findFragmentById(R.id.examDetailsFragment);
 		
 		mContext = getApplicationContext();
+		
+		Bundle b = getIntent().getExtras();
+		mEnrollmentId = b.getString("enrollment_id");
+		mViewer.setmEnrollmentId(mEnrollmentId);
 		
 		if (mDetailsViewer != null && mDetailsViewer.isInLayout()) {
 			mDetailsViewer.setmSignListener(mViewer);
@@ -32,34 +37,31 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 			ft.commit();
 		}
 		
-		setTitle(String.format("%s %s (%s)", StaticData.username, StaticData.lastName, StaticData.username));
+		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 	
 	public void onExamSelected(int action) {
-		EnrollmentExamDate e = StaticData.mEnrollmentExamDates.get(action);
 		if (mDetailsViewer == null || !mDetailsViewer.isInLayout()) {
     		Intent showContent = new Intent(mContext, ExamDetailsActivity.class);
-    		showContent.putExtra("id", ""+e.exam_key);
-    		showContent.putExtra("name", e.course);
-    		showContent.putExtra("teacher", e.instructors);
-    		showContent.putExtra("date", HelperFunctions.dateToSlo(e.date));
-    		showContent.putExtra("signedup", e.signedup);
+    		showContent.putExtra("exam", mViewer.mExam);
+    		showContent.putExtra("enroll_id", mEnrollmentId);
             startActivity(showContent);
-    	} else {
+    	} else if (mDetailsViewer != null){
+			mDetailsViewer.setmSignListener(mViewer);
 			if(mDetailsViewer.isHidden()) {
 				FragmentTransaction ft = getFragmentManager().beginTransaction();
 				ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 				ft.show(mDetailsViewer);
 				ft.commit();
 			}
-    		mDetailsViewer.showData(""+e.exam_key, e.course, e.instructors, HelperFunctions.dateToSlo(e.date), e.signedup);
+    		mDetailsViewer.showData();
     	}
 	}
 	
 	@Override
 	protected void onResume() {
-		mViewer.reloadData();
 		super.onResume();
+		mViewer.fetchData();
 	}
 	
 }

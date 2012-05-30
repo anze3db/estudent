@@ -28,6 +28,10 @@
     <include
         android:id="@+id/examDate"
         layout="@layout/exam_details_item" />
+    
+    <include
+        android:id="@+id/attempts"
+        layout="@layout/exam_details_item" />
 
     <Button
         android:id="@+id/btnApplyUnapply"
