@@ -1,4 +1,3 @@
-from mx.DateTime.mxDateTime.test import year
 from django.db import models
 from django.utils.encoding import smart_unicode, force_unicode
 from django.utils.translation import ugettext as _
