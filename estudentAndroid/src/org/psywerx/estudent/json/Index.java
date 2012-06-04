@@ -25,6 +25,10 @@ public class Index {
 		public String name;
 		public String predavatelj;
 		public int kreditne_tocke;
+		public List<Polaganje> polaganja;
+	}
+	
+	public class Polaganje{
 		public String datum;
 		public int ocena_izpita;
 		public int ocena_vaj;

@@ -7,33 +7,29 @@
 			"name": "Linearna algebra",
 			"kreditne_tocke":3,
 			"predavatelj":"Borut Robic",
-			"datum":"12.1.2012",
-			"ocena_izpit":"5",
-			"ocena_vaje":"5",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
-		},
-		{
-			"sifra_predmeta": 10002,
-			"name": "Linearna algebra",
-			"kreditne_tocke":3,
-			"predavatelj":"Borut Robic",
-			"datum":"12.2.2012",
-			"ocena_izpit":"9",
-			"ocena_vaje":"8",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
+			"polaganja":[
+				{
+				"datum":"12.1.2012",
+				"ocena_izpit":"5",
+				"ocena_vaje":"5",
+				"stevilo_polaganj":4,
+				"odstevek_ponavljanja":2
+				},
+				{
+				"datum":"12.2.2012",
+				"ocena_izpit":"7",
+				"ocena_vaje":"4",
+				"stevilo_polaganj":5,
+				"odstevek_ponavljanja":2
+				}
+			]
 		},
 		{
 			"sifra_predmeta": 10021,
 			"name": "Algoritmi",
 			"kreditne_tocke":4,
 			"predavatelj":"Slivnik",
-			"datum":"11.1.2012",
-			"ocena_izpit":"",
-			"ocena_vaje":"",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
+			"polaganja":[]
 		}
 	], 
 "povprecje_izpitov":3,
@@ -52,33 +48,29 @@
 			"name": "Linearna algebra",
 			"kreditne_tocke":3,
 			"predavatelj":"Borut Robic",
-			"datum":"12.1.2012",
-			"ocena_izpit":"5",
-			"ocena_vaje":"5",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
-		},
-		{
-			"sifra_predmeta": 10002,
-			"name": "Linearna algebra",
-			"kreditne_tocke":3,
-			"predavatelj":"Borut Robic",
-			"datum":"12.2.2012",
-			"ocena_izpit":"9",
-			"ocena_vaje":"8",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
+			"polaganja":[
+				{
+				"datum":"12.1.2012",
+				"ocena_izpit":"5",
+				"ocena_vaje":"5",
+				"stevilo_polaganj":4,
+				"odstevek_ponavljanja":2
+				},
+				{
+				"datum":"12.2.2012",
+				"ocena_izpit":"7",
+				"ocena_vaje":"4",
+				"stevilo_polaganj":5,
+				"odstevek_ponavljanja":2
+				}
+			]
 		},
 		{
 			"sifra_predmeta": 10021,
 			"name": "Algoritmi",
 			"kreditne_tocke":4,
 			"predavatelj":"Slivnik",
-			"datum":"11.1.2012",
-			"ocena_izpit":"",
-			"ocena_vaje":"",
-			"stevilo_polaganj":4,
-			"odstevek_ponavljanja":2
+			"polaganja":[]
 		}
 	], 
 "povprecje_izpitov":3,

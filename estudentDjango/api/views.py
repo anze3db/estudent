@@ -85,6 +85,7 @@ def login(request):
     return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
 
 def index(request):
+    js = "\n".join(file("api/index_example.json").readlines())
     student_id = request.GET['id']
     display = request.GET['display'] #0-all, 1-last
     s = get_object_or_404(Student, enrollment_number=student_id)
@@ -128,7 +129,8 @@ def index(request):
         out["courses"]=courses
         response = response + [out]
         
-    return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
+    return HttpResponse(js,mimetype="application/json")
+    #return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
 
 def getStudentEnrollments(request):
     student_id = request.GET['student_id']
