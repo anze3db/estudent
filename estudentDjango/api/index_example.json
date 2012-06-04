@@ -12,14 +12,16 @@
 				"datum":"12.1.2012",
 				"ocena_izpit":"5",
 				"ocena_vaje":"5",
-				"stevilo_polaganj":4,
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
 				"odstevek_ponavljanja":2
 				},
 				{
 				"datum":"12.2.2012",
 				"ocena_izpit":"7",
 				"ocena_vaje":"4",
-				"stevilo_polaganj":5,
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
 				"odstevek_ponavljanja":2
 				}
 			]
@@ -53,14 +55,16 @@
 				"datum":"12.1.2012",
 				"ocena_izpit":"5",
 				"ocena_vaje":"5",
-				"stevilo_polaganj":4,
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
 				"odstevek_ponavljanja":2
 				},
 				{
 				"datum":"12.2.2012",
 				"ocena_izpit":"7",
 				"ocena_vaje":"4",
-				"stevilo_polaganj":5,
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
 				"odstevek_ponavljanja":2
 				}
 			]
