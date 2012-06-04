@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^ExamSignUp/(?P<student_Id>\d+)/signOut/$', 'student.views.exam_sign_out'),
 	(r'^StudentIndex/$', 'student.views.student_index'),
     (r'^StudentIndex/(?P<student_Id>\d+)/(?P<display>\d+)/$', 'student.views.student_index_list'),
+    (r'^StudentPersonal/(?P<student_Id>\d+)/$', 'student.views.student_personal'),
     #(r'^index/$', 'api.views.index'),
 
     #(r'^admin/student/ExamGrades/$', 'student.views.exam_grades_view'),

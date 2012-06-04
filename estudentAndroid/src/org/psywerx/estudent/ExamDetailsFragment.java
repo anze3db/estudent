@@ -4,11 +4,14 @@ import java.util.HashMap;
 
 import org.psywerx.estudent.api.Api;
 import org.psywerx.estudent.api.ResponseListener;
+import org.psywerx.estudent.extra.HelperFunctions;
 import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
 import org.psywerx.estudent.json.Signup;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,23 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 		this.mEnrollmentId = this.mExamsFragment.mEnrollmentId;
 	}
 	
+	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int which) {
+	        switch (which){
+	        case DialogInterface.BUTTON_POSITIVE:
+	        	mProgressDialog = ProgressDialog.show(getActivity(),    
+						getString(R.string.loading_please_wait), 
+						getString(R.string.loading_verifying_login), true);
+				Api.applyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
+	            break;
+	        case DialogInterface.BUTTON_NEGATIVE:
+	            //No button clicked
+	            break;
+	        }
+	    }
+	};
+
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mListener = (ResponseListener) this;
@@ -60,12 +80,17 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 					mProgressDialog = ProgressDialog.show(getActivity(),    
 							getString(R.string.loading_please_wait), 
 							getString(R.string.loading_verifying_login), true);
-					Api.unapplyExam(mListener, StaticData.username, data.get(R.id.examID).getText().toString());
+					Api.unapplyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
 				} else {
-					mProgressDialog = ProgressDialog.show(getActivity(),    
-							getString(R.string.loading_please_wait), 
-							getString(R.string.loading_verifying_login), true);
-					Api.applyExam(mListener, data.get(R.id.examID).getText().toString(), StaticData.username, mEnrollmentId);
+					if(mExam.all_attempts > 3) {
+						AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+						b.setMessage(getString(R.string.needToPay));
+						b.setPositiveButton(getString(R.string.Yes), dialogClickListener);
+						b.setNegativeButton(getString(R.string.No), dialogClickListener);
+						b.show();
+					} else {
+						dialogClickListener.onClick(null, DialogInterface.BUTTON_POSITIVE);
+					}
 				}
 			}
 		});
@@ -76,10 +101,10 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 	public void showData() {
 		if (mExam != null){
 			//TODO: to ni sifra: 
-			data.get(R.id.examID).setText(""+mExam.exam_key);
+			data.get(R.id.examID).setText(""+mExam.course_key);
 			data.get(R.id.examName).setText(mExam.course);
 			data.get(R.id.examTeacher).setText(mExam.instructors);
-			data.get(R.id.examDate).setText(mExam.date);
+			data.get(R.id.examDate).setText(HelperFunctions.dateToSlo(mExam.date));
 			data.get(R.id.attempts).setText(mExam.all_attempts+"-"+mExam.repeat_class_exams);
 			if(signedUp())
 				btnApplyUnapply.setText(R.string.unapplyExam);

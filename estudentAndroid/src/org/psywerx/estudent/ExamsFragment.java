@@ -1,6 +1,8 @@
 package org.psywerx.estudent;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import org.psywerx.estudent.api.Api;
@@ -43,13 +45,23 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 		D.dbgv("starting exams list");
 	}
 	
+	public class customComp implements Comparator<EnrollmentExamDate>{
+
+		public int compare(EnrollmentExamDate lhs, EnrollmentExamDate rhs) {
+			return lhs.course.compareTo(rhs.course);
+		}
+		
+	}
+	
 	public void reloadData() {
 		if (mExamDates != null){
 			mMenuAdapter.clear();
+			
+			Collections.sort(mExamDates.EnrollmentExamDates, new customComp());
 			for(Iterator<EnrollmentExamDate> i = mExamDates.EnrollmentExamDates.iterator(); i.hasNext(); ) {
 				EnrollmentExamDate e = i.next();
 				mMenuAdapter.add(new MenuItem(
-						e.course + " (" + e.exam_key + ")", 
+						e.course + " (" + e.course_key + ")", 
 						HelperFunctions.dateToSlo(e.date), 
 						e.exam_key, 
 						e.signedup ? R.drawable.check_ok_128 : R.drawable.check_no_128));
@@ -81,7 +93,6 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 		mMenuAdapter.notifyDataSetChanged();
 	}
 
-	@Override
 	public void onServerResponse(Object response) {
 		if (response != null && response instanceof EnrollmentExamDates) {
 			mExamDates = (EnrollmentExamDates) response;

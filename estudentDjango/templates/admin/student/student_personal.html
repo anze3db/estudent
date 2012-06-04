@@ -1,0 +1,60 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+{% load tags %}
+<table>
+<tr>
+<th>Vpisna št.</th>
+<td>{{student.enrollment_number}}</td>
+</tr>
+
+<tr>
+<th>Ime in priimek</th>
+<td>{{student.name}} {{student.surname}}</td>
+</tr>
+
+<tr>
+<th>EMŠO</th>
+<td>{{student.social_security_number}}</td>
+</tr>
+
+<tr>
+<th>Davčna</th>
+<td>{{student.tax_number}}</td>
+</tr>
+
+<tr>
+<th>Spol</th>
+<td>{{student.gender}}</td>
+</tr>
+
+<tr>
+<th>Rojstni datum</th>
+<td>{{student.birth_date}}</td>
+</tr>
+
+</table>
+<br /><br />
+<table>
+<tr>
+<td>#</td>
+<td>Študijsko leto</td>
+<td>Letnik</td>
+<td>Program</td>
+<td>Vrsta vpisa</td>
+<td>Način študija</td>
+</tr>
+    {% for e in enrollment %}
+    <tr>
+    <td>{{ forloop.counter }}</td> 
+    <td style="text-align:right;">{{e.study_year|date_extend}}</td>
+    <td style="text-align:right;">{{e.class_year}}</td>
+    <td>{{e.program}}</td>
+    <td>{{e.enrol_type}}</td>
+    <td>{{e.regular|nacin_studija}}</td>
+    </tr>
+   
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -75,7 +75,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 			Api.studentEnrollmentsRequest(mListener, StaticData.username);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
-			l.showContextMenuForChild(v);
+			//l.showContextMenuForChild(v);
 			break;
 		case ACTION_LOGOUT:
 			finish();

@@ -104,6 +104,16 @@ $(document).ready(function() {
     	return all[hash[data[i]['fields']['course']]];
     });
     courseProgramFilter.filter();
+    
+    
+    $("#id_birth_country").busyChange(function(){
+    	if($("#id_birth_country").val() != "705"){
+    		var social = $("#id_social_security_number");
+    		if(social.val() && social.val().length > 7)
+    			social.val(social.val().substring(0,7) + "000000");
+    	}
+    });
+    
 
     $("#id_class_year").busyChange(function(){
     	courseFilter.filter();

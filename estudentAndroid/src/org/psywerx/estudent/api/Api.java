@@ -30,9 +30,9 @@ public class Api {
 		task.execute("student_id", studnet_id, "exam_id", exam_id, "enroll_id", enroll_id);
 	}
 	
-	public static void unapplyExam(ResponseListener rl, String un, String key) {
+	public static void unapplyExam(ResponseListener rl,String exam_id, String studnet_id, String enroll_id) {
 		String apiSubDirectory = "removeSignUp/";
 		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Signup.class);
-		task.execute("student_id",un, "exam_id", key);
+		task.execute("student_id", studnet_id, "exam_id", exam_id, "enroll_id", enroll_id);
 	}
 }

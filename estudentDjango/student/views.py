@@ -280,3 +280,9 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
 
 def sign_up_success(request, student_Id, exam_Id):
     return render_to_response('admin/student/exam_sign_up_success.html', {'Student':student_Id, 'rok':exam_Id}, RequestContext(request))
+
+def student_personal(request, student_Id):
+    student= Student.objects.get(enrollment_number = student_Id)
+    enrollment = Enrollment.objects.filter(student = student_Id)
+    return render_to_response('admin/student/student_personal.html', {'enrollment':enrollment,'student':student}, RequestContext(request))
+
