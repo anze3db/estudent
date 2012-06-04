@@ -226,7 +226,7 @@ class ExamDate(models.Model):
     def year(self):
         self.date.year
 
-    def repeat_class(self, student):
+    def repeat_class(self, student, retrn=0):
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
         all=len(all_signUps)
         rep=0
@@ -237,7 +237,10 @@ class ExamDate(models.Model):
                 rep=rep+1
 
         ost=all-rep
-        return rep
+        if retrn == 0:
+            return rep
+        else:
+            return (all, rep)
 
 
     def already_signedUp(self, student):

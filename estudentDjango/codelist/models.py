@@ -56,6 +56,22 @@ class Course(models.Model):
             c.save()
             i=i+1
 
+    def repeat_class(self, student, retrn=0):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        all=len(all_signUps)
+        rep=0
+
+        for x in all_signUps:
+            type=x.enroll.enrol_type
+            if type == 'V2':
+                rep=rep+1
+
+        ost=all-rep
+        if retrn == 0:
+            return rep
+        else:
+            return (all, rep)
 
 
     def nr_attempts_this_year(self, student):

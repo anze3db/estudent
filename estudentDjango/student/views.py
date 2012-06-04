@@ -196,7 +196,15 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
 
-                #course["signupscnt"] = len(signups) 
+                try:
+                    foo = p.repeat_class(s, 1)
+                    course["signupcnt1"] = foo[0]
+                    course["signupcnt2"] = foo[1]
+                    #else:
+                    #    course["signupcnt2"] = False
+                except:
+                    raise
+                    pass
                 #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
 
                 if display == "1":
@@ -206,6 +214,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
 
                 courses = courses+[course]
             except:
+                raise
                 pass
         out["courses"]=courses
         response = response + [out]

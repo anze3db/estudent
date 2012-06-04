@@ -13,7 +13,7 @@
             <table cellpadding="0" cellspacing="0" class="sortable" style="width:70%">
                 <tr class="first-row">
                     <td style="width:30%"><strong>Predmet</strong></td>
-                    <!--<td style="width:20%"><strong>Polaganja (Letos|Vsa)</strong></td>-->
+                    <td style="width:20%"><strong>St. Polaganj</strong></td>
                     <td style="width:25%"><strong>Datum polaganja</strong></td>
                     <td style="width:25%"><strong>Rezultat izpita</strong></td>
                 </tr>
@@ -21,8 +21,12 @@
                 <tr>
                 <td>{{c.name}}</td>
                 {% if c.signups %}
-                    <!--<td>
-                    </td>-->
+                    <td>
+                    {{ c.signupcnt1 }} 
+                    {% if c.signupcnt2 %} 
+                        - {{ c.signupcnt2 }}
+                    {% endif %}
+                    </td>
                     <td>
                     {% for s in c.signups %}
                         {{s.student_index_view_examDate}}<br>
@@ -38,7 +42,7 @@
                     {% endfor %}
                     </td>
                 {% else %}
-                    <!--<td>0</td>-->
+                    <td>0</td>
                     <td>/</td>
                     <td>Ni polaganj</td>
                 {% endif %}                
