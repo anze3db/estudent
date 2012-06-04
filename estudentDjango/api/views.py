@@ -89,23 +89,21 @@ def index(request):
     #js = "\n".join(file("api/index_example.json").readlines())
     student_id = request.GET['id']
     display = request.GET['display'] #0-all, 1-last
-    s = get_object_or_404(Student, enrollment_number=student_id)
+    student = get_object_or_404(Student, enrollment_number=student_id)
     response = []
     
-    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
+    enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     
     prog = ""
     for enroll in enrolls:
         out={}
         out['program'] = enroll.program.descriptor
-        out['enrollment_type']=enroll.enrol_type
+        out['enrollment_type']=enroll.enrol_type+' - '+enroll.get_enrol_type_display()
         out['redni']=enroll.regular
-        #if prog != out['program']:
-        #    out['noprogram'] = True
-        #    prog = out['program']
-        
-        
+        out['letnik']= enroll.class_year
         out['study_year'] = enroll.study_year
+
+
         
         courses = []
         classes = enroll.get_classes()
@@ -118,11 +116,8 @@ def index(request):
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["izvajalci"]=p.predavatelji()
-                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code)
-                #signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code).order_by('examDate__date')
 
-                #course["signupscnt"] = len(signups) 
-                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
 
                 if display == "1":
                     signups = signups[-1:]
@@ -135,14 +130,15 @@ def index(request):
                     polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
 
                     #if s.examDate.course.
-                    cur=Curriculum.objects.get(course=p, program=enroll.program, class_year=enroll.class_year )
+                    cur=Curriculum.objects.get(course=p, program=enroll.program)
                     if(cur.only_exam==True):
                         polaganje['ocena']=s.result_exam
                     else:
                         polaganje['ocena_vaje']=s.result_practice
                         polaganje['ocena_izpit']=s.result_exam
-                    polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_this_enroll(enroll)
-                    polaganje['odstevek_ponavljanja']=s.examDate.repeat_class(s)
+                    polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_all(student)
+                    polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
+                    polaganje['letos']=s.examDate.course.nr_attempts_this_year(student)
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 
@@ -151,6 +147,10 @@ def index(request):
             except:
                 raise
         out["courses"]=courses
+        out['povprecje_izpitov']=3
+        out['povprecje_vaj']=2
+        out['povprecje']=2.5
+
         response = response + [out]
         
     #return HttpResponse(js,mimetype="application/json")
