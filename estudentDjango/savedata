@@ -1,0 +1,3 @@
+python2 manage.py dumpdata student > student/fixtures/initial_data.json 
+python2 manage.py dumpdata codelist > codelist/fixtures/initial_data.json 
+
