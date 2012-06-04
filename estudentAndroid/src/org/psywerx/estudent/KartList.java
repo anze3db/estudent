@@ -1,4 +1,8 @@
 package org.psywerx.estudent;
+import java.util.ArrayList;
+
+import org.psywerx.estudent.json.Index;
+
 import android.app.ExpandableListActivity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,22 +17,33 @@ import android.widget.TextView;
 
 public class KartList extends ExpandableListActivity{
 	
+	Index mIndex = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ExpandableListAdapter mAdapter = new MyExpandableListAdapter();
+		ExpandableListAdapter mAdapter = new MyExpandableListAdapter(mIndex);
 		setListAdapter(mAdapter);
 	}
 	
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
-        // Sample data set.  children[i] contains the children (String[]) for groups[i].
-        private String[] groups = { "People Names", "Dog\n\tNames", "Cat Names", "Fish Names" };
-        private String[][] children = {
-                { "Arnold", "Barry", "Chuck", "David" },
-                { "Ace", "Bandit", "Cha-Cha", "Deuce" },
-                { "Fluffy", "Snuggles" },
-                { "Goldy", "Bubbles" }
-        };
+    	private ArrayList<String> groups = new ArrayList<String>();
+    	private ArrayList<ArrayList<String>> children = new ArrayList<ArrayList<String>>();
+        
+        public MyExpandableListAdapter(Index index) {
+        	super();
+        	
+        	groups.add("bla");
+        	groups.add("bu");
+        	
+        	ArrayList<String> aaaa = new ArrayList<String>();
+        	children.add(aaaa);
+        	aaaa.add("prvi");
+        	
+        	/*for(Courses c: index.index) {
+        		groups.add(c.program);
+        	}*/
+		}
         
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                 View convertView, ViewGroup parent) {
@@ -62,7 +77,7 @@ public class KartList extends ExpandableListActivity{
         }
 
         public Object getChild(int groupPosition, int childPosition) {
-            return children[groupPosition][childPosition];
+            return children.get(groupPosition).get(childPosition);
         }
 
         public long getChildId(int groupPosition, int childPosition) {
@@ -70,15 +85,15 @@ public class KartList extends ExpandableListActivity{
         }
 
         public int getChildrenCount(int groupPosition) {
-            return children[groupPosition].length;
+            return children.get(groupPosition).size();
         }
 
         public Object getGroup(int groupPosition) {
-            return groups[groupPosition];
+            return groups.get(groupPosition);
         }
 
         public int getGroupCount() {
-            return groups.length;
+            return groups.size();
         }
 
         public long getGroupId(int groupPosition) {
