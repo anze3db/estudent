@@ -22,7 +22,8 @@ import com.google.gson.Gson;
 @SuppressWarnings("rawtypes")
 public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
-	private static final String SERVER_URL = "http://estudent.psywerx.net/api/";
+//	private static final String SERVER_URL = "http://estudent.psywerx.net/api/";
+	private static final String SERVER_URL = "http://192.168.1.4:8000/api/";
 	private String mApiSubDir = "";
 	private Class mClass = Object.class;
 	

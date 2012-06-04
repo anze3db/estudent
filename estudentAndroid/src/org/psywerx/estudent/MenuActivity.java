@@ -30,6 +30,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 	private static final int ACTION_LOGOUT = 0;
 	private static final int ACTION_DISPLAY_MY_EXAMS = 1;
 	private static final int ACTION_DISPLAY_ALL_EXAMS = 2;
+	private static final int ACTION_DISPLAY_ALL_EXAMS_EXP = 3;
 		
 	private MenuAdapter mMenuAdapter;
 	private ProgressDialog mProgressDialog = null;
@@ -56,6 +57,10 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 				getString(R.string.all_exams_list_name), 
 				getString(R.string.all_exams_list_desc), 
 				ACTION_DISPLAY_ALL_EXAMS, R.drawable.notepad_icon_128));
+		items.add(new MenuItem(
+				getString(R.string.all_exams_list_name), 
+				getString(R.string.all_exams_list_desc), 
+				ACTION_DISPLAY_ALL_EXAMS_EXP, R.drawable.notepad_icon_128));
 		
 		mMenuAdapter = new MenuAdapter(mContext, items);
 		setListAdapter(mMenuAdapter);
@@ -67,6 +72,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
+		Intent intent = null;
 		switch (mMenuAdapter.getItem(position).getAction()) {
 		case ACTION_DISPLAY_MY_EXAMS:
 			mProgressDialog = ProgressDialog.show(MenuActivity.this,    
@@ -75,7 +81,13 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 			Api.studentEnrollmentsRequest(mListener, StaticData.username);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS:
-			Intent intent = new Intent(this, KartList.class);
+			intent = new Intent(this, KartList.class);
+			intent.putExtra("expand", false);
+			startActivity(intent);
+			break;
+		case ACTION_DISPLAY_ALL_EXAMS_EXP:
+			intent = new Intent(this, KartList.class);
+			intent.putExtra("expand", true);
 			startActivity(intent);
 			break;
 		case ACTION_LOGOUT:
