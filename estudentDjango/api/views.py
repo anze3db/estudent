@@ -89,7 +89,6 @@ def login(request):
 def index(request):
     #js = "\n".join(file("api/index_example.json").readlines())
     student_id = request.GET['id']
-    display = request.GET['display'] #0-all, 1-last
     student = get_object_or_404(Student, enrollment_number=student_id)
     response = []
     
@@ -119,12 +118,6 @@ def index(request):
                 course["izvajalci"]=p.predavatelji()
                 signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code).order_by('examDate__date')
 
-
-                if display == "1":
-                    signups = signups[-1:]
-
-                #course["polaganja"] = [[sg.examDate.date.strftime("%d.%m.%Y"), sg.VP, sg.result_exam, sg.result_practice]  for sg in signups]
-
                 eno_pol=[]
                 for s in signups:
                     polaganje={}
@@ -138,7 +131,10 @@ def index(request):
                         polaganje['ocena_vaje']=s.result_practice
                         polaganje['ocena_izpit']=s.result_exam
                     polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_all(student)
-                    polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
+                    if s.examDate.repeat_class(student,0)>0:
+                        polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
+                    else:
+                        polaganje['odstevek_ponavljanja']=0
                     polaganje['letos']=s.examDate.course.nr_attempts_this_year(student)
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
@@ -152,11 +148,11 @@ def index(request):
         out['povprecje_vaj']=enroll.get_practice_avg()
         out['povprecje']=enroll.get_avg()
 
-        response = response + [out]
-        
-    #return HttpResponse(js,mimetype="application/json")
-    return HttpResponse(response,mimetype="application/json")
-    #return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
+        response.append(out)
+
+
+    return HttpResponse(json.dumps({"index":response}),mimetype="application/json")
+
 
 def getStudentEnrollments(request):
     student_id = request.GET['student_id']
