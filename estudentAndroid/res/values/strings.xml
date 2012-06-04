@@ -36,6 +36,10 @@
     
     <string name="applyExam">Prijava na izpit</string>
     <string name="unapplyExam">Odjava od izpita</string>
+    
+    <string name="needToPay">Izpit je placljiv. Ali zelite nadaljevati?</string>
+    <string name="Yes">Da</string>
+    <string name="No">Ne</string>
 
     
     <!-- napake -->

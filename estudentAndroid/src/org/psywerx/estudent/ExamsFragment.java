@@ -47,7 +47,6 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 	
 	public class customComp implements Comparator<EnrollmentExamDate>{
 
-		@Override
 		public int compare(EnrollmentExamDate lhs, EnrollmentExamDate rhs) {
 			return lhs.course.compareTo(rhs.course);
 		}
@@ -94,7 +93,6 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 		mMenuAdapter.notifyDataSetChanged();
 	}
 
-	@Override
 	public void onServerResponse(Object response) {
 		if (response != null && response instanceof EnrollmentExamDates) {
 			mExamDates = (EnrollmentExamDates) response;
