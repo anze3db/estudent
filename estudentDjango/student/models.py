@@ -242,6 +242,16 @@ class ExamDate(models.Model):
         else:
             return (all, rep)
 
+    def already_thisExam(self, student):
+        flag=False
+
+        for c in Course.objects.filter(course__examsignup__enroll__student=student):
+            if(c==self.course):
+                ex=ExamSignUp.objects.filter(enroll__student=student, examDate__course=c)
+                for e in ex:
+                    if e.examDate==self: flag=True
+        return flag
+
 
     def already_signedUp(self, student):
         #if fals, Ok to signUp
