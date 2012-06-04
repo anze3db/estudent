@@ -1,4 +1,5 @@
 # Create your views here.
+from __future__ import division
 from django.http import HttpResponse
 from django.core import serializers
 from django.template.context import RequestContext
@@ -147,9 +148,9 @@ def index(request):
             except:
                 raise
         out["courses"]=courses
-        out['povprecje_izpitov']=3
-        out['povprecje_vaj']=2
-        out['povprecje']=2.5
+        out['povprecje_izpitov']=enroll.get_exam_avg()
+        out['povprecje_vaj']=enroll.get_practice_avg()
+        out['povprecje']=enroll.get_avg()
 
         response = response + [out]
         

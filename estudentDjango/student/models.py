@@ -1,3 +1,4 @@
+from __future__ import division
 from itertools import chain
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
@@ -5,6 +6,7 @@ from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator 
 from django.utils.encoding import force_unicode
 from codelist.models import *
+
 
 import re
 import string
@@ -187,9 +189,58 @@ class Enrollment(models.Model):
 
         result_list = list(chain(select,mandatory,mod))
 
-
-
         return result_list
+
+    def get_exam_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_exam)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
+    def get_practice_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_practice)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
+    def get_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_practice)
+                i=i+1
+                avg= avg+int(e.result_exam)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
 
 
 
