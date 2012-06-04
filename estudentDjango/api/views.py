@@ -1,10 +1,11 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.core import serializers
+from django.template.context import RequestContext
 from failedloginblocker.models import FailedAttempt
 from student.models import Student, Enrollment, ExamDate, ExamSignUp, Curriculum
 from codelist.models import  StudyProgram, Course, GroupInstructors
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from student.models import *
 import json
 import codelist
@@ -85,7 +86,7 @@ def login(request):
     return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
 
 def index(request):
-    js = "\n".join(file("api/index_example.json").readlines())
+    #js = "\n".join(file("api/index_example.json").readlines())
     student_id = request.GET['id']
     display = request.GET['display'] #0-all, 1-last
     s = get_object_or_404(Student, enrollment_number=student_id)
@@ -97,6 +98,8 @@ def index(request):
     for enroll in enrolls:
         out={}
         out['program'] = enroll.program.descriptor
+        out['enrollment_type']=enroll.enrol_type
+        out['redni']=enroll.regular
         #if prog != out['program']:
         #    out['noprogram'] = True
         #    prog = out['program']
@@ -106,14 +109,17 @@ def index(request):
         
         courses = []
         classes = enroll.get_classes()
-        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
+        courses2=Course.objects.filter(curriculum__in=classes)
+        #courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
         
         for p in courses2:
             try:
                 course={}
                 course["name"]=p.name
-                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
-                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+                course["sifra_predmeta"]=p.course_code
+                course["izvajalci"]=p.predavatelji()
+                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code)
+                #signups = filter(lambda s: s.examDate.course.name == p.name, signups)
 
                 #course["signupscnt"] = len(signups) 
                 #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
@@ -121,15 +127,34 @@ def index(request):
                 if display == "1":
                     signups = signups[-1:]
 
-                course["signups"] = [[sg.examDate.date.strftime("%d.%m.%Y"), sg.VP, sg.result_exam, sg.result_practice]  for sg in signups]
+                #course["polaganja"] = [[sg.examDate.date.strftime("%d.%m.%Y"), sg.VP, sg.result_exam, sg.result_practice]  for sg in signups]
 
+                eno_pol=[]
+                for s in signups:
+                    polaganje={}
+                    polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
+
+                    #if s.examDate.course.
+                    cur=Curriculum.objects.get(course=p, program=enroll.program, class_year=enroll.class_year )
+                    if(cur.only_exam==True):
+                        polaganje['ocena']=s.result_exam
+                    else:
+                        polaganje['ocena_vaje']=s.result_practice
+                        polaganje['ocena_izpit']=s.result_exam
+                    polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_this_enroll(enroll)
+                    polaganje['odstevek_ponavljanja']=s.examDate.repeat_class(s)
+                    #polaganje['stevilo_polaganj']
+                    eno_pol.append(polaganje)
+
+                course["polaganja"]=eno_pol
                 courses = courses+[course]
             except:
                 raise
         out["courses"]=courses
         response = response + [out]
         
-    return HttpResponse(js,mimetype="application/json")
+    #return HttpResponse(js,mimetype="application/json")
+    return HttpResponse(response,mimetype="application/json")
     #return HttpResponse(json.dumps(response, ensure_ascii=False),mimetype="application/json")
 
 def getStudentEnrollments(request):
