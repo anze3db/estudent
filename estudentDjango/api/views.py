@@ -122,7 +122,7 @@ def index(request):
                 for s in signups:
                     polaganje={}
                     polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
-
+                    polaganje['izvajalci']=force_unicode(s.examDate.instructors)
                     #if s.examDate.course.
                     cur=Curriculum.objects.get(course=p, program=enroll.program)
                     if(cur.only_exam==True):
