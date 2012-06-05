@@ -40,7 +40,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['tocke'] = "" if p.points == None else p.points
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
-        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student) 
+        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
 
         result = result + [prijava]
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
