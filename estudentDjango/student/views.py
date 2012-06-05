@@ -214,6 +214,8 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                         polaganje={}
                         polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                         polaganje['izvajalci']=s.examDate.instructors
+                        if(polaganje['izvajalci']==None):
+                            polaganje['izvajalci']=p.predavatelji()
                         cur=Curriculum.objects.get(course=p, program=enroll.program)
                         if(cur.only_exam==True):
                             polaganje['ocena']=s.result_exam
@@ -232,7 +234,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 if display == "1":
                         signs = signs[-1:]
 
-                    course["signups"] = signs
+                course["signups"] = signs
 
                 courses = courses+[course]
             except:
