@@ -40,6 +40,6 @@ public class Api {
 	public static void getIndex(ResponseListener rl, String studnet_id) {
 		String apiSubDirectory = "index/";
 		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Index.class);
-		task.execute("student_id", studnet_id);
+		task.execute("id", studnet_id);
 	}
 }
