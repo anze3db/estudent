@@ -269,15 +269,16 @@ def test(request):
 
 
 
-    exam=ExamDate.objects.get(id=25);
+    exam=ExamDate.objects.get(id=11);
     d = timedelta(days=14)
 
     last=exam.last_try(student)
     e=ExamDate.objects.get(examsignup=last)
     t= exam.date > (e.date + d)
-
+    lala=len(ExamSignUp.objects.filter(examDate=exam))
+    lala=exam.nr_SignUp
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(exam.date,mimetype="application/json")
+    return HttpResponse(lala,mimetype="application/json")
 
 
 def addSignUp(request):
@@ -308,6 +309,9 @@ def addSignUp(request):
         message["error"]='Rok za prijavo na izpit je potekel'
     elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
         message["error"]='Ni se preteklo 14 dni od zadnje prijave'
+    elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+        message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
+
 
     else:
         enroll = Enrollment.objects.get(pk=enroll_id)
