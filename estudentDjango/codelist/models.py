@@ -123,6 +123,8 @@ class Course(models.Model):
     def nr_attempts_all_till_now(self, student,nowdate):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        print all_signUps
+        print "\n\n"
         i=0
         for a in all_signUps:
             if a.VP==False and a.examDate.date < nowdate:
@@ -135,7 +137,7 @@ class Course(models.Model):
         i=0
         for a in all_signUps:
             if a.VP==False:
-                 i=i+1
+                i=i+1
         return i
 
 

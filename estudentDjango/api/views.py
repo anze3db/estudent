@@ -46,9 +46,12 @@ def login(request):
     return HttpResponse(json.dumps(response), mimetype="application/json")
 
 
-def _getPolaganja(s, student):
-    attempts = s.examDate.course.nr_attempts_all_till_now(student)
-    repeated = s.examDate.repeat_class(student)-s.examDate.repeat_class(student,0)
+def _getPolaganja(s, student,nowdate):
+    attempts = s.examDate.course.nr_attempts_all_till_now(student,nowdate)+1
+    if s.examDate.repeat_class(student,0)>0:
+        repeated = s.examDate.repeat_class(student,0)+1
+    else:
+        repeated = 0    
     return attempts, repeated
 
 def index(request):
@@ -79,7 +82,7 @@ def index(request):
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["predavatelj"]=p.predavatelji()
-                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code).order_by('examDate__date')
+                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code,enroll=enroll).order_by('examDate__date')
 
                 eno_pol=[]
                 for s in signups:
@@ -96,8 +99,8 @@ def index(request):
                         polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
                     
                     
-                    polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student) 
-                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year(student)
+                    polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
+                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)+1
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 
@@ -310,8 +313,8 @@ def addSignUp(request):
         message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
     elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
         message["error"]='Rok za prijavo na izpit je potekel'
-    elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
-        message["error"]='Ni se preteklo 14 dni od zadnje prijave'
+#    elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
+#        message["error"]='Ni se preteklo 14 dni od zadnje prijave'
     elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
         message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
 
