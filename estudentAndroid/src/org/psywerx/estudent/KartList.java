@@ -29,11 +29,10 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 		super.onCreate(savedInstanceState);
 
 		Api.getIndex(this, StaticData.username);
-
+		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 
 
-	@Override
 	public void onServerResponse(Object o) {
 		if (o != null && o instanceof Index){
 			Bundle extras = getIntent().getExtras();
@@ -131,7 +130,9 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		super();
 		mKartList = k;
 		for(Index.Courses c: index.index) {
-			groups.add(c.program);
+			
+			String groupFormat = String.format("\nŠtudijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s\n", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
+			groups.add(groupFormat);
 
 			ArrayList<String> courses = new ArrayList<String>();
 			courses.add(head());
@@ -183,11 +184,13 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
 			ViewGroup parent) {
 		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT, 64);
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		TextView textView = new TextView(mKartList);
 		textView.setLayoutParams(lp);
 		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 		textView.setPadding(64, 0, 0, 0);
+		textView.setTypeface(Typeface.MONOSPACE, 1);
+		textView.setTextSize(20);
 		textView.setText(getGroup(groupPosition).toString());
 		return textView;
 	}

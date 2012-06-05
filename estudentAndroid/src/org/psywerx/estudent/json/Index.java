@@ -14,7 +14,7 @@ public class Index {
 		public String program;
 		public String enrollment_type;
 		public int study_year;
-		public int lenik;
+		public int letnik;
 		public boolean redni;
 
 	}

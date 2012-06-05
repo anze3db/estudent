@@ -7,13 +7,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import context, loader
 from django.template.context import RequestContext, Context
-from student.models import ExamSignUp, ExamDate, Enrollment, Student
+from student.models import *
 from codelist.models import Course
 from django.core import serializers
 
 
 def exam_grades_index(request):
-    
+
     exam_dates=ExamDate.objects.all().order_by('date')
     if request.user.groups.filter(name = 'profesorji'):
         exam_dates = [e for e in exam_dates if e.instructors and e.instructors.instructor.filter(user = request.user)]
@@ -172,19 +172,26 @@ def student_index(request):
 
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
-    s = get_object_or_404(Student, enrollment_number=student_Id)
+    student = get_object_or_404(Student, enrollment_number=student_Id)
+
     response = []
 
-    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
+    enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     prog = ""
     for enroll in enrolls:
         out={}
         out['program'] = enroll.program.descriptor
+        # same program, don't repeat
         if prog != out['program']:
             out['noprogram'] = True
             prog = out['program']
 
-        out['enroll'] = enroll
+        out['enrollment_type'] = enroll.enrol_type+' - '+enroll.get_enrol_type_display()
+        out["redni"]="Redni" if enroll.regular else "Izredni"
+        out["letnik"]=enroll.class_year
+        out["study_year"]=enroll.class_year
+
+        #out['enroll'] = enroll
         
         courses = []
         classes = enroll.get_classes()
@@ -194,33 +201,52 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
             try:
                 course={}
                 course["name"]=p.name
+                course["sifra_predmeta"]=p.course_code
+                course["izvajalci"]=p.predavatelji()
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+                signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
+                
+                signs = []
+                if len(signups) > 0:
+                    fsignup = signups[0]
+                    for s in signups:
+                        polaganje={}
+                        polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
+                        polaganje['izvajalci']=s.examDate.instructors
+                        if(polaganje['izvajalci']==None):
+                            polaganje['izvajalci']=p.predavatelji()
+                        cur=Curriculum.objects.get(course=p, program=enroll.program)
+                        if(cur.only_exam==True):
+                            polaganje['ocena']=s.result_exam
+                        else:
+                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
+                        signs.append(polaganje)
 
-                try:
-                    foo = p.repeat_class(s, 1)
-                    course["signupcnt1"] = foo[0]
-                    course["signupcnt2"] = foo[1]
-                    #else:
-                    #    course["signupcnt2"] = False
-                except:
-                    raise
-                    pass
-                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
+                    if fsignup.examDate.repeat_class(student,0)>0:
+                        course['odstevek_ponavljanja']=" - "+fsignup.examDate.course.nr_attempts_all(student)-fsignup.examDate.repeat_class(student,0)
+                    else:
+                        course['odstevek_ponavljanja']=""
+                    course['polaganja_letos']=fsignup.examDate.course.nr_attempts_this_year(student)
+                    course['stevilo_polaganj']=fsignup.examDate.course.nr_attempts_all(student)
+                    #polaganje['stevilo_polaganj']
 
-                if display == "1":
-                    signups = signups[-1:]
+                if (display == "1" and len(signs)>1):
+                    signs = signs[-1:]
 
-                course["signups"] = signups
+                course["signups"] = signs
 
                 courses = courses+[course]
             except:
                 raise
                 pass
         out["courses"]=courses
+        out["povprecje_izpitov"]=enroll.get_exam_avg()
+        out["povprecje_vaj"]=enroll.get_practice_avg()
+        out["povprecje"]=enroll.get_avg()       
         response = response + [out]
         
-    return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
+    return render_to_response('admin/student/student_index_list.html', {'student':student, 'data':response}, RequestContext(request))
     
     
     
@@ -256,6 +282,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
             elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
                 message["error"]='Rok za prijavo na izpit je potekel'
+           
             elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
                 message["error"]='Ni se preteklo 14 dni od zadnje prijave'
             elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):

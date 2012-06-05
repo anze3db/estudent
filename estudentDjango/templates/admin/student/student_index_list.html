@@ -3,57 +3,64 @@
 {% block content %}
 
 <h2>Kartotečni list za: {{student}}</h2>
+    {% if data %}
     {% for d in data %}
-        {% if d.noprogram %}
         <strong>Študijski program:</strong> {{d.program}}<br>
-        {% endif %}
-        <strong>Študijsko leto:</strong> {{d.enroll.study_year}}<br>
-        
+        <strong>Študijsko leto:</strong> {{d.study_year}}<br>
+        <strong>Letnik:</strong> {{d.letnik}}<br>
+        <strong>Vrsta vpisa:</strong> {{d.enrollment_type}}<br>
+        <strong>Način:</strong> {{d.redni}}<br>
+        <br>
         {% if d.courses %}
-            <table cellpadding="0" cellspacing="0" class="sortable" style="width:70%">
+            <table cellpadding="0" cellspacing="0" class="sortable" style="width:80%">
                 <tr class="first-row">
-                    <td style="width:30%"><strong>Predmet</strong></td>
-                    <td style="width:20%"><strong>St. Polaganj</strong></td>
-                    <td style="width:25%"><strong>Datum polaganja</strong></td>
-                    <td style="width:25%"><strong>Rezultat izpita</strong></td>
+                    <td style="width:10%"><strong>Šifra</strong></td>
+                    <td style="width:35%"><strong>Predmet</strong></td>
+                    <td style="width:30%"><strong>Predavatelj(i)</strong></td>
+                    <td style="width:15%"><strong>Datum</strong></td>
+                    <td style="width:10%"><strong>Ocena</strong></td>
+                    <td style="width:5%"><strong>Št. Polaganj</strong></td>
                 </tr>
                 {% for c in d.courses %}
                 <tr>
+                <td>{{c.sifra_predmeta}}</td>
                 <td>{{c.name}}</td>
                 {% if c.signups %}
                     <td>
-                    {{ c.signupcnt1 }} 
-                    {% if c.signupcnt2 %} 
-                        - {{ c.signupcnt2 }}
-                    {% endif %}
-                    </td>
-                    <td>
                     {% for s in c.signups %}
-                        {{s.student_index_view_examDate}}<br>
+                        {{s.izvajalci}}<br>
                     {% endfor %}
                     </td>
                     <td>
                     {% for s in c.signups %}
-                        {% if s.VP %}
-                            VP<br>
-                        {% else %}
-                            {{s.student_index_view_result}}<br>
-                        {% endif %}
+                        {{s.datum}}<br>
                     {% endfor %}
+                    </td>                    
+                    <td>
+                    {% for s in c.signups %}
+                        {{s.ocena}}<br>
+                    {% endfor %}
+                    </td>
+                    <td>
+                    {{c.stevilo_polaganj}}{{c.odstevek_ponavljanja}}                    
                     </td>
                 {% else %}
-                    <td>0</td>
-                    <td>/</td>
-                    <td>Ni polaganj</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 {% endif %}                
                 </tr>
                 {% endfor %}
             </table>
         {% else %}
-            Za študijsko leto ni predmetov<br>
+            Za vpis ni predmetov<br>
         {% endif %}
         <br>
     {% endfor %}
+    {% else %}
+        Za študenta ni vpisov<br>
+    {% endif %}
 
 
 
