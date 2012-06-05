@@ -13,9 +13,13 @@ import android.app.ExpandableListActivity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
@@ -25,20 +29,39 @@ import android.widget.TextView;
 
 
 public class KartList extends ExpandableListActivity implements ResponseListener{
+	
+	public static final int ALL_ATTEMPTS = 1;
+	public static final int LAST_ATTEMPT = 2;
+	
+	private int mAttemptChoise = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		registerForContextMenu(getExpandableListView());
 		Api.getIndex(this, StaticData.username);
 
 	}
-
-
+	
 	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(Menu.NONE, ALL_ATTEMPTS, Menu.NONE, R.string.allAttempts);
+		menu.add(Menu.NONE, LAST_ATTEMPT, Menu.NONE, R.string.lastAttempts);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		mAttemptChoise = item.getItemId();
+		return true;
+	}
+
+
 	public void onServerResponse(Object o) {
 		if (o != null && o instanceof Index){
-			ExpandableListAdapter mAdapter = new MyExpandableListAdapter(this,(Index)o);
+			getExpandableListView().showContextMenu();
+			ExpandableListAdapter mAdapter = new MyExpandableListAdapter(this,(Index)o, mAttemptChoise);
 			setListAdapter(mAdapter);
 			Bundle extras = getIntent().getExtras();
 			if(extras.getBoolean("expand")) {
@@ -131,7 +154,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		return result;
 	}
 
-	public MyExpandableListAdapter(KartList k,Index index) {
+	public MyExpandableListAdapter(KartList k,Index index, int attemptChoise) {
 		super();
 		mKartList = k;
 
@@ -146,11 +169,16 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 					courseFormat = (format(course, null));
 					courses.add(courseFormat);
 				}else{
-					courseFormat = (format(course, course.polaganja.get(0)));
-					courses.add(courseFormat);
-					for (int i = 1; i < course.polaganja.size(); i++) {
-						courseFormat = (format(null, course.polaganja.get(i)));
-						courses.add(courseFormat);
+					courses.add(format(course, course.polaganja.get(0)));
+					switch (attemptChoise) {
+					case KartList.LAST_ATTEMPT:
+						courses.add(format(null, course.polaganja.get(course.polaganja.size()-1)));
+						break;
+					case KartList.ALL_ATTEMPTS:
+						for (int i = 1; i < course.polaganja.size(); i++) {
+							courses.add(format(null, course.polaganja.get(i)));
+						}
+						break;
 					}
 				}
 
