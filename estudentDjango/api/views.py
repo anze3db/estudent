@@ -52,10 +52,9 @@ def index(request):
     
     enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     
-    prog = ""
     for enroll in enrolls:
         out={}
-        out['program'] = enroll.program.descriptor
+        out['program'] = enroll.program.pk+" - "+enroll.program.descriptor
         out['enrollment_type']=enroll.enrol_type+' - '+enroll.get_enrol_type_display()
         out['redni']=enroll.regular
         out['letnik']= enroll.class_year
@@ -91,10 +90,10 @@ def index(request):
                         polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
                     polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_all(student)
                     if s.examDate.repeat_class(student,0)>0:
-                        polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
+                        polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all_till_now(student)-s.examDate.repeat_class(student,0)
                     else:
                         polaganje['odstevek_ponavljanja']=0
-                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year(student)
+                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 

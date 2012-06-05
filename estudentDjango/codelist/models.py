@@ -97,6 +97,19 @@ class Course(models.Model):
 
         return nr_try
 
+    def nr_attempts_this_year_till_now(self, student,nowdate):
+        from student.models import ExamSignUp
+
+        exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
+        nr_try=0
+
+        for t in exSig:
+            if t.examDate.date<nowdate:
+                nr_try=nr_try+1
+
+
+        return nr_try
+
     def nr_attempts_all(self, student):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
@@ -106,6 +119,15 @@ class Course(models.Model):
                 i=i+1
 
         return i
+
+    def nr_attempts_all_till_now(self, student,nowdate):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        i=0
+        for a in all_signUps:
+            if a.VP==False and a.examDate.date < nowdate:
+                i=i+1
+        return i    
 
     def nr_attempts_this_enroll(self, enroll):
         from student.models import ExamSignUp
