@@ -66,6 +66,10 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		return "\n"+String.format(LINE_FORMAT, 
 				"","Šifra", "Predmet", "KT/U", "Predavatelj(i)","Datum","Ocena", "Št. polaganj")+"\n";
 	}
+	
+	private String foot(float pi, float pv, float po) {
+		return String.format("\n      Povprečje izpitov: %.2f                    Povprečje vaj: %.2f              	     Povprečna ocena: %.2f\n", pi, pv, po);
+	}
 
 	private String split(String s,String sp,int w, boolean first){
 		if (w < s.length()){
@@ -131,7 +135,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		mKartList = k;
 		for(Index.Courses c: index.index) {
 			
-			String groupFormat = String.format("\nŠtudijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s\n", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
+			String groupFormat = String.format("\nŠtudijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Vrsta vpisa: %s\nNačin: %s\n", c.study_year, c.study_year+1, c.program, c.letnik, c.enrollment_type, c.redni ? "Redni" : "Izredni");
 			groups.add(groupFormat);
 
 			ArrayList<String> courses = new ArrayList<String>();
@@ -155,7 +159,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 					}
 				}
 			}
-
+			courses.add(foot(c.povprecje_izpitov, c.povprecje_vaj, c.povprecje));
 			children.add(courses);
 		}
 	}
