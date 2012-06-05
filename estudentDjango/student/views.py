@@ -32,6 +32,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
     result = []
     for p in prijave:
         prijava = {}
+        prijava['id'] = p.id
         prijava['priimek'] = p.enroll.student.surname
         prijava['ime'] = p.enroll.student.name
         prijava['leto'] = str(p.enroll.study_year) + "/" + str(p.enroll.study_year + 1)
@@ -40,12 +41,26 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['tocke'] = "" if p.points == None else p.points
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
-        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student) 
+        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
 
         result = result + [prijava]
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
 
+def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list of all objects
+    signup_Id = int(signup_Id)
+    signup=ExamSignUp.objects.get(id=signup_Id)
 
+    if what=="1":
+        signup.result_exam = newValue
+        signup.save()
+    if what=="2":
+        signup.result_practice = newValue
+        signup.save()
+    if what=="3":
+        signup.points = newValue
+        signup.save()
+
+    return exam_grades_view(request, exam_Id, l)
 
 def class_list(request):
     

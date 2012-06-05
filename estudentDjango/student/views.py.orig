@@ -13,24 +13,30 @@ from django.core import serializers
 
 
 def exam_grades_index(request):
-    
+
     exam_dates=ExamDate.objects.all().order_by('date')
     if request.user.groups.filter(name = 'profesorji'):
         exam_dates = [e for e in exam_dates if e.instructors and e.instructors.instructor.filter(user = request.user)]
     return render_to_response('admin/student/exam_grades_index.html', {'izpitni_roki': exam_dates,}, RequestContext(request))
 
 #http://stackoverflow.com/questions/4148923/is-it-possible-to-create-a-custom-admin-view-without-a-model-behind-it
-def exam_grades_view(request, exam_Id): #show list of all objects
+<<<<<<< HEAD
+def getprijave(exam, prijave):
+=======
+def exam_grades_view(request, exam_Id, l): #show list of all objects
 
     examDateId = int(exam_Id)
     exam=ExamDate.objects.get(id=examDateId)
 
-    prijave = ExamSignUp.objects.filter(examDate=exam)
+    prijave = ExamSignUp.objects.order_by('enroll__student__surname').filter(examDate=exam) #TODO: Check if this works
 
-
+    from api.views import _getPolaganja
+    
+>>>>>>> c4b8c2828cf59ad1a57f317036b302bfe925c63b
     result = []
     for p in prijave:
         prijava = {}
+        prijava['id'] = p.id
         prijava['priimek'] = p.enroll.student.surname
         prijava['ime'] = p.enroll.student.name
         prijava['leto'] = str(p.enroll.study_year) + "/" + str(p.enroll.study_year + 1)
@@ -39,15 +45,41 @@ def exam_grades_view(request, exam_Id): #show list of all objects
         prijava['tocke'] = "" if p.points == None else p.points
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
-
-
-
+<<<<<<< HEAD
 
         result = result + [prijava]
+    
+    return result
+
+def exam_grades_view(request, exam_Id): #show list of all objects
+    examDateId = int(exam_Id)
+    exam=ExamDate.objects.get(id=examDateId)
+
+    prijave = ExamSignUp.objects.filter(examDate=exam)
+
+    result = getprijave(exam,prijave)
+=======
+        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student) 
+
+        result = result + [prijava]
+    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
+
+>>>>>>> c4b8c2828cf59ad1a57f317036b302bfe925c63b
 
 
-    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result}, RequestContext(request))
+def exam_grades_fix(request, what, exam_Id, signup_Id, newValue): #show list of all objects
+    signup_Id = int(signup_Id)
+    signup=ExamSignUp.objects.get(id=signup_Id)
 
+    if what=="1":
+        signup.result_exam = newValue
+        signup.save()
+    if what=="2":
+        signup.result_practice = newValue
+        signup.save()
+
+    return exam_grades_view(request, exam_Id)
+    
 def class_list(request):
     
     class ClassForm(forms.Form):
@@ -172,12 +204,8 @@ def student_index(request):
 
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
-<<<<<<< HEAD
     student = get_object_or_404(Student, enrollment_number=student_Id)
 
-=======
-    s = get_object_or_404(Student, enrollment_number=student_Id)
->>>>>>> 87bbc71e257665b236de95b10e8cc5897e399416
     response = []
 
     enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
@@ -191,7 +219,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
             prog = out['program']
 
         out['enrollment_type'] = enroll.enrol_type+' - '+enroll.get_enrol_type_display()
-        out["redni"]=enroll.regular
+        out["redni"]="Redni" if enroll.regular else "Izredni"
         out["letnik"]=enroll.class_year
         out["study_year"]=enroll.class_year
 
@@ -200,25 +228,27 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         courses = []
         classes = enroll.get_classes()
         courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
-        
+        signupcnt = 0
         for p in courses2:
             try:
                 course={}
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["izvajalci"]=p.predavatelji()
-                
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
                 signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
                 
+                signs = []
                 if len(signups) > 0:
                     fsignup = signups[0]
-                    signs = []
                     for s in signups:
+                        signupcnt += 1
                         polaganje={}
                         polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                         polaganje['izvajalci']=s.examDate.instructors
+                        if(polaganje['izvajalci']==None):
+                            polaganje['izvajalci']=p.predavatelji()
                         cur=Curriculum.objects.get(course=p, program=enroll.program)
                         if(cur.only_exam==True):
                             polaganje['ocena']=s.result_exam
@@ -234,20 +264,20 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                     course['stevilo_polaganj']=fsignup.examDate.course.nr_attempts_all(student)
                     #polaganje['stevilo_polaganj']
 
-                    if display == "1":
-                        signs = signs[-1:]
+                if (display == "1" and len(signs)>1):
+                    signs = signs[-1:]
 
-                    course["signups"] = signs
+                course["signups"] = signs
 
                 courses = courses+[course]
             except:
                 raise
-                
+                pass
         out["courses"]=courses
-        out["povprecje_izpitov"]=enroll.get_exam_avg()
-        out["povprecje_vaj"]=enroll.get_practice_avg()
-        out["povprecje"]=enroll.get_avg()       
-        
+        if signupcnt > 0:
+            out["povprecje_izpitov"] = "%.3f" % enroll.get_exam_avg()
+            out["povprecje_vaj"] = "%.3f" % enroll.get_practice_avg()
+            out["povprecje"] = "%.3f" %  enroll.get_avg()       
         response = response + [out]
         
     return render_to_response('admin/student/student_index_list.html', {'student':student, 'data':response}, RequestContext(request))
@@ -286,8 +316,12 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
             elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
                 message["error"]='Rok za prijavo na izpit je potekel'
+           
             elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
                 message["error"]='Ni se preteklo 14 dni od zadnje prijave'
+            elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+                message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
+
 
             else:
 
