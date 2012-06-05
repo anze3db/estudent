@@ -45,6 +45,12 @@ def login(request):
                 
     return HttpResponse(json.dumps(response), mimetype="application/json")
 
+
+def _getPolaganja(s, student):
+    attempts = s.examDate.course.nr_attempts_all_till_now(student)
+    repeated = s.examDate.repeat_class(student)-s.examDate.repeat_class(student,0)
+    return attempts, repeated
+
 def index(request):
     student_id = request.GET['id']
     student = get_object_or_404(Student, enrollment_number=student_id)
@@ -88,12 +94,10 @@ def index(request):
                         polaganje['ocena']=s.result_exam
                     else:
                         polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
-                    polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_all(student)
-                    if s.examDate.repeat_class(student,0)>0:
-                        polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all_till_now(student)-s.examDate.repeat_class(student,0)
-                    else:
-                        polaganje['odstevek_ponavljanja']=0
-                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)
+                    
+                    
+                    polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student) 
+                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year(student)
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 

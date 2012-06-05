@@ -4,7 +4,19 @@
 
     <ul>
         {% for rok in izpitni_roki %}
-            <li><a href="/student/ExamGrades/{{rok.pk}}/">{{rok}}</a></li>
+            <li>
+            <table>
+            <tr>
+            <th style="width:500px;" colspan="4">{{rok}}</th>
+            </tr>
+            <tr>
+            <td><a href="/student/ExamGrades/{{rok.pk}}/1">Seznam prijavljenih</a></td>
+            <td><a href="/student/ExamGrades/{{rok.pk}}/0">Vnos rezultatov pisnega dela</a></td>
+            <td><a href="/student/ExamGrades/{{rok.pk}}/">Izpis seznama rezultatov pisnega dela</a></td>
+            <td><a href="/student/ExamGrades/{{rok.pk}}/">Vnos končnih ocen</a></td>
+            </tr>
+            </table>
+            </li>
         {% endfor %}
     </ul>
 
