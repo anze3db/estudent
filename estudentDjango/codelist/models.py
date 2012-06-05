@@ -100,11 +100,12 @@ class Course(models.Model):
     def nr_attempts_this_year_till_now(self, student,nowdate):
         from student.models import ExamSignUp
 
+        year=datetime.date.today().year
         exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
         nr_try=0
 
         for t in exSig:
-            if t.examDate.date<nowdate:
+            if t.examDate.date.year==year and t.examDate.date<nowdate:
                 nr_try=nr_try+1
 
 
