@@ -1,5 +1,6 @@
 # Create your views here.
 from __future__ import division
+from datetime import timedelta
 from django.http import HttpResponse
 from django.core import serializers
 from django.template.context import RequestContext
@@ -253,6 +254,9 @@ def getAllExamDates(request):
 
 
 def test(request):
+    """
+
+    """
     enrollment_id = request.GET['id']
     student = Student.objects.get(enrollment_number=enrollment_id)
     #enroll = Enrollment.objects.get(pk=enrollment_id)
@@ -265,13 +269,15 @@ def test(request):
 
 
 
-    exam=ExamDate.objects.get(id=2);
+    exam=ExamDate.objects.get(id=25);
+    d = timedelta(days=14)
+
     last=exam.last_try(student)
     e=ExamDate.objects.get(examsignup=last)
-    t= exam.date > (e.date + datetime.date(days=14))
+    t= exam.date > (e.date + d)
 
     #return HttpResponse(serializers.serialize("json", student)
-    return HttpResponse(t,mimetype="application/json")
+    return HttpResponse(exam.date,mimetype="application/json")
 
 
 def addSignUp(request):
@@ -286,7 +292,8 @@ def addSignUp(request):
     error_msgs = exam.signUp_allowed(student)
     nr_this=exam.course.nr_attempts_this_year(student)
     nr_all= exam.course.nr_attempts_all(student)
-    
+    d = datetime.timedelta(days=14)
+
     if error_msgs != None: 
         message["error"]= error_msgs[0]
     elif exam.already_positive(student):
@@ -299,6 +306,8 @@ def addSignUp(request):
         message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
     elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
         message["error"]='Rok za prijavo na izpit je potekel'
+    elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
+        message["error"]='Ni se preteklo 14 dni od zadnje prijave'
 
     else:
         enroll = Enrollment.objects.get(pk=enroll_id)

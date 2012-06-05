@@ -228,6 +228,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     student = get_object_or_404(Student, enrollment_number=student_Id)
     exam=ExamDate.objects.get(pk=exam_Id)
     enroll= Enrollment.objects.get(pk=enroll_Id)
+    d = datetime.timedelta(days=14)
 
 
     message = {"msg":"","error":""}
@@ -255,7 +256,8 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
             elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
                 message["error"]='Rok za prijavo na izpit je potekel'
-           
+            elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
+                message["error"]='Ni se preteklo 14 dni od zadnje prijave'
 
             else:
 

@@ -387,7 +387,7 @@ class ExamDate(models.Model):
 class ExamSignUp(models.Model):
     enroll = models.ForeignKey('Enrollment')
     examDate = models.ForeignKey('ExamDate')
-    VP = models.BooleanField(_("VP"))
+    VP = models.BooleanField(_("VP"), default=False)
 
     RESULTS = (
                 ('NR', 'Ni rezultatov'),
