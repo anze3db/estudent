@@ -2,11 +2,9 @@ package org.psywerx.estudent;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.psywerx.estudent.api.Api;
 import org.psywerx.estudent.api.ResponseListener;
-import org.psywerx.estudent.extra.D;
 import org.psywerx.estudent.json.Index;
 
 import android.app.ExpandableListActivity;
@@ -38,9 +36,9 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 	@Override
 	public void onServerResponse(Object o) {
 		if (o != null && o instanceof Index){
-			ExpandableListAdapter mAdapter = new MyExpandableListAdapter(this,(Index)o);
-			setListAdapter(mAdapter);
 			Bundle extras = getIntent().getExtras();
+			ExpandableListAdapter mAdapter = new MyExpandableListAdapter(this, (Index)o, extras.getBoolean("lastAttempt"));
+			setListAdapter(mAdapter);
 			if(extras.getBoolean("expand")) {
 				for(int i = 0; i < mAdapter.getGroupCount(); i++)
 					getExpandableListView().expandGroup(i);
@@ -50,7 +48,6 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 					}
 				});
 			}
-
 		}else {
 			finish();
 		}
@@ -63,7 +60,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	private ArrayList<String> groups = new ArrayList<String>();
 	private ArrayList<ArrayList<String>> children = new ArrayList<ArrayList<String>>();
 	private KartList mKartList;
-
+	
 	private int zaporedna = 1;
 
 	private String head(){
@@ -82,9 +79,9 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		}else{
 			return first ? s:"";
 		}
-		
+
 	}
-	
+
 	private String format(Index.SingleCourse course, Index.Polaganje polaganje){
 		String result = "";
 		String sifraPredmeta = "";
@@ -106,7 +103,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			polaganj = ""+polaganje.stevilo_polaganj;
 			predavatelj = polaganje.izvajalci;
 		}
-		
+
 		result = String.format(LINE_FORMAT, 
 				""+zaporedna++, sifraPredmeta,
 				split(imePredmeta," ", 34, true),
@@ -117,7 +114,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		predavatelj = split(predavatelj,"/", 19, false);
 		int c = 0;
 		while (c++<4 && (imePredmeta.length()>0 || predavatelj.length()>0)){
-			
+
 			result += "\n"+String.format(LINE_FORMAT, 
 					"", "",
 					split(imePredmeta," ", 34, true),
@@ -127,14 +124,12 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			imePredmeta = split(imePredmeta," ", 34, false);
 			predavatelj = split(predavatelj,"/", 34, false);
 		}
-		D.dbgv(result);
 		return result;
 	}
 
-	public MyExpandableListAdapter(KartList k,Index index) {
+	public MyExpandableListAdapter(KartList k,Index index, boolean lastAttempt) {
 		super();
 		mKartList = k;
-
 		for(Index.Courses c: index.index) {
 			groups.add(c.program);
 
@@ -146,14 +141,18 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 					courseFormat = (format(course, null));
 					courses.add(courseFormat);
 				}else{
-					courseFormat = (format(course, course.polaganja.get(0)));
-					courses.add(courseFormat);
-					for (int i = 1; i < course.polaganja.size(); i++) {
-						courseFormat = (format(null, course.polaganja.get(i)));
+					if (lastAttempt){
+						courseFormat = (format(course, course.polaganja.get(course.polaganja.size()-1)));
 						courses.add(courseFormat);
+					}else {
+						courseFormat = (format(course, course.polaganja.get(0)));
+						courses.add(courseFormat);
+						for (int i = 1; i < course.polaganja.size(); i++) {
+							courseFormat = (format(null, course.polaganja.get(i)));
+							courses.add(courseFormat);
+						}
 					}
 				}
-
 			}
 
 			children.add(courses);
@@ -163,7 +162,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
 			View convertView, ViewGroup parent) {
 		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-//				ViewGroup.LayoutParams.MATCH_PARENT, 32+20*(childPosition==0 ? 1 : 0));
+				//				ViewGroup.LayoutParams.MATCH_PARENT, 32+20*(childPosition==0 ? 1 : 0));
 				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		TextView textView = new TextView(mKartList);
 		textView.setLayoutParams(lp);
