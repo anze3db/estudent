@@ -45,7 +45,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         result = result + [prijava]
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
 
-def exam_grades_fix(request, what, exam_Id, signup_Id, newValue): #show list of all objects
+def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list of all objects
     signup_Id = int(signup_Id)
     signup=ExamSignUp.objects.get(id=signup_Id)
 
@@ -56,7 +56,7 @@ def exam_grades_fix(request, what, exam_Id, signup_Id, newValue): #show list of 
         signup.result_practice = newValue
         signup.save()
 
-    return exam_grades_view(request, exam_Id)
+    return exam_grades_view(request, exam_Id, l)
 
 def class_list(request):
     
