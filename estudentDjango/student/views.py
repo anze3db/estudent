@@ -1,6 +1,6 @@
 # Create your views here.
 import datetime
-from codelist.models import Course, StudyProgram
+from codelist.models import Course, StudyProgram, Instructor
 from django import forms
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,8 +13,10 @@ from django.core import serializers
 
 
 def exam_grades_index(request):
-
+    
     exam_dates=ExamDate.objects.all().order_by('date')
+    if request.user.groups.filter(name = 'profesorji'):
+        exam_dates = [e for e in exam_dates if e.instructors and e.instructors.instructor.filter(user = request.user)]
     return render_to_response('admin/student/exam_grades_index.html', {'izpitni_roki': exam_dates,}, RequestContext(request))
 
 #http://stackoverflow.com/questions/4148923/is-it-possible-to-create-a-custom-admin-view-without-a-model-behind-it
@@ -171,7 +173,6 @@ def student_index(request):
 
 def student_index_list(request, student_Id, display): #0=all, 1=last
     s = get_object_or_404(Student, enrollment_number=student_Id)
-
     response = []
 
     enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
