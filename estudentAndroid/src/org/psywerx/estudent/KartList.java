@@ -29,11 +29,10 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 		super.onCreate(savedInstanceState);
 
 		Api.getIndex(this, StaticData.username);
-
+		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 
 
-	@Override
 	public void onServerResponse(Object o) {
 		if (o != null && o instanceof Index){
 			Bundle extras = getIntent().getExtras();
@@ -131,7 +130,9 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		super();
 		mKartList = k;
 		for(Index.Courses c: index.index) {
-			groups.add(c.program);
+			
+			String groupFormat = String.format("Študijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
+			groups.add(groupFormat);
 
 			ArrayList<String> courses = new ArrayList<String>();
 			courses.add(head());
@@ -188,6 +189,8 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		textView.setLayoutParams(lp);
 		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
 		textView.setPadding(64, 0, 0, 0);
+		textView.setTypeface(Typeface.MONOSPACE, 1);
+		textView.setTextSize(20);
 		textView.setText(getGroup(groupPosition).toString());
 		return textView;
 	}
