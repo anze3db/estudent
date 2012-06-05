@@ -11,9 +11,12 @@
             <th>Ime</th>
             <th>Vpisna številka</th>
             <th>Št. polaganj</th>
-            {% if not list %}
+            {% if list == 2 %}
             <th>Število Točk</th>
-            <th>Ocena Pisni</th>
+            {% endif %}
+            {% if list == 0 %}
+            <th>Število Točk</th>
+            <th>Ocena Izpit</th>
             <th>Ocena Vaje</th>
             {% endif %}
         </tr>
@@ -24,7 +27,7 @@
                 <td>{{p.ime}}</td>
                 <td>{{p.vpisna_st}}</td>
                 <td style="text-align: right;">{{p.stevilo_polaganj}} - {{p.odstevek_ponavljanja}}</td>
-                {% if not list %}
+                {% if list == 0 %}
                 <td><input type="text" id="p{{p.id}}" value="{{ p.tocke }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/3/{{p.id}}/'+document.getElementById('p{{p.id}}').value">Potrdi</button></td>
                 <td>
                     <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/0/1/{{p.id}}/'+this.options[this.selectedIndex].value;">
@@ -48,6 +51,9 @@
                     {% endfor %}
                     </select>
                 </td>
+                {% endif %}
+                {% if list == 2 %}
+                <td style="text-align: center;">{{ p.tocke }}</td>
                 {% endif %}
 
             </tr>
