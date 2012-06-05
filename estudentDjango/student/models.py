@@ -1,3 +1,4 @@
+from __future__ import division
 from itertools import chain
 from django.contrib.auth.models import get_hexdigest
 from django.db import models
@@ -5,6 +6,7 @@ from django.utils.translation import ugettext as _
 from django.core.validators import RegexValidator 
 from django.utils.encoding import force_unicode
 from codelist.models import *
+
 
 import re
 import string
@@ -187,9 +189,58 @@ class Enrollment(models.Model):
 
         result_list = list(chain(select,mandatory,mod))
 
-
-
         return result_list
+
+    def get_exam_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_exam)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
+    def get_practice_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_practice)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
+    def get_avg(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_practice)
+                i=i+1
+                avg= avg+int(e.result_exam)
+                i=i+1
+
+        if i!=0:
+            return float(avg/i)
+        else:
+            return avg
+
 
 
 
@@ -226,7 +277,7 @@ class ExamDate(models.Model):
     def year(self):
         self.date.year
 
-    def repeat_class(self, student):
+    def repeat_class(self, student, retrn=0):
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self.course))
         all=len(all_signUps)
         rep=0
@@ -237,7 +288,20 @@ class ExamDate(models.Model):
                 rep=rep+1
 
         ost=all-rep
-        return rep
+        if retrn == 0:
+            return rep
+        else:
+            return (all, rep)
+
+    def already_thisExam(self, student):
+        flag=False
+
+        for c in Course.objects.filter(course__examsignup__enroll__student=student):
+            if(c==self.course):
+                ex=ExamSignUp.objects.filter(enroll__student=student, examDate__course=c)
+                for e in ex:
+                    if e.examDate==self: flag=True
+        return flag
 
 
     def already_signedUp(self, student):
@@ -323,7 +387,7 @@ class ExamDate(models.Model):
 class ExamSignUp(models.Model):
     enroll = models.ForeignKey('Enrollment')
     examDate = models.ForeignKey('ExamDate')
-    VP = models.BooleanField(_("VP"))
+    VP = models.BooleanField(_("VP"), default=False)
 
     RESULTS = (
                 ('NR', 'Ni rezultatov'),

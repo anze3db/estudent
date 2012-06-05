@@ -1,0 +1,92 @@
+{"index":
+[
+{"courses": 
+	[
+		{
+			"sifra_predmeta": 10002,
+			"name": "Linearna algebra",
+			"kreditne_tocke":3,
+			"predavatelj":"Borut Robic",
+			"polaganja":[
+				{
+				"datum":"12.1.2012",
+				"ocena_izpit":"5",
+				"ocena_vaje":"5",
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
+				"odstevek_ponavljanja":2
+				},
+				{
+				"datum":"12.2.2012",
+				"ocena_izpit":"7",
+				"ocena_vaje":"4",
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
+				"odstevek_ponavljanja":2
+				}
+			]
+		},
+		{
+			"sifra_predmeta": 10021,
+			"name": "Algoritmi",
+			"kreditne_tocke":4,
+			"predavatelj":"Slivnik",
+			"polaganja":[]
+		}
+	], 
+"povprecje_izpitov":3,
+"povprecje_vaj":2,
+"povprecje":2.5,
+"program": "RI - BREZ SMERI - UN", 
+"study_year": 2009,
+"enrollment_type" : "V1 - prvi vpis v letnik",
+"redni" : true,
+"Letnik" : 1
+},
+{"courses": 
+	[
+		{
+			"sifra_predmeta": 10002,
+			"name": "Linearna algebra",
+			"kreditne_tocke":3,
+			"predavatelj":"Borut Robic",
+			"polaganja":[
+				{
+				"datum":"12.1.2012",
+				"ocena_izpit":"5",
+				"ocena_vaje":"5",
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
+				"odstevek_ponavljanja":2
+				},
+				{
+				"datum":"12.2.2012",
+				"ocena_izpit":"7",
+				"ocena_vaje":"4",
+				"stevilo_vseh_polaganj":4,
+				"stevilo_polaganj_letos":2,
+				"odstevek_ponavljanja":2
+				}
+			]
+		},
+		{
+			"sifra_predmeta": 10021,
+			"name": "Algoritmi",
+			"kreditne_tocke":4,
+			"predavatelj":"Slivnik",
+			"polaganja":[]
+		}
+	], 
+"povprecje_izpitov":3,
+"povprecje_vaj":2,
+"povprecje":2.5,
+"program": "RI - BREZ SMERI - UN", 
+"study_year": 2010,
+"enrollment_type" : "V2 - ponavljanje",
+"redni" : true,
+"Letnik" : 1
+}]
+
+}
+
+

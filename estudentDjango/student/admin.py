@@ -25,14 +25,18 @@ class StudentAdmin(admin.ModelAdmin):
     form = StudentForm
     raw_id_fields = ("birth_country","birth_region")
 
+    def _personal(self, obj):
+        return '<a href="/student/StudentPersonal/%s">Osebni podatki</a>' % (obj.enrollment_number)
+    _personal.allow_tags = True
+    _personal.short_description = 'Osebni podatki'
 
-
+    list_display = ['__unicode__', '_personal']
 class EnrollmentAdmin(admin.ModelAdmin):
     
     
     @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
-        self.list_display = ['action_checkbox', '__str__','_vpisna','_ime', '_priimek',]
+        self.list_display = ['action_checkbox', '__str__','_vpisna','_ime', '_priimek']
         if 'study_year' not in request.GET:
             self.list_display.append('study_year')
         if 'class_year' not in request.GET:

@@ -55,6 +55,22 @@ class Course(models.Model):
             c.save()
             i=i+1
 
+    def repeat_class(self, student, retrn=0):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        all=len(all_signUps)
+        rep=0
+
+        for x in all_signUps:
+            type=x.enroll.enrol_type
+            if type == 'V2':
+                rep=rep+1
+
+        ost=all-rep
+        if retrn == 0:
+            return rep
+        else:
+            return (all, rep)
 
 
     def nr_attempts_this_year(self, student):
@@ -81,15 +97,48 @@ class Course(models.Model):
 
         return nr_try
 
+    def nr_attempts_this_year_till_now(self, student,nowdate):
+        from student.models import ExamSignUp
+
+        exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
+        nr_try=0
+
+        for t in exSig:
+            if t.examDate.date<nowdate:
+                nr_try=nr_try+1
+
+
+        return nr_try
+
     def nr_attempts_all(self, student):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
-        return len(all_signUps)
+        i=0
+        for a in all_signUps:
+            if a.VP==False:
+                i=i+1
+
+        return i
+
+    def nr_attempts_all_till_now(self, student,nowdate):
+        from student.models import ExamSignUp
+        all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
+        print all_signUps
+        print "\n\n"
+        i=0
+        for a in all_signUps:
+            if a.VP==False and a.examDate.date < nowdate:
+                i=i+1
+        return i    
 
     def nr_attempts_this_enroll(self, enroll):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll=enroll, examDate__course=self))
-        return len(all_signUps)
+        i=0
+        for a in all_signUps:
+            if a.VP==False:
+                i=i+1
+        return i
 
 
     def already_signedUp(self, student):
@@ -328,7 +377,7 @@ class GroupInstructors(models.Model):
         return self.objects.get(id=1)
 
     def generateName(self):
-        return
+        return force_unicode(', '.join([i.surname for i in self.instructor.all()]))
 
     @staticmethod
     def getAllInstr(course_code):

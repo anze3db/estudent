@@ -32,6 +32,10 @@
             android:name=".ExamDetailsActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity 
+            android:name=".KartList"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

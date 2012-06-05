@@ -1,6 +1,7 @@
 package org.psywerx.estudent.api;
 
 import org.psywerx.estudent.json.EnrollmentExamDates;
+import org.psywerx.estudent.json.Index;
 import org.psywerx.estudent.json.Signup;
 import org.psywerx.estudent.json.StudentEnrollments;
 import org.psywerx.estudent.json.User;
@@ -29,10 +30,16 @@ public class Api {
 		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Signup.class);
 		task.execute("student_id", studnet_id, "exam_id", exam_id, "enroll_id", enroll_id);
 	}
-	
+
 	public static void unapplyExam(ResponseListener rl,String exam_id, String studnet_id, String enroll_id) {
 		String apiSubDirectory = "removeSignUp/";
 		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Signup.class);
 		task.execute("student_id", studnet_id, "exam_id", exam_id, "enroll_id", enroll_id);
+	}
+	
+	public static void getIndex(ResponseListener rl, String studnet_id) {
+		String apiSubDirectory = "index/";
+		RequestAsyncTask task = new RequestAsyncTask(rl,apiSubDirectory,Index.class);
+		task.execute("id", studnet_id);
 	}
 }
