@@ -47,11 +47,8 @@ def login(request):
 
 
 def _getPolaganja(s, student):
-    attempts = s.examDate.course.nr_attempts_all(student)
-    if s.examDate.repeat_class(student,0)>0:
-        repeated = s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
-    else:
-        repeated = 0
+    attempts = s.examDate.course.nr_attempts_all_till_now(student)
+    repeated = s.examDate.repeat_class(student)-s.examDate.repeat_class(student,0)
     return attempts, repeated
 
 def index(request):
@@ -61,10 +58,9 @@ def index(request):
     
     enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
     
-    prog = ""
     for enroll in enrolls:
         out={}
-        out['program'] = enroll.program.descriptor
+        out['program'] = enroll.program.pk+" - "+enroll.program.descriptor
         out['enrollment_type']=enroll.enrol_type+' - '+enroll.get_enrol_type_display()
         out['redni']=enroll.regular
         out['letnik']= enroll.class_year
@@ -102,8 +98,6 @@ def index(request):
                     
                     polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student) 
                     polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year(student)
-                    
-                    
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 
