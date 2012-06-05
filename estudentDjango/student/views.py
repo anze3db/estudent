@@ -20,14 +20,15 @@ def exam_grades_index(request):
     return render_to_response('admin/student/exam_grades_index.html', {'izpitni_roki': exam_dates,}, RequestContext(request))
 
 #http://stackoverflow.com/questions/4148923/is-it-possible-to-create-a-custom-admin-view-without-a-model-behind-it
-def exam_grades_view(request, exam_Id): #show list of all objects
+def exam_grades_view(request, exam_Id, l): #show list of all objects
 
     examDateId = int(exam_Id)
     exam=ExamDate.objects.get(id=examDateId)
 
-    prijave = ExamSignUp.objects.filter(examDate=exam)
+    prijave = ExamSignUp.objects.order_by('enroll__student__surname').filter(examDate=exam) #TODO: Check if this works
 
-
+    from api.views import _getPolaganja
+    
     result = []
     for p in prijave:
         prijava = {}
@@ -39,14 +40,12 @@ def exam_grades_view(request, exam_Id): #show list of all objects
         prijava['tocke'] = "" if p.points == None else p.points
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
-
-
-
+        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student) 
 
         result = result + [prijava]
+    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
 
 
-    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result}, RequestContext(request))
 
 def class_list(request):
     
