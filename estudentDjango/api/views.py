@@ -350,7 +350,7 @@ def getEnrollmentExamDates(request):
         ex['course']=e.course.name
         ex['date']=str(e.date)
         ex['instructors']=str(e.instructors)
-        ex['signedup']=e.already_signedUp(enroll.student)
+        ex['signedup']=e.already_thisExam(enroll.student)
         ex['all_attempts']=e.course.nr_attempts_all(student)
         ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
         ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)

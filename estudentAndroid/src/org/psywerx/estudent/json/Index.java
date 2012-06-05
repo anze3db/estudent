@@ -31,6 +31,7 @@ public class Index {
 	public class Polaganje{
 		public String datum;
 		public String ocena;
+		public String izvajalci;
 		public int polaganja_letos;
 		public int stevilo_polaganj;
 		public int odstevek_ponavljanja;

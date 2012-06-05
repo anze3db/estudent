@@ -104,6 +104,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			datum = polaganje.datum;
 			ocena = polaganje.ocena;
 			polaganj = ""+polaganje.stevilo_polaganj;
+			predavatelj = polaganje.izvajalci;
 		}
 		
 		result = String.format(LINE_FORMAT, 
