@@ -44,8 +44,10 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
 
         result = result + [prijava]
-    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
 
+    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': int(l)}, RequestContext(request))
+    
+    
 def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list of all objects
     signup_Id = int(signup_Id)
     signup=ExamSignUp.objects.get(id=signup_Id)
