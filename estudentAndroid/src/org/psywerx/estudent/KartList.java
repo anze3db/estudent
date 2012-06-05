@@ -66,6 +66,10 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		return "\n"+String.format(LINE_FORMAT, 
 				"","Šifra", "Predmet", "KT/U", "Predavatelj(i)","Datum","Ocena", "Št. polaganj")+"\n";
 	}
+	
+	private String foot(float pi, float pv, float po) {
+		return String.format("\n      Povprečje izpitov: %.2f                    Povprečje vaj: %.2f              	     Povprečna ocena: %.2f\n", pi, pv, po);
+	}
 
 	private String split(String s,String sp,int w, boolean first){
 		if (w < s.length()){
@@ -93,13 +97,13 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		if (course != null){
 			sifraPredmeta = course.sifra_predmeta;
 			imePredmeta = course.name.replace("\n", "");
-			kreditneTocke = ""+course.kreditne_tocke;
+			kreditneTocke = "6"; //""+course.kreditne_tocke;
 			predavatelj = course.predavatelj.replace("\n", "");
 		}
 		if (polaganje != null){
 			datum = polaganje.datum;
 			ocena = polaganje.ocena;
-			polaganj = ""+polaganje.stevilo_polaganj;
+			polaganj = ""+polaganje.stevilo_polaganj+" "+polaganje.odstevek_ponavljanja+" "+polaganje.polaganja_letos;
 			predavatelj = polaganje.izvajalci;
 		}
 
@@ -131,7 +135,13 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		mKartList = k;
 		for(Index.Courses c: index.index) {
 			
-			String groupFormat = String.format("\nŠtudijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s\n", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
+			String groupFormat = String.format("\n" +
+					"%s  %4d/%4d                   %s         %s\n%s  %9d.                          %s  %s\n%s           %s\n", 
+					"Študijsko leto:", c.study_year, c.study_year+1,
+					"Smer:", c.program, 
+					"Letnik:", c.letnik,
+					"Vrsta vpisa:", c.enrollment_type, 
+					"Način:", c.redni ? "Redni" : "Izredni");
 			groups.add(groupFormat);
 
 			ArrayList<String> courses = new ArrayList<String>();
@@ -155,7 +165,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 					}
 				}
 			}
-
+			courses.add(foot(c.povprecje_izpitov, c.povprecje_vaj, c.povprecje));
 			children.add(courses);
 		}
 	}
@@ -173,6 +183,8 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		textView.setTextSize(16);
 		if(childPosition == 0)
 			textView.setBackgroundColor(Color.rgb(33, 66, 99));
+		else if(isLastChild)
+			textView.setBackgroundColor(Color.rgb(11,11,11));
 		else if(childPosition % 2 == 0)
 			textView.setBackgroundColor(Color.rgb(55, 55, 55));
 		else

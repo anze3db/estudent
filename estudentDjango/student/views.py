@@ -20,11 +20,18 @@ def exam_grades_index(request):
     return render_to_response('admin/student/exam_grades_index.html', {'izpitni_roki': exam_dates,}, RequestContext(request))
 
 #http://stackoverflow.com/questions/4148923/is-it-possible-to-create-a-custom-admin-view-without-a-model-behind-it
-def getprijave(exam, prijave):
+def exam_grades_view(request, exam_Id, l): #show list of all objects
+
+    examDateId = int(exam_Id)
+    exam=ExamDate.objects.get(id=examDateId)
+
+    prijave = ExamSignUp.objects.order_by('enroll__student__surname').filter(examDate=exam) #TODO: Check if this works
+
+    from api.views import _getPolaganja
+    
     result = []
     for p in prijave:
         prijava = {}
-        prijava['id'] = p.id
         prijava['priimek'] = p.enroll.student.surname
         prijava['ime'] = p.enroll.student.name
         prijava['leto'] = str(p.enroll.study_year) + "/" + str(p.enroll.study_year + 1)
@@ -33,20 +40,10 @@ def getprijave(exam, prijave):
         prijava['tocke'] = "" if p.points == None else p.points
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
+        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student) 
 
         result = result + [prijava]
-    
-    return result
-
-def exam_grades_view(request, exam_Id): #show list of all objects
-    examDateId = int(exam_Id)
-    exam=ExamDate.objects.get(id=examDateId)
-
-    prijave = ExamSignUp.objects.filter(examDate=exam)
-
-    result = getprijave(exam,prijave)
-
-    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result}, RequestContext(request))
+    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': True if l == '1' else False}, RequestContext(request))
 
 def exam_grades_fix(request, what, exam_Id, signup_Id, newValue): #show list of all objects
     signup_Id = int(signup_Id)
@@ -60,7 +57,7 @@ def exam_grades_fix(request, what, exam_Id, signup_Id, newValue): #show list of 
         signup.save()
 
     return exam_grades_view(request, exam_Id)
-    
+
 def class_list(request):
     
     class ClassForm(forms.Form):
@@ -209,7 +206,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         courses = []
         classes = enroll.get_classes()
         courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
-        signupcnt = 0
+        
         for p in courses2:
             try:
                 course={}
@@ -224,7 +221,6 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 if len(signups) > 0:
                     fsignup = signups[0]
                     for s in signups:
-                        signupcnt += 1
                         polaganje={}
                         polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                         polaganje['izvajalci']=s.examDate.instructors
@@ -255,10 +251,9 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 raise
                 pass
         out["courses"]=courses
-        if signupcnt > 0:
-            out["povprecje_izpitov"] = "%.3f" % enroll.get_exam_avg()
-            out["povprecje_vaj"] = "%.3f" % enroll.get_practice_avg()
-            out["povprecje"] = "%.3f" %  enroll.get_avg()       
+        out["povprecje_izpitov"]=enroll.get_exam_avg()
+        out["povprecje_vaj"]=enroll.get_practice_avg()
+        out["povprecje"]=enroll.get_avg()       
         response = response + [out]
         
     return render_to_response('admin/student/student_index_list.html', {'student':student, 'data':response}, RequestContext(request))

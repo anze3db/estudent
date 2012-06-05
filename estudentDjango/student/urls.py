@@ -5,7 +5,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     (r'^ExamGrades/$', 'student.views.exam_grades_index'),
-    (r'^ExamGrades/(?P<exam_Id>\d+)/$', 'student.views.exam_grades_view'),
+    (r'^ExamGrades/(?P<exam_Id>\d+)/(?P<l>\d+)$', 'student.views.exam_grades_view'),
     (r'^ExamGrades/(?P<exam_Id>\d+)/(?P<what>\d+)/(?P<signup_Id>\d+)/(?P<newValue>\d+)/$', 'student.views.exam_grades_fix'),
 	(r'^ClassList/$', 'student.views.class_list'),    
 	(r'^ExamSignUp/$', 'student.views.exam_sign_up_index'),
