@@ -344,7 +344,7 @@ class GroupInstructors(models.Model):
         return self.objects.get(id=1)
 
     def generateName(self):
-        return
+        return force_unicode(', '.join([i.surname for i in self.instructor.all()]))
 
     @staticmethod
     def getAllInstr(course_code):
