@@ -131,7 +131,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		mKartList = k;
 		for(Index.Courses c: index.index) {
 			
-			String groupFormat = String.format("Študijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
+			String groupFormat = String.format("\nŠtudijsko leto: %4d/%4d                   Smer: %s\nLetnik: %d                                   Način: %s\n", c.study_year, c.study_year+1, c.program, c.letnik, c.redni ? "Redni" : "Izredni");
 			groups.add(groupFormat);
 
 			ArrayList<String> courses = new ArrayList<String>();
@@ -184,7 +184,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
 			ViewGroup parent) {
 		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT, 64);
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		TextView textView = new TextView(mKartList);
 		textView.setLayoutParams(lp);
 		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
