@@ -77,6 +77,8 @@ def index(request):
 
                 eno_pol=[]
                 for s in signups:
+                    if (s.result_exam == "NR" or s.VP == True):
+                        continue
                     polaganje={}
                     polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                     polaganje['izvajalci']=force_unicode(s.examDate.instructors)
