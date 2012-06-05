@@ -1,0 +1,14 @@
+osebni podatki
+    datumi format
+    vsi podatki z vpis
+    
+rezultati izpita
+    ena ocena ali dve
+    tocke ostalo
+    vp
+    ocene grejo drugam
+
+ce ocena 1 <5, druga avtomatsko 0
+
+    stevilo tock ostalo
+    prvo leto poslusanja
