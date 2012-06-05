@@ -44,50 +44,7 @@ def login(request):
                 
     return HttpResponse(json.dumps(response), mimetype="application/json")
 
-    s = get_object_or_404(Student, enrollment_number=student_Id)
-
-    response = []
-
-    enrolls = Enrollment.objects.filter(student=s).order_by('program', 'study_year', 'class_year')
-    prog = ""
-    for enroll in enrolls:
-        out={}
-        out['program'] = enroll.program.descriptor
-        if prog != out['program']:
-            out['noprogram'] = True
-            prog = out['program']
-
-        out['enroll'] = enroll
-        
-        courses = []
-        classes = enroll.get_classes()
-        courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
-        
-        for p in courses2:
-            try:
-                course={}
-                course["name"]=p.name
-                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
-                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
-
-                #course["signupscnt"] = len(signups) 
-                #course["signupscnt2"] = len(filter(lambda s: s.date.str signups.filter(examDate__date)) 
-
-                if display == "1":
-                    signups = signups[-1:]
-
-                course["signups"] = signups
-
-                courses = courses+[course]
-            except:
-                pass
-        out["courses"]=courses
-        response = response + [out]
-        
-    return render_to_response('admin/student/student_index_list.html', {'student':s, 'data':response}, RequestContext(request))
-
 def index(request):
-    #js = "\n".join(file("api/index_example.json").readlines())
     student_id = request.GET['id']
     student = get_object_or_404(Student, enrollment_number=student_id)
     response = []
@@ -115,7 +72,7 @@ def index(request):
                 course={}
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
-                course["izvajalci"]=p.predavatelji()
+                course["predavatelj"]=p.predavatelji()
                 signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code).order_by('examDate__date')
 
                 eno_pol=[]
@@ -128,14 +85,13 @@ def index(request):
                     if(cur.only_exam==True):
                         polaganje['ocena']=s.result_exam
                     else:
-                        polaganje['ocena_vaje']=s.result_practice
-                        polaganje['ocena_izpit']=s.result_exam
+                        polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
                     polaganje['stevilo_polaganj']=s.examDate.course.nr_attempts_all(student)
                     if s.examDate.repeat_class(student,0)>0:
                         polaganje['odstevek_ponavljanja']=s.examDate.course.nr_attempts_all(student)-s.examDate.repeat_class(student,0)
                     else:
                         polaganje['odstevek_ponavljanja']=0
-                    polaganje['letos']=s.examDate.course.nr_attempts_this_year(student)
+                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year(student)
                     #polaganje['stevilo_polaganj']
                     eno_pol.append(polaganje)
 
