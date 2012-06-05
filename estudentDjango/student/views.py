@@ -187,7 +187,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
             prog = out['program']
 
         out['enrollment_type'] = enroll.enrol_type+' - '+enroll.get_enrol_type_display()
-        out["redni"]=enroll.regular
+        out["redni"]="Redni" if enroll.regular else "Izredni"
         out["letnik"]=enroll.class_year
         out["study_year"]=enroll.class_year
 
@@ -206,10 +206,10 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
                 signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
-
+                
+                signs = []
                 if len(signups) > 0:
                     fsignup = signups[0]
-                    signs = []
                     for s in signups:
                         polaganje={}
                         polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
@@ -231,8 +231,8 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                     course['stevilo_polaganj']=fsignup.examDate.course.nr_attempts_all(student)
                     #polaganje['stevilo_polaganj']
 
-                if display == "1":
-                        signs = signs[-1:]
+                if (display == "1" and len(signs)>1):
+                    signs = signs[-1:]
 
                 course["signups"] = signs
 
