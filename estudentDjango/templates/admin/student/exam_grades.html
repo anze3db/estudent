@@ -20,25 +20,35 @@
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
                 <td>{{p.vpisna_st}}</td>
-                <td><input type="text" value={{ p.tocke }}/></td>
+                <td><input type="text" value="{{ p.tocke }}" /></td>
                 <td>
-                    <select>
+                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/1/{{p.id}}/'+this.options[this.selectedIndex].value;">
                     {% for choice in p.opcije %}
-                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        <option id="o{{p.id}}1" value="{{ choice.0 }}"
+                        {% if choice.0 == p.ocena_izpita %}
+                         selected 
+                        {% endif %}  
+                        >{{ choice.1 }}</option>
                     {% endfor %}
                     </select>
                 </td>
                 <td>
-                    <select>
-                        {% for choice in p.opcije %}
-                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                        {% endfor %}
+                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
+                    {% for choice in p.opcije %}
+                        <option id="o{{p.id}}2" value="{{ choice.0 }}"
+                        {% if choice.0 == p.ocena_vaj %}
+                         selected 
+                        {% endif %}  
+                        >{{ choice.1 }}</option>
+                    {% endfor %}
                     </select>
+                </td>
                 </td>
 
             </tr>
         {% endfor %}
     </table>
+    
 
 
 

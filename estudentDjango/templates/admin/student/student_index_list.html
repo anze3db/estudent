@@ -12,6 +12,11 @@
         <strong>Letnik:</strong> {{d.letnik}}<br>
         <strong>Vrsta vpisa:</strong> {{d.enrollment_type}}<br>
         <strong>Način:</strong> {{d.redni}}<br>
+        {% if d.povprecje %}
+        <strong>Povprečje izpitov:</strong> {{d.povprecje_izpitov}}<br>
+        <strong>Povprečje vaj:</strong> {{d.povprecje_vaj}}<br>
+        <strong>Povprečna ocena:</strong> {{d.povprecje}}<br>
+        {% endif %}
         <br>
         {% if d.courses %}
             <table cellpadding="0" cellspacing="0" class="sortable" style="width:80%">
@@ -56,12 +61,12 @@
                 {% endfor %}
             </table>
         {% else %}
-            Za vpis ni predmetov<br>
+            Za vpis ni predmetov.<br>
         {% endif %}
         <br>
     {% endfor %}
     {% else %}
-        Za študenta ni vpisov<br>
+        Za študenta ni vpisov.<br>
     {% endif %}
 
 
