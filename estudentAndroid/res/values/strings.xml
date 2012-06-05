@@ -22,7 +22,11 @@
     <string name="applied_exams_desc">Izpis vseh prijavljanih izpitov</string>
     
     <string name="all_exams_list_name">Kartotecni list</string>
-    <string name="all_exams_list_desc">Izpis kartotecnega lista</string>
+    <string name="all_exams_list_desc">Izpis kartotecnega lista - vsa polaganja</string>
+    <string name="all_exams_list_name_last_attempt">Kartotecni list</string>
+    <string name="all_exams_list_desc_last_attempt">Izpis kartotecnega lista - zadnje polaganje</string>
+    <string name="all_exams_list_name_expanded">Celoten kartotecni list</string>
+    <string name="all_exams_list_desc_expanded">Izpis razsirjenega kartotecnega lista</string>
     <string name="exams_contextTitle">Izberi študijsko leto</string>
     
     <!-- izpis izpita -->

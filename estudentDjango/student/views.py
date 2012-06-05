@@ -1,6 +1,6 @@
 # Create your views here.
 import datetime
-from codelist.models import Course, StudyProgram
+from codelist.models import Course, StudyProgram, Instructor
 from django import forms
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -15,6 +15,8 @@ from django.core import serializers
 def exam_grades_index(request):
 
     exam_dates=ExamDate.objects.all().order_by('date')
+    if request.user.groups.filter(name = 'profesorji'):
+        exam_dates = [e for e in exam_dates if e.instructors and e.instructors.instructor.filter(user = request.user)]
     return render_to_response('admin/student/exam_grades_index.html', {'izpitni_roki': exam_dates,}, RequestContext(request))
 
 #http://stackoverflow.com/questions/4148923/is-it-possible-to-create-a-custom-admin-view-without-a-model-behind-it
@@ -201,11 +203,10 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["izvajalci"]=p.predavatelji()
-                
                 signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
                 signups = filter(lambda s: s.examDate.course.name == p.name, signups)
                 signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
-                
+
                 if len(signups) > 0:
                     fsignup = signups[0]
                     signs = []
@@ -228,7 +229,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                     course['stevilo_polaganj']=fsignup.examDate.course.nr_attempts_all(student)
                     #polaganje['stevilo_polaganj']
 
-                    if display == "1":
+                if display == "1":
                         signs = signs[-1:]
 
                     course["signups"] = signs
@@ -236,12 +237,11 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 courses = courses+[course]
             except:
                 raise
-                
+                pass
         out["courses"]=courses
         out["povprecje_izpitov"]=enroll.get_exam_avg()
         out["povprecje_vaj"]=enroll.get_practice_avg()
         out["povprecje"]=enroll.get_avg()       
-        
         response = response + [out]
         
     return render_to_response('admin/student/student_index_list.html', {'student':student, 'data':response}, RequestContext(request))
@@ -252,6 +252,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     student = get_object_or_404(Student, enrollment_number=student_Id)
     exam=ExamDate.objects.get(pk=exam_Id)
     enroll= Enrollment.objects.get(pk=enroll_Id)
+    d = datetime.timedelta(days=14)
 
 
     message = {"msg":"","error":""}
@@ -280,6 +281,8 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
             elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
                 message["error"]='Rok za prijavo na izpit je potekel'
            
+            elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
+                message["error"]='Ni se preteklo 14 dni od zadnje prijave'
 
             else:
 

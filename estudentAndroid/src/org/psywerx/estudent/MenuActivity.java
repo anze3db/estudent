@@ -31,6 +31,7 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 	private static final int ACTION_DISPLAY_MY_EXAMS = 1;
 	private static final int ACTION_DISPLAY_ALL_EXAMS = 2;
 	private static final int ACTION_DISPLAY_ALL_EXAMS_EXP = 3;
+	private static final int ACTION_DISPLAY_ALL_EXAMS_LAST_ATTEMPT = 4;
 		
 	private MenuAdapter mMenuAdapter;
 	private ProgressDialog mProgressDialog = null;
@@ -58,8 +59,12 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 				getString(R.string.all_exams_list_desc), 
 				ACTION_DISPLAY_ALL_EXAMS, R.drawable.notepad_icon_128));
 		items.add(new MenuItem(
-				getString(R.string.all_exams_list_name), 
-				getString(R.string.all_exams_list_desc), 
+				getString(R.string.all_exams_list_name_last_attempt), 
+				getString(R.string.all_exams_list_desc_last_attempt), 
+				ACTION_DISPLAY_ALL_EXAMS_LAST_ATTEMPT, R.drawable.notepad_icon_128));
+		items.add(new MenuItem(
+				getString(R.string.all_exams_list_name_expanded), 
+				getString(R.string.all_exams_list_desc_expanded), 
 				ACTION_DISPLAY_ALL_EXAMS_EXP, R.drawable.notepad_icon_128));
 		
 		mMenuAdapter = new MenuAdapter(mContext, items);
@@ -83,11 +88,19 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 		case ACTION_DISPLAY_ALL_EXAMS:
 			intent = new Intent(this, KartList.class);
 			intent.putExtra("expand", false);
+			intent.putExtra("lastAttempt", false);
+			startActivity(intent);
+			break;
+		case ACTION_DISPLAY_ALL_EXAMS_LAST_ATTEMPT:
+			intent = new Intent(this, KartList.class);
+			intent.putExtra("expand", false);
+			intent.putExtra("lastAttempt", true);
 			startActivity(intent);
 			break;
 		case ACTION_DISPLAY_ALL_EXAMS_EXP:
 			intent = new Intent(this, KartList.class);
 			intent.putExtra("expand", true);
+			intent.putExtra("lastAttempt", false);
 			startActivity(intent);
 			break;
 		case ACTION_LOGOUT:

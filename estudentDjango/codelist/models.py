@@ -100,12 +100,21 @@ class Course(models.Model):
     def nr_attempts_all(self, student):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll__student=student, examDate__course=self))
-        return len(all_signUps)
+        i=0
+        for a in all_signUps:
+            if a.VP==False:
+                i=i+1
+
+        return i
 
     def nr_attempts_this_enroll(self, enroll):
         from student.models import ExamSignUp
         all_signUps = list(ExamSignUp.objects.filter(enroll=enroll, examDate__course=self))
-        return len(all_signUps)
+        i=0
+        for a in all_signUps:
+            if a.VP==False:
+                 i=i+1
+        return i
 
 
     def already_signedUp(self, student):

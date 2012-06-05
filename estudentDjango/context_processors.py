@@ -61,7 +61,7 @@ def app_list(request):
                 return True
         return False
     # Add custom views:
-    if in_groups(('referentka',)):
+    if in_groups(('referentka','profesorji')):
         model_dict = {
             'name': capfirst(_("Vpis ocen")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'ExamGrades')),
@@ -74,13 +74,13 @@ def app_list(request):
         }
         app_dict['student']['models'].append(model_dict)
 
-    	model_dict = {
+        model_dict = {
             'name': capfirst(_("Prijava na izpit")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'ExamSignUp')),
         }
         app_dict['student']['models'].append(model_dict)
     
-    	model_dict = {
+        model_dict = {
             'name': capfirst(_("Kartotecni list")),
             'admin_url': mark_safe('%s/%s/' % ('student', 'StudentIndex')),
         }
