@@ -106,13 +106,27 @@ class ExamDateAdmin(admin.ModelAdmin):
     model = ExamDate
     form = ExamDateForm
     
+    def queryset(self, request):
+        qs = super(ExamDateAdmin, self).queryset(request)
+        if request.user.groups.filter(name = 'profesorji'):
+            qs = qs.filter(instructors__instructor__user = request.user)
+        return qs
+    
     def _personal(self, obj):
-        return '<a href="/student/StudentPersonal/%s">Osebni podatki</a>' % (obj.enrollment_number)
+        return u"""<a href="/student/ExamGrades/%(examId)s/1">Seznam prijavljenih</a> <br />
+                  <a href="/student/ExamGrades/%(examId)s/0">Rezultati pisnega dela</a> <br />
+                  <a href="/student/ExamGrades/%(examId)s/1">Seznam rezultatov pisnega</a> <br />
+                  <a href="/student/ExamGrades/%(examId)s/1">Vpis koncnih ocen</a>""" % \
+                  {'examId': str(obj.pk)}
+    def _study(self, obj):
+        return str(obj.study_year) + '/' + str(obj.study_year+1)[2:] 
+    _study.short_description = _('study year')
     _personal.allow_tags = True
-    _personal.short_description = 'Osebni podatki'
+    _personal.short_description = 'Akcije'
 
-    list_display = ['__unicode__', '_personal']
-    list_filter = ('study_year', 'instructors',);
+    list_display = ['__unicode__', 'instructors', '_study', '_personal']
+    list_filter = ('study_year', 'instructors',)
+    search_fields = ('course__name',)
     
     
 admin.site.register(Student, StudentAdmin)
