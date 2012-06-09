@@ -10,5 +10,9 @@ def nacin_studija(value):
     
     return ""
 
+def enrol(value):
+	return "" if value == "V1" else value
+
 register.filter('nacin_studija', nacin_studija)
 register.filter('date_extend', date_extend)
+register.filter('enrol', enrol)

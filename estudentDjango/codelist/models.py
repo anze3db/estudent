@@ -223,7 +223,7 @@ class StudyProgram(models.Model):
         verbose_name = _("study program")
         
     def __unicode__(self):
-        return force_unicode(self.descriptor)
+        return force_unicode(self.program_code + " " + self.descriptor)
     
     @classmethod
     def updateAll(cls):
@@ -253,7 +253,7 @@ class Post(models.Model):
         verbose_name = _("post")
         
     def __unicode__(self):
-        return self.descriptor
+        return self.post_code + " " + self.descriptor
     
     @classmethod
     @commit_on_success    
