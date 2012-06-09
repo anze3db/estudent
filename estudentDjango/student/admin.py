@@ -106,6 +106,15 @@ class ExamDateAdmin(admin.ModelAdmin):
     model = ExamDate
     form = ExamDateForm
     
+    def _personal(self, obj):
+        return '<a href="/student/StudentPersonal/%s">Osebni podatki</a>' % (obj.enrollment_number)
+    _personal.allow_tags = True
+    _personal.short_description = 'Osebni podatki'
+
+    list_display = ['__unicode__', '_personal']
+    list_filter = ('study_year', 'instructors',);
+    
+    
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
 admin.site.register(Enrollment, EnrollmentAdmin)        
