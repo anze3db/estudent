@@ -303,11 +303,11 @@ def addSignUp(request):
 
     if error_msgs != None: 
         message["error"]= error_msgs[0]
-    elif exam.already_positive(student):
-        message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    #elif exam.already_positive(student):
+    #    message["error"]='Za ta predmet ze obstaja pozitivna ocena'
     elif nr_this>=3:
         message["error"]='Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
-    elif nr_all>=6:
+    elif nr_all>=8:
         message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
     elif exam.already_signedUp(student):
         message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
@@ -317,7 +317,6 @@ def addSignUp(request):
 #        message["error"]='Ni se preteklo 14 dni od zadnje prijave'
     elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
         message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
-
 
     else:
         enroll = Enrollment.objects.get(pk=enroll_id)
@@ -337,17 +336,18 @@ def removeSignUp(request):
 
     exam=ExamDate.objects.get(id=examDateId);
     error_msgs = exam.signUp_allowed(student)
+    enroll = Enrollment.objects.get(pk=request.GET["enroll_id"])
     
     if error_msgs != None: 
         message["error"]= error_msgs[0]
-    elif not exam.already_signedUp(student):
-        message["error"]='Na ta predmet niste prijavljeni'
-    elif exam.already_positive(student):
-        message["error"]='Za ta predmet ze obstaja pozitivna ocena'
-    elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
-        message["error"]='Rok za odjavo izpita je potekel'        
-    else:
-        enroll = list(Enrollment.objects.filter(student=student))[-1]
+    #elif not exam.already_signedUp(student):
+    #    message["error"]='Na ta predmet niste prijavljeni'
+    #elif exam.already_positive(student):
+    #    message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+    #elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
+    #    message["error"]='Rok za odjavo izpita je potekel'        
+    #else:
+    #    enroll = list(Enrollment.objects.filter(student=student))[-1]
         examSignUp = ExamSignUp.objects.get(enroll=enroll, examDate=exam)
         examSignUp.delete()
         message["msg"]='Uspesna odjava od izpita'+ str(exam)
@@ -377,7 +377,7 @@ def getEnrollmentExamDates(request):
             ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
             ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
             ex['enroll_type']=enroll.enrol_type
-            ex['repeat_class_exams']=e.repeat_class(student)
+            ex['repeat_class_exams']=2#e.repeat_class(student)
             response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")

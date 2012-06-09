@@ -103,7 +103,7 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 		if (polaganje != null){
 			datum = polaganje.datum;
 			ocena = polaganje.ocena;
-			polaganj = ""+polaganje.stevilo_polaganj+" "+polaganje.odstevek_ponavljanja+" "+polaganje.polaganja_letos;
+			polaganj = ""+polaganje.stevilo_polaganj+"-"+polaganje.odstevek_ponavljanja;//+" "+polaganje.polaganja_letos;
 			predavatelj = polaganje.izvajalci;
 		}
 
