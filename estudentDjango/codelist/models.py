@@ -34,7 +34,7 @@ class Course(models.Model):
         return ' / '.join([str(i) for i in self.instructors.all()])
 
     def __unicode__(self):
-        return self.name + " (" + self.course_code + ")"
+        return self.course_code + " " +  self.name
     
     @classmethod
     def updateAll(cls):
