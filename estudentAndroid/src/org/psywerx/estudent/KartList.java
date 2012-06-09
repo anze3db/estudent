@@ -98,12 +98,13 @@ class MyExpandableListAdapter extends BaseExpandableListAdapter {
 			sifraPredmeta = course.sifra_predmeta;
 			imePredmeta = course.name.replace("\n", "");
 			kreditneTocke = "6"; //""+course.kreditne_tocke;
-			predavatelj = course.predavatelj.replace("\n", "");
+			//predavatelj = course.predavatelj.replace("\n", "");
 		}
+		//TODO: kreditne ,.... vaje 0 ,... 
 		if (polaganje != null){
 			datum = polaganje.datum;
-			ocena = polaganje.ocena;
-			polaganj = ""+polaganje.stevilo_polaganj+" "+polaganje.odstevek_ponavljanja+" "+polaganje.polaganja_letos;
+			ocena = polaganje.ocena.split("/")[0];
+			polaganj = ""+polaganje.stevilo_polaganj+" - "+polaganje.polaganja_letos;
 			predavatelj = polaganje.izvajalci;
 		}
 

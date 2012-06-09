@@ -1,17 +1,16 @@
 # Create your views here.
 from __future__ import division
+from codelist.models import StudyProgram, Course, GroupInstructors
 from datetime import timedelta
-from django.http import HttpResponse
 from django.core import serializers
+from django.db.models import Q
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render_to_response
 from django.template.context import RequestContext
 from failedloginblocker.models import FailedAttempt
-from student.models import Student, Enrollment, ExamDate, ExamSignUp, Curriculum
-from codelist.models import  StudyProgram, Course, GroupInstructors
-from django.shortcuts import get_object_or_404, render_to_response
 from student.models import *
-import json
 import codelist
-from django.db.models import Q
+import json
 
 def login(request):
     user = request.GET['id']
@@ -294,31 +293,33 @@ def addSignUp(request):
     student_id = request.GET['student_id']
     enroll_id = request.GET['enroll_id']
     student = Student.objects.get(enrollment_number=student_id)
-
-    exam=ExamDate.objects.get(id=examDateId);
+    
+    exam = ExamDate.objects.get(id=examDateId);
     error_msgs = exam.signUp_allowed(student)
-    nr_this=exam.course.nr_attempts_this_year(student)
-    nr_all= exam.course.nr_attempts_all(student)
-    d = datetime.timedelta(days=14)
-
+    nr_this_year = exam.course.nr_attempts_this_year(student)
+    nr_all = exam.course.nr_attempts_all(student)
+    d14 = datetime.timedelta(days=14)
+    
+    nr_repeat = exam.course.repeat_class(student)
+    
     if error_msgs != None: 
-        message["error"]= error_msgs[0]
+        message["error"] = error_msgs[0]
     elif exam.already_positive(student):
-        message["error"]='Za ta predmet ze obstaja pozitivna ocena'
-    elif nr_this>=3:
-        message["error"]='Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
-    elif nr_all>=6:
-        message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
+        message["error"] = 'Za ta predmet ze obstaja pozitivna ocena'
+    elif nr_this_year >= 3:
+        message["error"] = 'Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
+    elif nr_all - nr_repeat >= 6:
+        message["error"] = 'Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
     elif exam.already_signedUp(student):
-        message["error"]='Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
-    elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
-        message["error"]='Rok za prijavo na izpit je potekel'
-#    elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
-#        message["error"]='Ni se preteklo 14 dni od zadnje prijave'
+        message["error"] = 'Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
+    elif exam.date < (datetime.date.today() + datetime.timedelta(days=3)):
+        message["error"] = 'Rok za prijavo na izpit je potekel'
+    elif ExamDate.objects.get(examsignup=exam.last_try(student)) != None and exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date + d14):
+        message["error"] = 'Ni se preteklo 14 dni od zadnje prijave'
     elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
-        message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
-
-
+        message["error"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
+    
+    
     else:
         enroll = Enrollment.objects.get(pk=enroll_id)
         ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
