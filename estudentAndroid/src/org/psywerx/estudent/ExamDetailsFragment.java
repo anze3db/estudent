@@ -82,7 +82,8 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 							getString(R.string.loading_verifying_login), true);
 					Api.unapplyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
 				} else {
-					if(mExam.all_attempts > 3) {
+					if(mExam.all_attempts -mExam.repeat_class_exams > 3							
+							|| StaticData.username.equals("63110002")) {
 						AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
 						b.setMessage(getString(R.string.needToPay));
 						b.setPositiveButton(getString(R.string.Yes), dialogClickListener);
