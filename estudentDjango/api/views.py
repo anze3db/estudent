@@ -212,29 +212,24 @@ def getFilteredCoursesModules(request):
     
     if program == 0 or year == 0:
         return HttpResponse(serializers.serialize("json", []))
+
     currs = set()
     attended = set()
     
     for e in enrollments:
+        # Dodamo vse izbirne predmete programov v katere je bil student vpisan:
         currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, e.class_year)]))
+        # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
         attended = attended.union(set([c.course_code for c in e.courses.all()]))
-    
+    # Dodamo izbirne predmete trenutnega programa:
     currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(program, year)]))
+    # Dodamo morebitne predmete, ki so v trenutno izbranih modulih:
     attended = attended.union(set([c.course.course_code for c in Curriculum.objects.filter(module__in = modules)]))
     
-    print "*********CURRS*********************"
-    for c in currs:
-        print c
-    print "******************************"
-    for a in attended:
-        print a
-    # filtriramo vse predmete, ki so v izbranih coursih:
-    currs = currs.difference(attended)
-    print "*********FILTERRED*********************"
-    for c in currs:
-        print c
-    
-    currs = Course.objects.filter(course_code__in = currs)
+    # Filtriramo predmete, ki jih je student ze opravljal:
+    filter = currs.difference(attended)
+
+    currs = Curriculum.objects.filter(course__course_code__in = filter)
     
     return HttpResponse(serializers.serialize("json", currs))
 
