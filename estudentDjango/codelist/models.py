@@ -34,7 +34,7 @@ class Course(models.Model):
         return ' / '.join([str(i) for i in self.instructors.all()])
 
     def __unicode__(self):
-        return self.name + " (" + self.course_code + ")"
+        return self.course_code + " " +  self.name
     
     @classmethod
     def updateAll(cls):
@@ -223,7 +223,7 @@ class StudyProgram(models.Model):
         verbose_name = _("study program")
         
     def __unicode__(self):
-        return force_unicode(self.descriptor)
+        return force_unicode(self.program_code + " " + self.descriptor)
     
     @classmethod
     def updateAll(cls):
@@ -253,7 +253,7 @@ class Post(models.Model):
         verbose_name = _("post")
         
     def __unicode__(self):
-        return self.descriptor
+        return self.post_code + " " + self.descriptor
     
     @classmethod
     @commit_on_success    

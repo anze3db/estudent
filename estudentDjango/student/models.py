@@ -122,7 +122,7 @@ class Address(models.Model):
         verbose_name = _("address")
 
     def __unicode__(self):
-        return u'%s, %s' % (self.street, self.post)
+        return u'%s, %s, %s' % (self.street, self.post, self.country)
 
 class Phone(models.Model):
     
@@ -137,6 +137,9 @@ class Phone(models.Model):
     type = models.CharField(max_length = 1, choices = TELEPHONE_TYPES)
     number = models.CharField(max_length = 255, validators=[RegexValidator(regex=num_regex)])
     student = models.ForeignKey("Student", related_name=("student_phone"))
+
+    def __unicode__(self):
+        return self.number
 
 class Enrollment(models.Model):
     

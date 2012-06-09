@@ -14,6 +14,16 @@
 </tr>
 
 <tr>
+<th>Naslov</th>
+<td>{{address}}</td>
+</tr>
+
+<tr>
+<th>Telefon</th>
+<td>{{phone}}</td>
+</tr>
+
+<tr>
 <th>EMŠO</th>
 <td>{{student.social_security_number}}</td>
 </tr>
@@ -24,14 +34,32 @@
 </tr>
 
 <tr>
+<th>E-pošta</th>
+<td>{{student.email}}</td>
+</tr>
+
+
+<tr>
 <th>Spol</th>
 <td>{{student.gender}}</td>
 </tr>
 
 <tr>
 <th>Rojstni datum</th>
-<td>{{student.birth_date}}</td>
+<td>{{ student.birth_date|date:'j. n. Y' }}</td>
 </tr>
+
+<tr>
+<th>Država rojstva</th>
+<td>{{student.birth_country}}</td>
+</tr>
+
+<tr>
+<th>Kraj rojstva</th>
+<td>{{student.birth_place}}</td>
+</tr>
+
+
 
 </table>
 <br /><br />
@@ -50,7 +78,7 @@
     <td style="text-align:right;">{{e.study_year|date_extend}}</td>
     <td style="text-align:right;">{{e.class_year}}</td>
     <td>{{e.program}}</td>
-    <td>{{e.enrol_type}}</td>
+    <td>{{e.enrol_type|enrol}}</td>
     <td>{{e.regular|nacin_studija}}</td>
     </tr>
    

@@ -197,12 +197,12 @@ def enrolemntList(request):
 
 
 def getFilteredCoursesModules(request):
-    program = request.GET['program'] if 'program' in request.GET else ''
-    year = request.GET['year'] if 'year' in request.GET else ''
-    modules = request.GET['modules'].split(',')
-    student = request.GET['student']
-    id = request.GET['id']
-    
+    program = request.GET['program'] if 'program' in request.GET else 0
+    year = request.GET['year'] if 'year' in request.GET else 0
+    modules = request.GET['modules'].split(',') if request.GET['modules'] != 'null' else []
+    student = request.GET['student'] if request.GET['student'] != ''and request.GET['student'] != '' else 0 
+    id = request.GET['id'] if request.GET['id'] != 'add' else 0 
+    print student, id
     enrollments = Enrollment.objects.filter(student = student).exclude(pk=id)
     for e in enrollments:
         pass

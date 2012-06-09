@@ -341,5 +341,7 @@ def sign_up_success(request, student_Id, exam_Id):
 def student_personal(request, student_Id):
     student= Student.objects.get(enrollment_number = student_Id)
     enrollment = Enrollment.objects.filter(student = student_Id)
-    return render_to_response('admin/student/student_personal.html', {'enrollment':enrollment,'student':student}, RequestContext(request))
+    phone = Phone.objects.filter(student = student)[0]
+    address = Address.objects.filter(student = student)[0]
+    return render_to_response('admin/student/student_personal.html', {'enrollment':enrollment,'student':student, 'phone':phone, 'address':address}, RequestContext(request))
 
