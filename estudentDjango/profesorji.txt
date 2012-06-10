@@ -1,4 +1,4 @@
-AMBROŽIČ,MILAN
+Ambrožič, Milan
 Amon, Miha
 Bajec, Marko
 Batagelj, Borut
@@ -67,6 +67,7 @@ Mramor-Kosta, Neža
 Mraz, Miha
 MUHIČ , ANDREJ (FMF)
 Orel, Bojan
+Osredkar, Radko
 Pančur, Matjaž
 Pečar, Primož
 Peer, Peter

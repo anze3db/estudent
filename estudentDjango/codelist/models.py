@@ -37,6 +37,7 @@ class Course(models.Model):
         return self.course_code + " " +  self.name
     
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
         
@@ -53,30 +54,21 @@ class Course(models.Model):
             c = Course()
             c.course_code = i
             c.save()
-            print l[0].strip()
             for ll in l[1:]:
-                hasins = False
                 if ll.strip() == "": continue
                 g = GroupInstructors()
-                g.pk=i;
                 g.save()
                 for prof in ll.strip().split("/"):
                     ime = prof.split(",")[1].strip().capitalize()
                     priimek = prof.split(",")[0].strip().capitalize()
-                    print "       ",ime,priimek
                     try:
-                        instruktor = Instructor.objects.get(name=ime, surname=priimek)
-                    
-                        if instruktor != None:
-                            hasins = True
-                            print "         ok ",instruktor.pk
-                            g.instructor.add(instruktor)
+                        instruktor = Instructor.objects.filter(name=ime, surname=priimek)[0]
+                        if instruktor != None: g.instructor.add(instruktor)
                     except:
                         print "instruktor not found"
                 g.save()
-                if hasins:
-                    c.instructors.add(g)
-            
+                if len(g.instructor.all())>0: c.instructors.add(g)
+                    
             c.course_code = i
             c.name = l[0].strip()
             c.save()
@@ -364,6 +356,7 @@ class Instructor(models.Model):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
 
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         FILE = os.path.join(PROJECT_PATH, 'profesorji.txt')
         
