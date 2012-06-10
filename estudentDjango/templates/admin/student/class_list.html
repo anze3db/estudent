@@ -10,16 +10,16 @@
 <table>
 <tr>
 <th>#</th>
-<th>Vpisna Številka</th>
-<th>Ime</th>
+<th>Vpisna številka</th>
 <th>Priimek</th>
+<th>Ime</th>
 </tr>
 {% for s in students %}
 <tr>
-<td>0</td>
+<td>{{forloop.counter}}</td>
 <td>{{s.student.enrollment_number}}</td>
-<td>{{s.student.name}}</td>
 <td>{{s.student.surname}}</td>
+<td>{{s.student.name}}</td>
 </tr>
 {% endfor %}
 </table>

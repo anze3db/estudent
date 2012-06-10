@@ -41,9 +41,8 @@ $(document).ready(function() {
         	return hash;
         };
         this.filter = function(){
-        	if($(element).length==0) return;
-        	
         	var filtered = [];
+        	
         	$.getJSON(getUrl(), function(data){
         		for ( var i in data) {
     				filtered[filtered.length] = field(i, all, hash, data);
@@ -73,33 +72,9 @@ $(document).ready(function() {
     	
     };
 
-    // Filter courses:
-    var courseFilter = new filter("#id_courses", function(){
-    	var url = document.URL.split('/');
-    	var id  = url[url.length-2];
-    	var modules = ($("#id_modules").val() instanceof Array) ? $("#id_modules").val().join(',') : $("#id_modules").val();
-    	return '/api/getFilteredCoursesModules/?program='
-    	+$("#id_program").val()+'&year='
-    	+$("#id_class_year").val()+'&modules='
-    	+modules+'&student='
-    	+$("#id_student").val()+'&id='
-    	+id;
-    }, function(i, all, hash, data){
-    	 return all[hash[data[i].fields["course"]]];
-    });
-    courseFilter.filter();
+    
 
 
-    
-    var courseProgramFilter=new filter("#id_cour", function(){
-        return '/api/getFilteredCourses/?programId='
-            +$("#id_prog").val();
-    }, function(i, all, hash, data){
-    	return all[hash[data[i]['fields']['course']]];
-    });
-    courseProgramFilter.filter();
-    
-    
     $("#id_birth_country").busyChange(function(){
     	if($("#id_birth_country").val() != "705"){
     		var social = $("#id_social_security_number");
@@ -107,8 +82,61 @@ $(document).ready(function() {
     			social.val(social.val().substring(0,7) + "000000");
     	}
     });
-    
+    var instructorsFilter=new filter("#id_instructors", function(){
+        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+            +$("#id_course").val();
+    }, function(i, all, hash, data){
+    	return all[hash[data[i]["pk"]]];
+    });
+    instructorsFilter.filter();
+    $("#id_course").busyChange(function(){
+        instructorsFilter.filter();
+    });
 
+
+    console.log(document.URL.search(/student\/examdate\/add\//))
+    if(document.URL.search(/student\/examdate\/add\//) > 0){
+    	console.log("AAAA");
+    	var instructorsCFilter=new filter("#id_course", function(){
+            return '/api/getFilterUserCourses/';
+        }, function(i, all, hash, data){
+        	return all[hash[data[i]["pk"]]];
+        });
+        instructorsCFilter.filter();    	
+    	
+    }
+    else{
+        var courseProgramFilter=new filter("#id_course", function(){
+            return '/api/getFilteredCourses/?programId='
+                +$("#id_prog").val();
+        }, function(i, all, hash, data){
+        	return all[hash[data[i]['fields']['course']]];
+        });
+        courseProgramFilter.filter();
+
+        $("#id_prog").busyChange(function(){
+        	courseProgramFilter.filter();
+        });
+        
+        // Filter courses:
+        var courseFilter = new filter("#id_courses", function(){
+        	var url = document.URL.split('/');
+        	var id  = url[url.length-2];
+        	var modules = ($("#id_modules").val() instanceof Array) ? $("#id_modules").val().join(',') : $("#id_modules").val();
+        	return '/api/getFilteredCoursesModules/?program='
+        	+$("#id_program").val()+'&year='
+        	+$("#id_class_year").val()+'&modules='
+        	+modules+'&student='
+        	+$("#id_student").val()+'&id='
+        	+id;
+        }, function(i, all, hash, data){
+        	 return all[hash[data[i].fields["course"]]];
+        });
+        courseFilter.filter();
+        $("#id_student").busyChange(function(){
+        	courseFilter.filter();
+        });
+    }
     $("#id_class_year").busyChange(function(){
     	courseFilter.filter();
     });
@@ -118,36 +146,6 @@ $(document).ready(function() {
     $("#id_modules").change(function(){
     	courseFilter.filter();
     });
-    $("#id_student").busyChange(function(){
-    	courseFilter.filter();
-    });
-
-    $("#id_course").busyChange(function(){
-        instructorsFilter.filter();
-    });
-    $("#id_prog").busyChange(function(){
-    	courseProgramFilter.filter();
-    });
-
-    if(document.URL.match(/student\/examdate\/add\/$/)){
-    	var instructorsFilter=new filter("#id_instructors", function(){
-            return '/api/getFilteredGroupInstructorsForCourses/?courseId='
-                +$("#id_course").val();
-        }, function(i, all, hash, data){
-        	return all[hash[data[i]["pk"]]];
-        });
-        instructorsFilter.filter();    	
-    	
-    }
-    else{
-        var instructorsFilter=new filter("#id_instructors", function(){
-            return '/api/getFilteredGroupInstructorsForCourses/?courseId='
-                +$("#id_course").val();
-        }, function(i, all, hash, data){
-        	return all[hash[data[i]["pk"]]];
-        });
-        instructorsFilter.filter();
-    }
 });
 
 

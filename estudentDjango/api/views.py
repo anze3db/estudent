@@ -236,11 +236,18 @@ def getFilteredCoursesModules(request):
 def getFilteredGroupInstructorsForCourses(request):
     courseID = request.GET['courseId']
 
-    course=Course.objects.get(course_code=courseID)
-    instr=Course.getAllInstructors(courseID)
     ins= GroupInstructors.getAllInstr(courseID)
 
 
+    return HttpResponse(serializers.serialize("json", ins))
+
+def getFilterUserCourses(request):
+
+    instructor = codelist.models.Instructor.objects.get(user = request.user)
+    groups = codelist.models.GroupInstructors.objects.all()
+    insGrps = [g for g in groups if instructor in g.instructor.all()]
+    ins = Course.objects.all()
+    ins = [c for c in ins if len([k for k in c.instructors.all() if k in insGrps]) > 0]
     return HttpResponse(serializers.serialize("json", ins))
 
 def getFilteredCourses(request):
