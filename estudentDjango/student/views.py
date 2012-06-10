@@ -137,7 +137,7 @@ def exam_sign_up(request, student_Id):
         for enroll in Enrollment.objects.filter(student=student):
                 enrolls.append((enroll.pk, enroll.__unicode__()))
 
-        enrolments=forms.ChoiceField(choices=enrolls)
+        enrolments=forms.ChoiceField(choices=enrolls, label="Vpisi")
 
     exams=[]
     if request.method == 'POST':
