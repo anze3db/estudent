@@ -1,59 +1,116 @@
-VT00,1,obvezni,,Osnove programiranja,zimski
-VT00,1,obvezni,,Osnove matematične analize,zimski
-VT00,1,obvezni,,Diskretne strukture,zimski
-VT00,1,obvezni,,Osnove digitalnih vezij,zimski
-VT00,1,obvezni,,Fizika,zimski
-VT00,1,obvezni,,Programiranje in algoritmi,poletni
-VT00,1,obvezni,,Linearna algebra,poletni
-VT00,1,obvezni,,Osnove podatkovnih baz,poletni
-VT00,1,obvezni,,Računalniške komunikacije,poletni
-VT00,1,obvezni,,Komunikacija človek računalnik,poletni
-VT00,2,obvezni,,Algoritmi in podatkovne strukture,zimski
-VT00,2,obvezni,,Arhitektura računalniških sistemov,zimski
-VT00,2,obvezni,,Verjetnost in statistika,zimski
-VT00,2,obvezni,,Osnove umetne inteligence,zimski
-VT00,2,obvezni,,Osnove informacijskih sistemov,zimski
-VT00,2,obvezni,,Teorija informacij in sistemov,poletni
-VT00,2,obvezni,,Operacijski sistemi,poletni
-VT00,2,obvezni,,Organizacija računalniških sistemov,poletni
-VT00,2,izbirni,,Matematično modeliranje,poletni
-VT00,2,izbirni,,Principi programskih jezikov,poletni
-VT00,2,izbirni,,Računalniške tehnologije,poletni
-VT00,2,izbirni,,Angleški jezik nivo A,poletni
-VT00,2,izbirni,,Angleški jezik nivo B,poletni
-VT00,2,izbirni,,Angleški jezik nivo C,poletni
-VT00,2,izbirni,,Izbrana poglavja iz računalništva in informatike,poletni
-VT00,2,izbirni,,Računalništvo v praksi I,zimski
-VT00,2,izbirni,,Računalništvo v praksi II,zimski
-VT00,3,obvezni,,Komuniciranje in vodenje projektov,zimski
-VT00,3,obvezni,,Ekonomika in podjetništvo,poletni
-VT00,3,izbirni,Informacijski sistemi,Elektronsko poslovanje,zimski
-VT00,3,izbirni,Informacijski sistemi,Poslovna inteligenca,zimski
-VT00,3,izbirni,Informacijski sistemi,Organizacija in management,poletni
-VT00,3,izbirni,Obvladovanje informatike,Razvoj informacijskih sistemov,zimski
-VT00,3,izbirni,Obvladovanje informatike,Tehnologija upravljanja podatkov,zimski
-VT00,3,izbirni,Obvladovanje informatike,Planiranje in upravljanje informatike,poletni
-VT00,3,izbirni,Razvoj programske opreme,Postopki razvoja programske opreme,zimski
-VT00,3,izbirni,Razvoj programske opreme,Spletno programiranje,zimski
-VT00,3,izbirni,Razvoj programske opreme,Tehnologija programske opreme,poletni
-VT00,3,izbirni,Računalniška omrežja,Modeliranje računalniških omrežij,zimski
-VT00,3,izbirni,Računalniška omrežja,Komunikacijski protokoli,zimski
-VT00,3,izbirni,Računalniška omrežja,Brezžična in mobilna omrežja,poletni
-VT00,3,izbirni,Računalniški sistemi,Digitalno načrtovanje,zimski
-VT00,3,izbirni,Računalniški sistemi,Porazdeljeni sistemi,zimski
-VT00,3,izbirni,Računalniški sistemi,Zanesljivost in zmogljivost računalniških sistemov,poletni
-VT00,3,izbirni,Algoritmi in sistemski programi,Računska zahtevnost in hevristično programiranje,zimski
-VT00,3,izbirni,Algoritmi in sistemski programi,Sistemska programska oprema,zimski
-VT00,3,izbirni,Algoritmi in sistemski programi,Prevajalniki,poletni
-VT00,3,izbirni,Umetna inteligenca,Inteligentni sistemi,zimski
-VT00,3,izbirni,Umetna inteligenca,Umetno zaznavanje,zimski
-VT00,3,izbirni,Umetna inteligenca,Razvoj inteligentnih sistemov,poletni
-VT00,3,izbirni,Medijske tehnologije,Računalniška grafika in tehnologija iger (B-UNI),zimski
-VT00,3,izbirni,Medijske tehnologije,Multimedijski sistemi,zimski
-VT00,3,izbirni,Medijske tehnologije,Osnove oblikovanja,poletni
-VT00,3,izbirni,,Angleški jezik nivo A,zimski
-VT00,3,izbirni,,Angleški jezik nivo B,zimski
-VT00,3,izbirni,,Angleški jezik nivo C,poletni
-VT00,3,izbirni,,Izbrana poglavja iz računalništva in informatike,zimski
-VT00,3,izbirni,,Računalništvo v praksi I,zimski
-VT00,3,izbirni,,Računalništvo v praksi II,poletni
+VT00;1;obvezni;;63200;Osnove programiranja ;zimski
+VT00;1;obvezni;;63201;Osnove matematične analize ;zimski
+VT00;1;obvezni;;63202;Diskretne strukture ;zimski
+VT00;1;obvezni;;63203;Osnove digitalnih vezij ;zimski
+VT00;1;obvezni;;63204;Fizika ;zimski
+VT00;1;obvezni;;63205;Programiranje in algoritmi ;poletni
+VT00;1;obvezni;;63206;Linearna algebra ;poletni
+VT00;1;obvezni;;63207;Osnove podatkovnih baz ;poletni
+VT00;1;obvezni;;63208;Računalniške komunikacije ;poletni
+VT00;1;obvezni;;63209;Komunikacija človek računalnik ;poletni
+VT00;2;obvezni;;63210;Algoritmi in podatkovne strukture ;zimski
+VT00;2;obvezni;;63211;Arhitektura računalniških sistemov ;zimski
+VT00;2;obvezni;;63212;Verjetnost in statistika ;zimski
+VT00;2;obvezni;;63213;Osnove umetne inteligence ;zimski
+VT00;2;obvezni;;63214;Osnove informacijskih sistemov ;zimski
+VT00;2;obvezni;;63215;Teorija informacij in sistemov ;poletni
+VT00;2;obvezni;;63216;Operacijski sistemi ;poletni
+VT00;2;obvezni;;63217;Organizacija računalniških sistemov ;poletni
+VT00;2;izbirni;;63218;Matematično modeliranje ;poletni
+VT00;2;izbirni;;63219;Principi programskih jezikov ;poletni
+VT00;2;izbirni;;63220;Računalniške tehnologije ;poletni
+VT00;2;izbirni;;63221;Angleški jezik nivo A ;poletni
+VT00;2;izbirni;;63222;Angleški jezik nivo B ;poletni
+VT00;2;izbirni;;63223;Angleški jezik nivo C ;poletni
+VT00;2;izbirni;;63224;Izbrana poglavja iz računalništva in informatike ;poletni
+VT00;2;izbirni;;63225;Računalništvo v praksi I ;zimski
+VT00;2;izbirni;;63226;Računalništvo v praksi II ;zimski
+VT00;3;obvezni;;63227;Komuniciranje in vodenje projektov ;zimski
+VT00;3;obvezni;;63228;Ekonomika in podjetništvo ;poletni
+VT00;3;izbirni;Informacijski sistemi;63229;Elektronsko poslovanje ;zimski
+VT00;3;izbirni;Informacijski sistemi;63230;Poslovna inteligenca ;zimski
+VT00;3;izbirni;Informacijski sistemi;63231;Organizacija in management ;poletni
+VT00;3;izbirni;Obvladovanje informatike;63232;Razvoj informacijskih sistemov ;zimski
+VT00;3;izbirni;Obvladovanje informatike;63233;Tehnologija upravljanja podatkov ;zimski
+VT00;3;izbirni;Obvladovanje informatike;63234;Planiranje in upravljanje informatike ;poletni
+VT00;3;izbirni;Razvoj programske opreme;63235;Postopki razvoja programske opreme ;zimski
+VT00;3;izbirni;Razvoj programske opreme;63236;Spletno programiranje ;zimski
+VT00;3;izbirni;Razvoj programske opreme;63237;Tehnologija programske opreme ;poletni
+VT00;3;izbirni;Računalniška omrežja;63238;Modeliranje računalniških omrežij ;zimski
+VT00;3;izbirni;Računalniška omrežja;63239;Komunikacijski protokoli ;zimski
+VT00;3;izbirni;Računalniška omrežja;63240;Brezžična in mobilna omrežja ;poletni
+VT00;3;izbirni;Računalniški sistemi;63241;Digitalno načrtovanje ;zimski
+VT00;3;izbirni;Računalniški sistemi;63242;Porazdeljeni sistemi ;zimski
+VT00;3;izbirni;Računalniški sistemi;63243;Zanesljivost in zmogljivost računalniških sistemov ;poletni
+VT00;3;izbirni;Algoritmi in sistemski programi;63244;Računska zahtevnost in hevristično programiranje ;zimski
+VT00;3;izbirni;Algoritmi in sistemski programi;63245;Sistemska programska oprema ;zimski
+VT00;3;izbirni;Algoritmi in sistemski programi;63246;Prevajalniki ;poletni
+VT00;3;izbirni;Umetna inteligenca;63247;Inteligentni sistemi ;zimski
+VT00;3;izbirni;Umetna inteligenca;63248;Umetno zaznavanje ;zimski
+VT00;3;izbirni;Umetna inteligenca;63249;Razvoj inteligentnih sistemov ;poletni
+VT00;3;izbirni;Medijske tehnologije;63250;Računalniška grafika in tehnologija iger (B-UNI) ;zimski
+VT00;3;izbirni;Medijske tehnologije;63251;Multimedijski sistemi ;zimski
+VT00;3;izbirni;Medijske tehnologije;63252;Osnove oblikovanja ;poletni
+VT00;3;izbirni;;63221;Angleški jezik nivo A ;zimski
+VT00;3;izbirni;;63222;Angleški jezik nivo B ;zimski
+VT00;3;izbirni;;63223;Angleški jezik nivo C ;poletni
+VT00;3;izbirni;;63224;Izbrana poglavja iz računalništva in informatike ;zimski
+VT00;3;izbirni;;63225;Računalništvo v praksi I ;zimski
+VT00;3;izbirni;;63226;Računalništvo v praksi II ;poletni
+VU00;1;obvezni;;63700;Uvod v računalništvo ;zimski
+VU00;1;obvezni;;63701;Programiranje I ;zimski
+VU00;1;obvezni;;63702;Računalniška arhitektura ;zimski
+VU00;1;obvezni;;63703;Matematika ;zimski
+VU00;1;obvezni;;63704;Diskretne strukture ;zimski
+VU00;1;obvezni;;63705;Programiranje II ;poletni
+VU00;1;obvezni;;63706;Podatkovne baze ;poletni
+VU00;1;obvezni;;63707;Računalniške komunikacije ;poletni
+VU00;1;obvezni;;63708;Operacijski sistemi ;poletni
+VU00;1;obvezni;;63709;Osnove verjetnosti in statistike;poletni
+VU00;2;izbirni;;63710;Algoritmi in podatkovne strukture 1 ;zimski
+VU00;2;izbirni;;63711;Informacijski sistemi ;zimski
+VU00;2;izbirni;;63712;Grafično oblikovanje ;zimski
+VU00;2;izbirni;;63713;Komunikacijski protokoli in omrežna varnost ;zimski
+VU00;2;izbirni;;63714;Organizacija računalnikov ;zimski
+VU00;2;izbirni;;63715;Digitalna vezja ;zimski
+VU00;2;izbirni;;63716;Računalniška grafika (B-VSS) ;zimski
+VU00;2;izbirni;;63717;Umetna inteligenca ;zimski
+VU00;2;izbirni;;63718;Elektronsko in mobilno poslovanje ;zimski
+VU00;2;izbirni;;63719;Podatkovne baze 2 ;zimski
+VU00;2;izbirni;;63720;Uporabniški vmesniki ;poletni
+VU00;2;izbirni;;63721;Algoritmi in podatkovne strukture 2 ;poletni
+VU00;2;izbirni;;63722;Prevajalnik in navidezni stroji ;poletni
+VU00;2;izbirni;;63723;Testiranje in kakovost ;poletni
+VU00;2;izbirni;;63724;Razvoj informacijskih sistemov ;poletni
+VU00;2;izbirni;;63725;Produkcija multimedijskih gradiv ;poletni
+VU00;2;izbirni;;63726;Digitalno procesiranje signalov ;poletni
+VU00;2;izbirni;;63727;Spletne tehnologije ;poletni
+VU00;2;izbirni;;63728;Vhodno izhodne naprave ;poletni
+VU00;2;izbirni;;63729;Načrtovanje digitalnih naprav ;poletni
+VU00;2;izbirni;;63730;Odkrivanje zakonitosti iz podatkov ;poletni
+VU00;2;izbirni;;63743;Angleški jezik nivo A ;poletni
+VU00;2;izbirni;;63744;Angleški jezik nivo B ;zimski
+VU00;2;izbirni;;63745;Angleški jezik nivo C ;poletni
+VU00;2;izbirni;;63746;Ekonomika in organizacija informatike ;poletni
+VU00;2;izbirni;;63747;Izbrana poglavja iz računalništva in informatike ;poletni
+VU00;2;izbirni;;63748;Računalništvo v praksi I ;poletni
+VU00;2;izbirni;;63749;Računalništvo v praksi II;poletni
+VU00;3;obvezni;;63731;Projektni praktikum ;zimski
+VU00;3;izbirni;;63732;Tehnologija programske opreme ;zimski
+VU00;3;izbirni;;63733;Strateško planiranje informatike ;zimski
+VU00;3;izbirni;;63734;Multimedijske tehnologije ;zimski
+VU00;3;izbirni;;63735;Numerične metode ;zimski
+VU00;3;izbirni;;63736;Sistemska programska oprema ;zimski
+VU00;3;izbirni;;63737;Procesna avtomatika ;zimski
+VU00;3;izbirni;;63738;Vgrajeni sistemi ;zimski
+VU00;3;izbirni;;63739;Robotika in računalniško zaznavanje ;zimski
+VU00;3;izbirni;;63740;Tehnologija iger in navidezna resničnost ;zimski
+VU00;3;izbirni;;63741;Odločitveni sistemi ;zimski
+VU00;3;izbirni;;63742;Vzporedni in porazdeljeni sistemi in algoritmi ;zimski
+VU00;3;izbirni;;63743;Angleški jezik nivo A ;poletni
+VU00;3;izbirni;;63744;Angleški jezik nivo B ;zimski
+VU00;3;izbirni;;63745;Angleški jezik nivo C ;poletni
+VU00;3;izbirni;;63746;Ekonomika in organizacija informatike ;poletni
+VU00;3;izbirni;;63747;Izbrana poglavja iz računalništva in informatike ;poletni
+VU00;3;izbirni;;63748;Računalništvo v praksi I ;poletni
+VU00;3;izbirni;;63749;Računalništvo v praksi II;poletni

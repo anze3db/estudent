@@ -39,7 +39,7 @@ class Course(models.Model):
     @classmethod
     @commit_on_success
     def updateAll(cls):
-        FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
+        FILE = os.path.join(PROJECT_PATH, 'predmeti.csv')
         
         csv_file = open(FILE)
         csv_data = csv_file.readlines()
@@ -47,14 +47,15 @@ class Course(models.Model):
         
         Course.objects.all().delete()
         GroupInstructors.objects.all().delete()
-        i=10000
         for line in csv_data:
-            if line[0] == "#": continue
+            if line == "" : continue
             l = line.split(';')
+            if l[1][0] == "#": continue
+            i = int(l[0])
             c = Course()
             c.course_code = i
             c.save()
-            for ll in l[1:]:
+            for ll in l[2:]:
                 if ll.strip() == "": continue
                 g = GroupInstructors()
                 g.save()
@@ -70,9 +71,8 @@ class Course(models.Model):
                 if len(g.instructor.all())>0: c.instructors.add(g)
                     
             c.course_code = i
-            c.name = l[0].strip()
+            c.name = l[1].strip()
             c.save()
-            i=i+1
 
     def repeat_class(self, student, retrn=0):
         from student.models import ExamSignUp
@@ -365,12 +365,13 @@ class Instructor(models.Model):
         csv_file.close()
         
         Instructor.objects.all().delete()
-        i=630010
+        i=10000
         for line in csv_data:
+            if line == "" : continue
             l = line.split(',')
             if len(l)<2: continue
             c = Instructor()
-            c.instructor_code = i
+            c.instructor_code = "i"+str(i)
             c.name = l[1].strip().capitalize()
             c.surname = l[0].strip().capitalize()
             c.save()

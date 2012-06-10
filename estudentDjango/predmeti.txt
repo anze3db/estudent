@@ -1,77 +1,77 @@
-# 1. letnik uni_ri ; 
-Osnove programiranja ; Mahnič, Viljan
-Osnove matematične analize ; Mramor-Kosta, Neža
-Diskretne strukture ; Fijavž, Gašper
-Osnove digitalnih vezij ; Zimic, Nikolaj
-Fizika ; Osredkar, Radko/Ambrožič, Milan 
-Programiranje in algoritmi ; Divjak, Saša / Kononenko,Igor
-Linearna algebra ; Orel, Bojan
-Osnove podatkovnih baz ; Bajec, Marko 
-Računalniške komunikacije ; Bosnić, Zoran
-Komunikacija človek računalnik ; Jager, Franc
-# ; 
-# 2. letnik uni_ri ; 
-Algoritmi in podatkovne strukture ; Robič, Borut 
-Arhitektura računalniških sistemov ; Kodek, Dušan 
-Verjetnost in statistika ; Jurišić, Aleksandar 
-Osnove umetne inteligence ; Bratko, Ivan 
-Osnove informacijskih sistemov ; Krisper, Marjan
-Teorija informacij in sistemov ; Dobnikar, Andrej
-Operacijski sistemi ; Robič, Borut 
-Organizacija računalniških sistemov ; Kodek, Dušan
-# ; 
-# strokovno izbirni Predmeti ; 
-Matematično modeliranje ; Mramor-Kosta, Neža
-Principi programskih jezikov ; Bratko, Ivan
-Računalniške tehnologije ; Osredkar, Radko/Ambrožič, Milan
-# prosti izbirni Predmeti ; 
-Angleški jezik nivo A ; Štros Bračko, Marina
-Angleški jezik nivo B ; Štros Bračko, Marina
-Angleški jezik nivo C ; Štros Bračko, Marina
-Izbrana poglavja iz računalništva in informatike ; Gallan, Robert
-Računalništvo v praksi I ; Mramor-Kosta, Neža
-Računalništvo v praksi II ; Mramor-Kosta, Neža
-# ; 
-# 3. letnik uni_ri ; 
-Komuniciranje in vodenje projektov ; Solina, Franc
-Ekonomika in podjetništvo ; Drnovšek, Mateja
-# Informacijski sistemi ; 
-# Predmet ; 
-Elektronsko poslovanje ; Trček, Denis
-Poslovna inteligenca ; Zupan, Blaž/Rajkovič, Vladislav/Demšar, Janez
-Organizacija in management ; Škerlavaj, Miha
-# Obvladovanje informatike ; 
-# Predmet ; 
-Razvoj informacijskih sistemov ; Bajec, Marko
-Tehnologija upravljanja podatkov ; Kukar, Matjaž
-Planiranje in upravljanje informatike ; Krisper, Marjan
-# Razvoj programske opreme ; 
-# Predmet ; 
-Postopki razvoja programske opreme ; Jurič, Branko Matjaž
-Spletno programiranje ; Bosnić, Zoran
-Tehnologija programske opreme ; Mahnič, Viljan
-# Računalniška omrežja ; 
-# Predmet ; 
-Modeliranje računalniških omrežij ; Mraz, Miha
-Komunikacijski protokoli ; Ciglarič, Mojca
-Brezžična in mobilna omrežja ; Zimic, Nikolaj
-# Računalniški sistemi ; 
-# Predmet ; 
-Digitalno načrtovanje ; Guštin, Veselko
-Porazdeljeni sistemi ; Dobnikar, Andrej
-Zanesljivost in zmogljivost računalniških sistemov ; Mraz, Miha
-# Algoritmi in sistemski programi ; 
-# Predmet ; 
-Računska zahtevnost in hevristično programiranje ; Robnik Šikonja, Marko
-Sistemska programska oprema ; Dobravec, Tomaž
-Prevajalniki ; Kukar, Matjaž 
-# Umetna inteligenca ; 
-# Predmet ; 
-Inteligentni sistemi ; Kononenko, Igor/Robnik Šikonja, Marko
-Umetno zaznavanje ; Leonardis, Aleš
-Razvoj inteligentnih sistemov ; Skočaj, Danijel
-# Medijske tehnologije ; 
-# Predmet ; 
-Računalniška grafika in tehnologija iger (B-UNI) ; Marolt, Matija
-Multimedijski sistemi ; Leonardis, Aleš
-Osnove oblikovanja ; Bovcon, Narvika
+#2;# 1. letnik uni_ri ; 
+2;Osnove programiranja ; Mahnič, Viljan
+2;Osnove matematične analize ; Mramor-Kosta, Neža
+2;Diskretne strukture ; Fijavž, Gašper
+2;Osnove digitalnih vezij ; Zimic, Nikolaj
+2;Fizika ; Osredkar, Radko/Ambrožič, Milan 
+2;Programiranje in algoritmi ; Divjak, Saša / Kononenko,Igor
+2;Linearna algebra ; Orel, Bojan
+2;Osnove podatkovnih baz ; Bajec, Marko 
+2;Računalniške komunikacije ; Bosnić, Zoran
+2;Komunikacija človek računalnik ; Jager, Franc
+#2;# ; 
+#2;# 2. letnik uni_ri ; 
+2;Algoritmi in podatkovne strukture ; Robič, Borut 
+2;Arhitektura računalniških sistemov ; Kodek, Dušan 
+2;Verjetnost in statistika ; Jurišić, Aleksandar 
+2;Osnove umetne inteligence ; Bratko, Ivan 
+2;Osnove informacijskih sistemov ; Krisper, Marjan
+2;Teorija informacij in sistemov ; Dobnikar, Andrej
+2;Operacijski sistemi ; Robič, Borut 
+2;Organizacija računalniških sistemov ; Kodek, Dušan
+#2;# ; 
+#2;# strokovno izbirni Predmeti ; 
+2;Matematično modeliranje ; Mramor-Kosta, Neža
+2;Principi programskih jezikov ; Bratko, Ivan
+2;Računalniške tehnologije ; Osredkar, Radko/Ambrožič, Milan
+#2;# prosti izbirni Predmeti ; 
+2;Angleški jezik nivo A ; Štros Bračko, Marina
+2;Angleški jezik nivo B ; Štros Bračko, Marina
+2;Angleški jezik nivo C ; Štros Bračko, Marina
+2;Izbrana poglavja iz računalništva in informatike ; Gallan, Robert
+2;Računalništvo v praksi I ; Mramor-Kosta, Neža
+2;Računalništvo v praksi II ; Mramor-Kosta, Neža
+#2;# ; 
+#2;# 3. letnik uni_ri ; 
+2;Komuniciranje in vodenje projektov ; Solina, Franc
+2;Ekonomika in podjetništvo ; Drnovšek, Mateja
+#2;# Informacijski sistemi ; 
+#2;# Predmet ; 
+2;Elektronsko poslovanje ; Trček, Denis
+2;Poslovna inteligenca ; Zupan, Blaž/Rajkovič, Vladislav/Demšar, Janez
+2;Organizacija in management ; Škerlavaj, Miha
+#2;# Obvladovanje informatike ; 
+#2;# Predmet ; 
+2;Razvoj informacijskih sistemov ; Bajec, Marko
+2;Tehnologija upravljanja podatkov ; Kukar, Matjaž
+2;Planiranje in upravljanje informatike ; Krisper, Marjan
+#2;# Razvoj programske opreme ; 
+#2;# Predmet ; 
+2;Postopki razvoja programske opreme ; Jurič, Branko Matjaž
+2;Spletno programiranje ; Bosnić, Zoran
+2;Tehnologija programske opreme ; Mahnič, Viljan
+#2;# Računalniška omrežja ; 
+#2;# Predmet ; 
+2;Modeliranje računalniških omrežij ; Mraz, Miha
+2;Komunikacijski protokoli ; Ciglarič, Mojca
+2;Brezžična in mobilna omrežja ; Zimic, Nikolaj
+#2;# Računalniški sistemi ; 
+#2;# Predmet ; 
+2;Digitalno načrtovanje ; Guštin, Veselko
+2;Porazdeljeni sistemi ; Dobnikar, Andrej
+2;Zanesljivost in zmogljivost računalniških sistemov ; Mraz, Miha
+#2;# Algoritmi in sistemski programi ; 
+#2;# Predmet ; 
+2;Računska zahtevnost in hevristično programiranje ; Robnik Šikonja, Marko
+2;Sistemska programska oprema ; Dobravec, Tomaž
+2;Prevajalniki ; Kukar, Matjaž 
+#2;# Umetna inteligenca ; 
+#2;# Predmet ; 
+2;Inteligentni sistemi ; Kononenko, Igor/Robnik Šikonja, Marko
+2;Umetno zaznavanje ; Leonardis, Aleš
+2;Razvoj inteligentnih sistemov ; Skočaj, Danijel
+#2;# Medijske tehnologije ; 
+#2;# Predmet ; 
+2;Računalniška grafika in tehnologija iger (B-UNI) ; Marolt, Matija
+2;Multimedijski sistemi ; Leonardis, Aleš
+2;Osnove oblikovanja ; Bovcon, Narvika

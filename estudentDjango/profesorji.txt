@@ -12,6 +12,7 @@ Božiček, Andraž
 Bratko, Ivan
 Brodnik, Andrej
 BUČAR, DUŠAN
+Bulić, Patricio
 Časar, Anže
 Čehovin, Luka
 Češnovar, Rok
@@ -68,11 +69,12 @@ Mraz, Miha
 MUHIČ , ANDREJ (FMF)
 Orel, Bojan
 Osredkar, Radko
+Oblak, Polona
 Pančur, Matjaž
 Pečar, Primož
 Peer, Peter
 PELJHAN, DARJA
-PEPELNJAK, IVAN
+Pepelnjak, Ivan
 Pesek, Matevž
 PIČULIN, MATEJ
 POLAJNAR, MATIJA
@@ -109,6 +111,7 @@ Tonejc, Jernej
 Toplak, Marko
 Trček, Denis
 Trebar, Mira
+Vahčič, Aleš
 Vavpotič, Damjan
 Vidali, Janoš
 VIRK, ŽIGA

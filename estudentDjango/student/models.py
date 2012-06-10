@@ -404,8 +404,8 @@ class ExamDate(models.Model):
             try:
                 l = re.compile(",", re.UNICODE).split(line)
                 
-                course = Course.objects.filter(name=l[4])[0]
-                zimski = l[5] == "zimski"
+                course = Course.objects.filter(course_code=l[4])[0]
+                zimski = l[6] == "zimski"
                 for instructorGroup in course.instructors.all():
                     for leto in range(2008,2013):
                         i=0
@@ -540,8 +540,9 @@ class Curriculum(models.Model):
         for line in csv_data:
             i += 1
             line = line.strip()
+            if line == "" : continue
             try:
-                l = re.compile(",", re.UNICODE).split(line)
+                l = re.compile(";", re.UNICODE).split(line)
                 program = StudyProgram.objects.get(program_code=l[0])
                 letnik = int(l[1])
                 mandatory = l[2] == "obvezni"
@@ -556,7 +557,7 @@ class Curriculum(models.Model):
                     else:
                         module = modules[0]
                 
-                course = Course.objects.filter(name=l[4])[0]
+                course = Course.objects.filter(course_code=l[4])[0]
                 
                 c = Curriculum()
                 c.class_year = letnik
