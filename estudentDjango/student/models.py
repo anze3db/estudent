@@ -397,6 +397,8 @@ class ExamDate(models.Model):
         csv_data = csv_file.readlines()
         csv_file.close()
         dnevi = range(1,27)
+        
+        ExamDate.objects.all().delete()
         for line in csv_data:
             line = line.strip()
             try:
@@ -426,8 +428,8 @@ class ExamDate(models.Model):
                             ed.nr_SignUp = steviloprijav
                             ed.total_points = vsetTocke
                             ed.min_pos = meja
+                            ed.study_year = leto-1
                             ed.save()
-                            print datum, zimski,instructorGroup,course
                         
                         
             except BaseException as e:

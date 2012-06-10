@@ -145,7 +145,7 @@ class ExamDateAdmin(admin.ModelAdmin):
                   <a href="/student/ExamGrades/%(examId)s/1">Vpis koncnih ocen</a>""" % \
                   {'examId': str(obj.pk)}
     def _study(self, obj):
-        return str(obj.study_year) + '/' + str(obj.study_year+1)[2:] 
+        return str(obj.date.year-1) + '/' + str(obj.date.year)[2:] 
     _study.short_description = _('study year')
     _personal.allow_tags = True
     _personal.short_description = 'Akcije'
