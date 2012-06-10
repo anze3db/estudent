@@ -31,3 +31,21 @@ li {
 h2 {
 	line-height: inherit;
 }
+
+.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull{
+	
+
+}
+
+#changelist-filter {
+	width: 300px !important;	
+}
+.change-list .filtered{
+	
+	background-color:#EFEFEF !important;
+}
+#changelist-form{
+	
+	margin-right: 140px;
+	background-color:#EFEFEF;
+}

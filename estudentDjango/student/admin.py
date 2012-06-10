@@ -59,7 +59,7 @@ class EnrollmentAdmin(admin.ModelAdmin):
     model = Enrollment
     search_fields = ('student__name','student__surname', 'student__enrollment_number')
     raw_id_fields = ("student","program")
-    list_filter = ('study_year', 'class_year', 'modules', 'program', 'courses', 'enrol_type', 'regular');
+    list_filter = ('study_year', 'class_year', 'modules', 'program', 'enrol_type', 'regular');
     #list_display_links = ('id', )
 
 class CurriculumAdmin(admin.ModelAdmin):
