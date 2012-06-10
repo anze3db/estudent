@@ -51,6 +51,7 @@ class Course(models.Model):
             if line[0] == "#": continue
             l = line.split(';')
             c = Course()
+            c.course_code = i
             c.save()
             print l[0].strip()
             for ll in l[1:]:
@@ -63,11 +64,15 @@ class Course(models.Model):
                     ime = prof.split(",")[1].strip().capitalize()
                     priimek = prof.split(",")[0].strip().capitalize()
                     print "       ",ime,priimek
-                    instruktor = Instructor.objects.get(name=ime, surname=priimek)
-                    if instruktor != None:
-                        hasins = True
-                        print "         ok ",instruktor.pk
-                        g.instructor.add(instruktor)
+                    try:
+                        instruktor = Instructor.objects.get(name=ime, surname=priimek)
+                    
+                        if instruktor != None:
+                            hasins = True
+                            print "         ok ",instruktor.pk
+                            g.instructor.add(instruktor)
+                    except:
+                        print "instruktor not found"
                 g.save()
                 if hasins:
                     c.instructors.add(g)
