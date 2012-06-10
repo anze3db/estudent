@@ -1,5 +1,6 @@
 # Create your views here.
 import datetime
+import traceback
 from codelist.models import Course, StudyProgram, Instructor
 from django import forms
 from django.core.urlresolvers import reverse
@@ -280,53 +281,56 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     enroll= Enrollment.objects.get(pk=enroll_Id)
     d = datetime.timedelta(days=14)
 
+    error_msgs = exam.signUp_allowed(student)
+    nr_this_year = exam.course.nr_attempts_this_year(student)
+    nr_all = exam.course.nr_attempts_all(student)
+    d14 = datetime.timedelta(days=14)
+    nr_repeat = exam.course.repeat_class(student)
+
 
     message = {"msg":"","error":""}
 
 
     try:
         if 'prijava' in request.POST:
-
-            error_msgs = exam.signUp_allowed(student)
-            nr_all= exam.course.nr_attempts_all(student)
-            nr_this=exam.course.nr_attempts_this_year(student)
-            rep=exam.repeat_class(student)
-
-
-
-            if error_msgs != None:
-                message["error"]= error_msgs[0]
-            elif exam.already_positive(student):
-                message["error"]='Za ta predmet ze obstaja pozitivna ocena'
+            print "test"
+            #if error_msgs != None:
+             #   message["error"] = error_msgs[0]
+            if exam.already_positive(student):
+                message["error"] = 'Za ta predmet ze obstaja pozitivna ocena'
+            elif nr_this_year >= 3:
+                message["error"] = 'Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
+            elif nr_all - nr_repeat >= 6:
+                message["error"] = 'Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
             elif exam.already_signedUp(student):
-                message["error"]='Na ta predmet ste ze prijavljeni ali pa se ni bila vnesena ocena'
-            elif nr_this>=3:
-                message["error"]='Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
-            elif nr_all>=6:
-                message["error"]='Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
-            elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
-                message["error"]='Rok za prijavo na izpit je potekel'
-           
-            elif exam.date < (ExamDate.objects.get(examsignup=exam.last_try(student)).date+d):
-                message["error"]='Ni se preteklo 14 dni od zadnje prijave'
+                message["error"] = 'Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
+            elif exam.date < (datetime.date.today() + datetime.timedelta(days=3)):
+                message["error"] = 'Rok za prijavo na izpit je potekel'
+            elif len(ExamDate.objects.filter(examsignup=exam.last_try(student))) > 0 and exam.date < (ExamDate.objects.filter(examsignup=exam.last_try(student))[0].date + d14):
+                message["error"] = 'Ni se preteklo 14 dni od zadnje prijave'
             elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
-                message["error"]='Omejitev dovoljenih prijav za ta izpitni rok'
-
+                message["error"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
 
             else:
-
+                print "aaa"
+                message["error"]='I was here'
                 ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
                 nr_all= exam.course.nr_attempts_all(student)
-                message["msg"]='Uspesna prijava na izpit '+ str(exam)+'To je vase '+str(nr_all)+'. polaganje'
-            return HttpResponseRedirect(reverse('student.views.exam_success', args=(student.enrollment_number, exam_Id, )))
+                message["msg"]='Uspesna prijava na izpit'+ str(exam)
+                message["error"]='I was here'
+
+                return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
                 #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
+
         elif 'nazaj' in request.POST:
+
             return HttpResponseRedirect(reverse('student.views.exam_sign_up', args=(student.enrollment_number, )))
 
 
     except :
-
+        print traceback.format_exc()
         return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
 
     #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
@@ -336,7 +340,9 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam}, RequestContext(request))
 
 def sign_up_success(request, student_Id, exam_Id):
-    return render_to_response('admin/student/exam_sign_up_success.html', {'Student':student_Id, 'rok':exam_Id}, RequestContext(request))
+    student = get_object_or_404(Student, enrollment_number=student_Id)
+    exam=ExamDate.objects.get(pk=exam_Id)
+    return render_to_response('admin/student/exam_sign_up_success.html', {'Student':student, 'rok':exam}, RequestContext(request))
 
 def student_personal(request, student_Id):
     student= Student.objects.get(enrollment_number = student_Id)
