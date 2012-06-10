@@ -57,17 +57,25 @@ class Course(models.Model):
             c.save()
             for ll in l[2:]:
                 if ll.strip() == "": continue
-                g = GroupInstructors()
-                g.save()
-                for prof in ll.strip().split("/"):
-                    ime = prof.split(",")[1].strip().capitalize()
-                    priimek = prof.split(",")[0].strip().capitalize()
-                    try:
-                        instruktor = Instructor.objects.filter(name=ime, surname=priimek)[0]
-                        if instruktor != None: g.instructor.add(instruktor)
-                    except:
-                        print "instruktor not found"
-                g.save()
+                
+                profsesorji = [(prof.split(",")[1].strip().capitalize(),prof.split(",")[0].strip().capitalize())for prof in ll.strip().split("/")]
+                groups = GroupInstructors.objects.all()
+                for prof in profsesorji:
+                    instructor = Instructor.objects.filter(name=prof[0], surname=prof[1])[0]
+                    groups = [g for g in groups if instructor in g.instructor.all()]
+                
+                if len(groups)==0:
+                    g = GroupInstructors()
+                    g.save()
+                    for prof in profsesorji:
+                        try:
+                            instructor = Instructor.objects.filter(name=prof[0], surname=prof[1])[0]
+                            if instructor != None: g.instructor.add(instructor)
+                        except:
+                            print "instruktor not found"
+                    g.save()
+                else:
+                    g = groups[0]
                 if len(g.instructor.all())>0: c.instructors.add(g)
                     
             c.course_code = i
