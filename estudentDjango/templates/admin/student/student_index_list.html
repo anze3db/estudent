@@ -12,10 +12,16 @@
         <strong>Letnik:</strong> {{d.letnik}}<br>
         <strong>Vrsta vpisa:</strong> {{d.enrollment_type}}<br>
         <strong>Način:</strong> {{d.redni}}<br>
+        {% if d.povprecje %}
+        <strong>Povprečje izpitov:</strong> {{d.povprecje_izpitov}}<br>
+        <strong>Povprečje vaj:</strong> {{d.povprecje_vaj}}<br>
+        <strong>Povprečna ocena:</strong> {{d.povprecje}}<br>
+        {% endif %}
         <br>
         {% if d.courses %}
             <table cellpadding="0" cellspacing="0" class="sortable" style="width:80%">
                 <tr class="first-row">
+                    <td><strong>#</strong></td>
                     <td style="width:10%"><strong>Šifra</strong></td>
                     <td style="width:35%"><strong>Predmet</strong></td>
                     <td style="width:30%"><strong>Predavatelj(i)</strong></td>
@@ -25,6 +31,7 @@
                 </tr>
                 {% for c in d.courses %}
                 <tr>
+                <td><strong>{{c.cntr}}</strong></td>
                 <td>{{c.sifra_predmeta}}</td>
                 <td>{{c.name}}</td>
                 {% if c.signups %}
@@ -44,7 +51,7 @@
                     {% endfor %}
                     </td>
                     <td>
-                    {{c.stevilo_polaganj}}{{c.odstevek_ponavljanja}}                    
+                    {{c.polaganja}}
                     </td>
                 {% else %}
                     <td></td>
@@ -56,12 +63,12 @@
                 {% endfor %}
             </table>
         {% else %}
-            Za vpis ni predmetov<br>
+            Za vpis ni predmetov.<br>
         {% endif %}
         <br>
     {% endfor %}
     {% else %}
-        Za študenta ni vpisov<br>
+        Za študenta ni vpisov.<br>
     {% endif %}
 
 

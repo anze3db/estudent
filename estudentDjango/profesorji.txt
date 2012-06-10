@@ -1,8 +1,9 @@
-AMBROŽIČ,MILAN
+Ambrožič, Milan
 Amon, Miha
 Bajec, Marko
 Batagelj, Borut
 Bezenšek, Mitja
+Dobravec, Tomaž
 Bohak, Ciril
 BORDON, JURE
 Bosnić, Zoran
@@ -21,13 +22,14 @@ Demšar, Janez
 Divjak, Saša
 Dobnikar, Andrej
 Dobravec, Tomaž
-DRNOVŠEK, MATEJA
+Drnovšek, Mateja
 Fele Žorž, Gašper
+Fijavž, Gašper
 FRANC, ALEKSANDRA
 Franetič, Damir
 Fuerst, Luka
 Gabrovšek, Boštjan
-GALLANT, ROBERT
+Gallan, Robert
 Guštin, Veselko
 Hovelja, Tomaž
 Ilc, Nejc
@@ -57,6 +59,7 @@ LINDIČ, JAKA
 Lotric, Uros
 Mahnič, Viljan
 MAJNIK, MATJAŽ
+Marolt, Matija
 Mihelič, Jurij
 Milutinovic, Mitar
 Moškon, Miha
@@ -64,6 +67,7 @@ Mramor-Kosta, Neža
 Mraz, Miha
 MUHIČ , ANDREJ (FMF)
 Orel, Bojan
+Osredkar, Radko
 Pančur, Matjaž
 Pečar, Primož
 Peer, Peter
@@ -75,7 +79,7 @@ POLAJNAR, MATIJA
 Poženel, Marko
 PRESKAR, ROK
 Privošnik, Marko
-PROSTO, PROSTO
+Rajkovič, Vladislav
 Robič, Borut
 Robnik Šikonja, Marko
 Rožanc, Igor
@@ -85,7 +89,7 @@ Rupnik, Rok
 Sadikov, Aleksander
 Šajn, Luka
 Šaša Bastinos, Ana
-ŠKERLAVAJ, MIHA
+Škerlavaj, Miha
 Skočaj, Danijel
 Škraba, Igor
 Škraba, Primož

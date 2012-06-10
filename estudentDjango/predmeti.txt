@@ -1,141 +1,77 @@
-Algoritmi
-Algoritmi in podatkovne strukture 2
-Angleški jezik nivo A
-Angleški jezik nivo C
-Arhitekture in algoritmi - podipl.
-Brezžična in mobilna omrežja
-Digitalno procesiranje signalov
-Do gležnjev v blatu
-Ekonomika in podjetništvo
-Interaktivnost in oblikovanje informacij
-Izbrana poglavja iz računalništva in informatike
-Izbrana poglavja iz računalništva in informatike
-Izbrana poglavja iz računalništva in informatike
-Izraba zmogljivih procesorjev
-Komunikacija človek računalnik
-Kriptografija in računalniška varnost
-Linearna algebra
-Matematično modeliranje
-Mehko računanje in naravni algoritmi
-Načrtovanje digitalnih naprav
-Numerična matematika
-Obvladovanje informatike
-Odkrivanje zakonitosti iz podatkov
-Odkrivanje znanj iz podatkov
-Operacijski sistemi
-Operacijski sistemi
-Organizacija in management
-Organizacija računalniških sistemov
-Osnove oblikovanja
-Osnove podatkovnih baz
-Osnove verjetnosti in statistike
-Planiranje in upravljanje informatike
-Podatkovne baze
-Prevajalniki
-Prevajalniki in navidezni stroji
-Principi programskih jezikov
-Produkcija multimedijskih gradiv
-Programiranje 2
-Programiranje in algoritmi
-Računalniška forenzika
-Računalniška zvočna produkcija
-Računalniške komunikacije
-Računalniške komunikacije
-Računalniške tehnologije
-Računalniški sistemi
-Razvoj informacijskih sistemov
-Razvoj inteligentnih sistemov
-Seminar 2 in Seminar 4
-Seminar FRI
-Sodobne metode razvoja programske opreme
-Sodobni pristopi in arhitekture pri razvoju informacijskih s
-Spletne tehnologije
-Tehnologija programske opreme
-Teorija informacij in sistemov
-Testiranje in kakovost
-Umetna inteligenca
-Umetna inteligenca 1
-Umetna inteligenca 2
-Umetna inteligenca - podipl.
-Uporaba IKT v narav. in tehniki - VS (FKKT)
-Uporabniški vmesniki
-Veščine v znanstvenem delu 2
-Vhodno-izhodne naprave
-Zanesljivost in zmogljivost računalniških sistemov
-Algoritmi in podatkovne strukture
-Algoritmi in podatkovne strukture 1
-Angleški jezik nivo B
-Arhitektura računalniških sistemov
-Brezžična senzorska omrežja
-Digitalna vezja
-Digitalno načrtovanje
-Digitalno procesiranje signalov
-Diskretna matematika
-Diskretne strukture
-Diskretne strukture
-E-izobraževanje
-Ekonomika in organizacija informatike
-Elektronsko in mobilno poslovanje
-Elektronsko poslovanje
-Fizika
-Grafično oblikovanje
-Informacijska varnost in zasebnost
-Informacijski sistemi
-Informatika
-Inteligentni sistemi
-Izračunljivost in računska zahtevnost
-Komuniciranje in vodenje projektov
-Komunikacijski protokoli
-Komunikacijski protokoli in omrežna varnost
-Management proizvodnih in storitvenih procesov
-Matematika
-Matematika II
-Modeliranje računalniških omrežij
-Multimedijske tehnologije
-Multimedijski sistemi
-Nekonvencionalne platforme in metode procesiranja
-Numerične metode
-Obdelava biomedicinskih signalov in slik
-Odločitveni sistemi
-Organizacija računalnikov
-Osnove digitalnih vezij
-Osnove informacijskih sistemov
-Osnove matematične analize
-Osnove programiranja
-Osnove umetne inteligence
-Podatkovne baze 2
-Porazdeljeni sistemi
-Poslovna inteligenca
-Postopki razvoja programske opreme
-Procesna avtomatika
-Programiranje
-Programiranje 1
-Projektni praktikum
-Računalniška arhitektura
-Računalniška grafika
-Računalniška grafika in tehnologija iger
-Računalniški sistemi
-Računska zahtevnost in hervistično programiranje
-Razvoj informacijskih sistemov
-Razvoj programske opreme
-Robotika in računalniško zaznavanje
-Seminar 1 in Seminar 3
-Sistemska programska oprema
-Sistemska programska oprema
-Spletno programiranje
-Strateško planiranje informatike
-Strojno učenje
-Tehnologija iger in navidezna resničnost
-Tehnologija programske opreme
-Tehnologija upravljanja podatkov
-Umetna inteligenca
-Umetna inteligenca 1
-Umetno zaznavanje
-Uporba IKT v narav. in tehniki -UN (FKKT)
-Uvod v bioinformatiko
-Uvod v računalništvo
-Verjetnost in statistika
-Veščine v znanstvenem delu 1
-Vgrajeni sistemi
-Vzporedni in porazdeljnei sistemi in tehnologije
-Zaznavanje v kognitivnih sistemih
+# 1. letnik uni_ri ; 
+Osnove programiranja ; Mahnič, Viljan
+Osnove matematične analize ; Mramor-Kosta, Neža
+Diskretne strukture ; Fijavž, Gašper
+Osnove digitalnih vezij ; Zimic, Nikolaj
+Fizika ; Osredkar, Radko/Ambrožič, Milan 
+Programiranje in algoritmi ; Divjak, Saša / Kononenko,Igor
+Linearna algebra ; Orel, Bojan
+Osnove podatkovnih baz ; Bajec, Marko 
+Računalniške komunikacije ; Bosnić, Zoran
+Komunikacija človek računalnik ; Jager, Franc
+# ; 
+# 2. letnik uni_ri ; 
+Algoritmi in podatkovne strukture ; Robič, Borut 
+Arhitektura računalniških sistemov ; Kodek, Dušan 
+Verjetnost in statistika ; Jurišić, Aleksandar 
+Osnove umetne inteligence ; Bratko, Ivan 
+Osnove informacijskih sistemov ; Krisper, Marjan
+Teorija informacij in sistemov ; Dobnikar, Andrej
+Operacijski sistemi ; Robič, Borut 
+Organizacija računalniških sistemov ; Kodek, Dušan
+# ; 
+# strokovno izbirni Predmeti ; 
+Matematično modeliranje ; Mramor-Kosta, Neža
+Principi programskih jezikov ; Bratko, Ivan
+Računalniške tehnologije ; Osredkar, Radko/Ambrožič, Milan
+# prosti izbirni Predmeti ; 
+Angleški jezik nivo A ; Štros Bračko, Marina
+Angleški jezik nivo B ; Štros Bračko, Marina
+Angleški jezik nivo C ; Štros Bračko, Marina
+Izbrana poglavja iz računalništva in informatike ; Gallan, Robert
+Računalništvo v praksi I ; Mramor-Kosta, Neža
+Računalništvo v praksi II ; Mramor-Kosta, Neža
+# ; 
+# 3. letnik uni_ri ; 
+Komuniciranje in vodenje projektov ; Solina, Franc
+Ekonomika in podjetništvo ; Drnovšek, Mateja
+# Informacijski sistemi ; 
+# Predmet ; 
+Elektronsko poslovanje ; Trček, Denis
+Poslovna inteligenca ; Zupan, Blaž/Rajkovič, Vladislav/Demšar, Janez
+Organizacija in management ; Škerlavaj, Miha
+# Obvladovanje informatike ; 
+# Predmet ; 
+Razvoj informacijskih sistemov ; Bajec, Marko
+Tehnologija upravljanja podatkov ; Kukar, Matjaž
+Planiranje in upravljanje informatike ; Krisper, Marjan
+# Razvoj programske opreme ; 
+# Predmet ; 
+Postopki razvoja programske opreme ; Jurič, Branko Matjaž
+Spletno programiranje ; Bosnić, Zoran
+Tehnologija programske opreme ; Mahnič, Viljan
+# Računalniška omrežja ; 
+# Predmet ; 
+Modeliranje računalniških omrežij ; Mraz, Miha
+Komunikacijski protokoli ; Ciglarič, Mojca
+Brezžična in mobilna omrežja ; Zimic, Nikolaj
+# Računalniški sistemi ; 
+# Predmet ; 
+Digitalno načrtovanje ; Guštin, Veselko
+Porazdeljeni sistemi ; Dobnikar, Andrej
+Zanesljivost in zmogljivost računalniških sistemov ; Mraz, Miha
+# Algoritmi in sistemski programi ; 
+# Predmet ; 
+Računska zahtevnost in hevristično programiranje ; Robnik Šikonja, Marko
+Sistemska programska oprema ; Dobravec, Tomaž
+Prevajalniki ; Kukar, Matjaž 
+# Umetna inteligenca ; 
+# Predmet ; 
+Inteligentni sistemi ; Kononenko, Igor/Robnik Šikonja, Marko
+Umetno zaznavanje ; Leonardis, Aleš
+Razvoj inteligentnih sistemov ; Skočaj, Danijel
+# Medijske tehnologije ; 
+# Predmet ; 
+Računalniška grafika in tehnologija iger (B-UNI) ; Marolt, Matija
+Multimedijski sistemi ; Leonardis, Aleš
+Osnove oblikovanja ; Bovcon, Narvika

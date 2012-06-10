@@ -34,9 +34,10 @@ class Course(models.Model):
         return ' / '.join([str(i) for i in self.instructors.all()])
 
     def __unicode__(self):
-        return self.name + " (" + self.course_code + ")"
+        return self.course_code + " " +  self.name
     
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         FILE = os.path.join(PROJECT_PATH, 'predmeti.txt')
         
@@ -45,13 +46,31 @@ class Course(models.Model):
         csv_file.close()
         
         Course.objects.all().delete()
+        GroupInstructors.objects.all().delete()
         i=10000
         for line in csv_data:
-            #l = line.split(',')
-            #if len(l)<1: continue
+            if line[0] == "#": continue
+            l = line.split(';')
             c = Course()
             c.course_code = i
-            c.name = line
+            c.save()
+            for ll in l[1:]:
+                if ll.strip() == "": continue
+                g = GroupInstructors()
+                g.save()
+                for prof in ll.strip().split("/"):
+                    ime = prof.split(",")[1].strip().capitalize()
+                    priimek = prof.split(",")[0].strip().capitalize()
+                    try:
+                        instruktor = Instructor.objects.filter(name=ime, surname=priimek)[0]
+                        if instruktor != None: g.instructor.add(instruktor)
+                    except:
+                        print "instruktor not found"
+                g.save()
+                if len(g.instructor.all())>0: c.instructors.add(g)
+                    
+            c.course_code = i
+            c.name = l[0].strip()
             c.save()
             i=i+1
 
@@ -100,11 +119,12 @@ class Course(models.Model):
     def nr_attempts_this_year_till_now(self, student,nowdate):
         from student.models import ExamSignUp
 
+        year=datetime.date.today().year
         exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
         nr_try=0
 
         for t in exSig:
-            if t.examDate.date<nowdate:
+            if t.examDate.date.year==year and t.examDate.date<nowdate:
                 nr_try=nr_try+1
 
 
@@ -222,7 +242,7 @@ class StudyProgram(models.Model):
         verbose_name = _("study program")
         
     def __unicode__(self):
-        return force_unicode(self.descriptor)
+        return force_unicode(self.program_code + " " + self.descriptor)
     
     @classmethod
     def updateAll(cls):
@@ -252,7 +272,7 @@ class Post(models.Model):
         verbose_name = _("post")
         
     def __unicode__(self):
-        return self.descriptor
+        return self.post_code + " " + self.descriptor
     
     @classmethod
     @commit_on_success    
@@ -336,6 +356,7 @@ class Instructor(models.Model):
         return self.name + ' ' + self.surname +" (" + self.instructor_code + ")"
 
     @classmethod
+    @commit_on_success
     def updateAll(cls):
         FILE = os.path.join(PROJECT_PATH, 'profesorji.txt')
         
@@ -350,8 +371,8 @@ class Instructor(models.Model):
             if len(l)<2: continue
             c = Instructor()
             c.instructor_code = i
-            c.name = l[1].strip()
-            c.surname = l[0].strip()
+            c.name = l[1].strip().capitalize()
+            c.surname = l[0].strip().capitalize()
             c.save()
             i=i+1
 

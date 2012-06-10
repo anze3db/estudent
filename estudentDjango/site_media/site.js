@@ -89,13 +89,7 @@ $(document).ready(function() {
     });
     courseFilter.filter();
 
-    var instructorsFilter=new filter("#id_instructors", function(){
-        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
-            +$("#id_course").val();
-    }, function(i, all, hash, data){
-    	return all[hash[data[i]["pk"]]];
-    });
-    instructorsFilter.filter();
+
     
     var courseProgramFilter=new filter("#id_cour", function(){
         return '/api/getFilteredCourses/?programId='
@@ -135,7 +129,25 @@ $(document).ready(function() {
     	courseProgramFilter.filter();
     });
 
-
+    if(document.URL.match(/student\/examdate\/add\/$/)){
+    	var instructorsFilter=new filter("#id_instructors", function(){
+            return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+                +$("#id_course").val();
+        }, function(i, all, hash, data){
+        	return all[hash[data[i]["pk"]]];
+        });
+        instructorsFilter.filter();    	
+    	
+    }
+    else{
+        var instructorsFilter=new filter("#id_instructors", function(){
+            return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+                +$("#id_course").val();
+        }, function(i, all, hash, data){
+        	return all[hash[data[i]["pk"]]];
+        });
+        instructorsFilter.filter();
+    }
 });
 
 

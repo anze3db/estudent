@@ -1,0 +1,14 @@
+referentka vpiše nekaj študentov v 1. in 3. letnik univerzitetnega študija "Računalništvo in informatika" (predpostavljamo, da je predmetnik za oba letnika že vzpostavljen; za študente 3. letnika mora referentka vnesti tudi podatke o izbranih modulih in izbirnih predmetih)
+referentka izpiše za enega od vpisanih študentov iz vsakega letnika kartotečni list (študent 3. letnika naj bo v prejšnjih študijskih letih vpisan v 1. in 2. letnik)
+referentka izpiše seznam vpisanih v 1. letnik in seznam za nek izbirni predmet 3. letnika
+skrbnik doda še enega izvajalca za nek predmet 1. letnika
+ta izvajalec razpiše izpitni rok
+trije študenti se sami prijavijo na razpisan izpitni rok
+referentka prijavi še tri take, ki se sami iz različnih vzrokov ne morejo prijaviti (ustrezne primere si morate pripraviti vnaprej)
+referentka izpiše seznam prijavljenih kandidatov
+dva študenta se odjavita
+referentka izpiše seznam prijavljenih kandidatov
+referentka spremeni datum izpita tako, da je manjši ali enak trenutnemu (da omogoči vnos rezultatov)
+učitelj vnese in izpiše rezultate pisnega dela izpita (vsaj enemu študentu vrne prijavo)
+učitelj vnese in izpiše končne ocene
+študent preveri vpisane ocene v svojem kartotečnem listu
