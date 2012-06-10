@@ -385,6 +385,54 @@ class ExamDate(models.Model):
 
 
 
+    @classmethod
+    @commit_on_success
+    def updateAll(cls):
+        from random import random
+        from random import shuffle
+        print "update cur"
+        FILE = os.path.join(PROJECT_PATH, 'predmetnik.csv')
+        
+        csv_file = open(FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        dnevi = range(1,27)
+        for line in csv_data:
+            line = line.strip()
+            try:
+                l = re.compile(",", re.UNICODE).split(line)
+                
+                course = Course.objects.filter(name=l[4])[0]
+                zimski = l[5] == "zimski"
+                for instructorGroup in course.instructors.all():
+                    for leto in range(2008,2013):
+                        i=0
+                        shuffle(dnevi)
+                        steviloprijav = int(random()*3+1)*50
+                        for mesec in [2 if zimski else 6 , 8, 9]:
+                            i += 1
+                            dan = dnevi[i]
+                            datum = datetime.date(leto,mesec,dan)
+    
+                            ucilnica = "P"+str(int(random()*random()*20+1))
+                            vsetTocke = 100
+                            meja = 50 + (0 if random() < 0.5 else 10)
+                            
+                            ed = ExamDate()
+                            ed.date = datum
+                            ed.instructors = instructorGroup
+                            ed.course = course
+                            ed.location = ucilnica
+                            ed.nr_SignUp = steviloprijav
+                            ed.total_points = vsetTocke
+                            ed.min_pos = meja
+                            ed.save()
+                            print datum, zimski,instructorGroup,course
+                        
+                        
+            except BaseException as e:
+                print e
+
 
 
 class ExamSignUp(models.Model):
@@ -508,7 +556,6 @@ class Curriculum(models.Model):
                 
                 course = Course.objects.filter(name=l[4])[0]
                 
-                print program,letnik,course 
                 c = Curriculum()
                 c.class_year = letnik
                 c.course = course

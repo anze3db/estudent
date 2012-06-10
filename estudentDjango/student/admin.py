@@ -154,6 +154,27 @@ class ExamDateAdmin(admin.ModelAdmin):
     list_filter = ('study_year', 'instructors',)
     search_fields = ('course__name',)
     
+
+    def admin_update_examdate(self, request):
+        ExamDate.updateAll()
+            
+        messages.success(request, _("examdate added successfully"))
+        
+        return redirect('/student/examdate')
+
+    # override the get_urls to add a custom view:
+    def get_urls(self):
+        urls = super(ExamDateAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_examdate),
+                name='admin_update_examdate',
+            ),
+        )
+        return my_urls + urls
+
+
     
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Address)
