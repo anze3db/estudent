@@ -45,13 +45,35 @@ class Course(models.Model):
         csv_file.close()
         
         Course.objects.all().delete()
+        GroupInstructors.objects.all().delete()
         i=10000
         for line in csv_data:
-            #l = line.split(',')
-            #if len(l)<1: continue
+            if line[0] == "#": continue
+            l = line.split(';')
             c = Course()
+            c.save()
+            print l[0].strip()
+            for ll in l[1:]:
+                hasins = False
+                if ll.strip() == "": continue
+                g = GroupInstructors()
+                g.pk=i;
+                g.save()
+                for prof in ll.strip().split("/"):
+                    ime = prof.split(",")[1].strip().capitalize()
+                    priimek = prof.split(",")[0].strip().capitalize()
+                    print "       ",ime,priimek
+                    instruktor = Instructor.objects.get(name=ime, surname=priimek)
+                    if instruktor != None:
+                        hasins = True
+                        print "         ok ",instruktor.pk
+                        g.instructor.add(instruktor)
+                g.save()
+                if hasins:
+                    c.instructors.add(g)
+            
             c.course_code = i
-            c.name = line
+            c.name = l[0].strip()
             c.save()
             i=i+1
 
@@ -351,8 +373,8 @@ class Instructor(models.Model):
             if len(l)<2: continue
             c = Instructor()
             c.instructor_code = i
-            c.name = l[1].strip()
-            c.surname = l[0].strip()
+            c.name = l[1].strip().capitalize()
+            c.surname = l[0].strip().capitalize()
             c.save()
             i=i+1
 
