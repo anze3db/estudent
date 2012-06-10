@@ -198,28 +198,38 @@ def enrolemntList(request):
 
 def getFilteredCoursesModules(request):
     program = request.GET['program'] if 'program' in request.GET else 0
+    
+    program = program if program != '' else 0
+    
     year = request.GET['year'] if 'year' in request.GET else 0
+    
+    year = year if year != '' else 0
+    
     modules = request.GET['modules'].split(',') if request.GET['modules'] != 'null' else []
     student = request.GET['student'] if request.GET['student'] != ''and request.GET['student'] != '' else 0 
     id = request.GET['id'] if request.GET['id'] != 'add' else 0 
-    print student, id
     enrollments = Enrollment.objects.filter(student = student).exclude(pk=id)
-    for e in enrollments:
-        pass
-        #print Curriculum.getNonMandatory(e.program, e.class_year)
-        #print e.courses
-        #
-        #print e.modules
     
-    if program == '' or year == '':
+    if program == 0 or year == 0:
         return HttpResponse(serializers.serialize("json", []))
 
+    currs = set()
+    attended = set()
     
+    for e in enrollments:
+        # Dodamo vse izbirne predmete programov v katere je bil student vpisan:
+        currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, e.class_year)]))
+        # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
+        attended = attended.union(set([c.course_code for c in e.courses.all()]))
+    # Dodamo izbirne predmete trenutnega programa:
+    currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(program, year)]))
+    # Dodamo morebitne predmete, ki so v trenutno izbranih modulih:
+    attended = attended.union(set([c.course.course_code for c in Curriculum.objects.filter(module__in = modules)]))
     
-    currs = Curriculum.getNonMandatory(program, year)
-    module_courses = Curriculum.objects.filter(module__in = modules)
-    # filtriramo vse predmete, ki so v izbranih coursih:
-    currs = [c for c in currs if c not in module_courses]
+    # Filtriramo predmete, ki jih je student ze opravljal:
+    filter = currs.difference(attended)
+
+    currs = Curriculum.objects.filter(course__course_code__in = filter)
     
     return HttpResponse(serializers.serialize("json", currs))
 

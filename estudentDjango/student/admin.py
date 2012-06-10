@@ -29,8 +29,14 @@ class StudentAdmin(admin.ModelAdmin):
         return '<a href="/student/StudentPersonal/%s">Osebni podatki</a>' % (obj.enrollment_number)
     _personal.allow_tags = True
     _personal.short_description = 'Osebni podatki'
+    
+    def _kartotecni(self, obj):
+        return '''<a href="/student/StudentIndex/%s/0">Vsa polaganja</a><br />
+                  <a href="/student/StudentIndex/%s/1">Zadnje polaganje</a>''' % (obj.enrollment_number,obj.enrollment_number)
+    _kartotecni.allow_tags = True
+    _kartotecni.short_description = _('Kartotecni list')
 
-    list_display = ['__unicode__', '_personal']
+    list_display = ['__unicode__', '_personal', '_kartotecni']
 class EnrollmentAdmin(admin.ModelAdmin):
     
     
