@@ -63,6 +63,26 @@ class CurriculumAdmin(admin.ModelAdmin):
     search_fields = ('course',)
 
 
+    def admin_update_curriculum(self, request):
+        Curriculum.updateAll()
+            
+        messages.success(request, _("Curriculum added successfully"))
+        
+        return redirect('/student/curriculum')
+
+    # override the get_urls to add a custom view:
+    def get_urls(self):
+        urls = super(CurriculumAdmin, self).get_urls()
+        my_urls = patterns('',
+            url(
+                r'update',
+                self.admin_site.admin_view(self.admin_update_curriculum),
+                name='admin_update_curriculum',
+            ),
+        )
+        return my_urls + urls
+
+
 
 
 

@@ -472,5 +472,59 @@ class Curriculum(models.Model):
         verbose_name = _("curriculum course")
         verbose_name_plural = _("curriculum")
         ordering = ['program']
+        
+
+    @classmethod
+    @commit_on_success
+    def updateAll(cls):
+        print "update cur"
+        FILE = os.path.join(PROJECT_PATH, 'predmetnik.csv')
+        
+        csv_file = open(FILE)
+        csv_data = csv_file.readlines()
+        csv_file.close()
+        
+        Curriculum.objects.all().delete()
+        Module.objects.all().delete()
+        i=10000
+        for line in csv_data:
+            i += 1
+            line = line.strip()
+            try:
+                l = re.compile(",", re.UNICODE).split(line)
+                program = StudyProgram.objects.get(program_code=l[0])
+                letnik = int(l[1])
+                mandatory = l[2] == "obvezni"
+                valid = True
+                if l[3] != "":
+                    modules = Module.objects.filter(descriptor=l[3])
+                    if len(modules)==0:
+                        module = Module()
+                        module.module_code = "m"+str(i)
+                        module.descriptor = l[3]
+                        module.save()
+                    else:
+                        module = modules[0]
+                
+                course = Course.objects.filter(name=l[4])[0]
+                
+                print program,letnik,course 
+                c = Curriculum()
+                c.class_year = letnik
+                c.course = course
+                if not mandatory and l[3] != "":
+                    c.module = module
+                c.mandatory = mandatory
+                c.valid = valid
+                c.program = program
+                c.save()
+                 
+                
+            except BaseException as e:
+                print e
+
+
+
+
 
 
