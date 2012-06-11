@@ -186,7 +186,7 @@ class Enrollment(models.Model):
         allInProgram=Curriculum.objects.filter(program=self.program)
         selectiveCourse =  Course.objects.filter(enrollment=self)
 
-        mandatory=allInProgram.filter(mandatory=1)
+        mandatory=allInProgram.filter(mandatory=1,class_year=self.class_year)
         mod = Curriculum.objects.filter(module__in=modules) #todo check if module is null
         select=Curriculum.objects.filter(course__in=selectiveCourse)
 
