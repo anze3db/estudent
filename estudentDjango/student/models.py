@@ -402,7 +402,7 @@ class ExamDate(models.Model):
         for line in csv_data:
             line = line.strip()
             try:
-                l = re.compile(",", re.UNICODE).split(line)
+                l = re.compile(";", re.UNICODE).split(line)
                 
                 course = Course.objects.filter(course_code=l[4])[0]
                 zimski = l[6] == "zimski"
