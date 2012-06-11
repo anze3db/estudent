@@ -54,6 +54,7 @@ $(document).ready(function() {
     	var getUrl = getUrl;
     	var field = field;
     	var all  = $(element + " option");
+    	console.log(all, element + " option");
     	var hash = createHash(all);
     };
     
@@ -137,15 +138,29 @@ $(document).ready(function() {
         	courseFilter.filter();
         });
     }
+    var moduleFilter = new filter("#id_modules", function(){
+    	return '/api/getFilteredModules/?program='
+    	+$("#id_program").val()+'&year='
+    	+$("#id_class_year").val();
+    }, function(i, all, hash, data){
+    	return all[hash[data[i]["pk"]]];
+    });
+    moduleFilter.filter();
+    
     $("#id_class_year").busyChange(function(){
     	courseFilter.filter();
+    	moduleFilter.filter();
     });
     $("#id_program").busyChange(function(){
     	courseFilter.filter();
+    	moduleFilter.filter();
     });
     $("#id_modules").change(function(){
     	courseFilter.filter();
     });
+    
+    
+    
 });
 
 

@@ -195,6 +195,20 @@ def enrolemntList(request):
     
     return HttpResponse(response,mimetype="application/json")
 
+def getFilteredModules(request):
+    program = request.GET['program'] if 'program' in request.GET else 0
+    program = program if program != '' else 0
+    year = request.GET['year'] if 'year' in request.GET else 0
+    year = year if year != '' else 0
+    
+    print program, year
+    
+    if program == 0 or year == 0:
+        return HttpResponse(serializers.serialize("json", []))
+    currs = Curriculum.objects.filter(class_year = year, program = program)
+    modules = set([c.module for c in currs if c.module != None])
+    return HttpResponse(serializers.serialize("json", modules))
+
 
 def getFilteredCoursesModules(request):
     program = request.GET['program'] if 'program' in request.GET else 0
