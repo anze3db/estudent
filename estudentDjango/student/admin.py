@@ -141,8 +141,8 @@ class ExamDateAdmin(admin.ModelAdmin):
     def _personal(self, obj):
         return u"""<a href="/student/ExamGrades/%(examId)s/1">Seznam prijavljenih</a> <br />
                   <a href="/student/ExamGrades/%(examId)s/0">Rezultati pisnega dela</a> <br />
-                  <a href="/student/ExamGrades/%(examId)s/1">Seznam rezultatov pisnega</a> <br />
-                  <a href="/student/ExamGrades/%(examId)s/1">Vpis koncnih ocen</a>""" % \
+                  <a href="/student/ExamGrades/%(examId)s/2">Seznam rezultatov pisnega</a> <br />
+                  <a href="/student/ExamGrades/%(examId)s/3">Vpis koncnih ocen</a>""" % \
                   {'examId': str(obj.pk)}
     def _study(self, obj):
         return str(obj.date.year-1) + '/' + str(obj.date.year)[2:] 

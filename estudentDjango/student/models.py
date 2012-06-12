@@ -170,25 +170,20 @@ class Enrollment(models.Model):
     def _priimek(self):
         return self.student.surname
     
-    
     def __unicode__(self):
         return u'%d %s %s %d (%d) %s' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year, self.program)
     
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
 
-
-
     def get_classes(self):
-
-        
         modules=Module.objects.filter(enrollment=self)
-        allInProgram=Curriculum.objects.filter(program=self.program)
+        allInProgram=Curriculum.objects.filter(program=self.program,class_year=self.class_year)
         selectiveCourse =  Course.objects.filter(enrollment=self)
 
         mandatory=allInProgram.filter(mandatory=1,class_year=self.class_year)
         mod = Curriculum.objects.filter(module__in=modules) #todo check if module is null
-        select=Curriculum.objects.filter(course__in=selectiveCourse)
+        select=Curriculum.objects.filter(course__in=selectiveCourse,class_year=self.class_year)
 
         result_list = list(chain(select,mandatory,mod))
 
@@ -256,9 +251,6 @@ class Enrollment(models.Model):
             return float(avg/i)
         else:
             return avg
-
-
-
 
     class Meta:
         verbose_name_plural = _("enrollments")
@@ -329,11 +321,15 @@ class ExamDate(models.Model):
                 flag=True
                 ex=ExamSignUp.objects.filter(enroll__student=student, examDate__course=c)
                 for e in ex:
-                    if(e.result_exam=='NR'): flag=True
+                    if(e.result_exam =='NR'):
+                        flag=True
+                        if(e.VP==True): flag=False
                     #elif (len(list(ExamSignUp.object.filter(examDate=self)))!=0): flag=True
                     elif (int(e.result_exam)<=5): flag=False
+
                 for e in ex:
                     if e.examDate==self: flag=True
+
 
         return flag
 
@@ -469,8 +465,25 @@ class ExamSignUp(models.Model):
                 ('10', 'odlicno 10'),
             )
     result_exam = models.CharField(_("results exam"), max_length=2, choices=RESULTS, default='NR')
+    def resultNegative(self):
+        return self.result_exam in ['1', '2', '3', '4', '5']
+        
     result_practice = models.CharField(_("results practice"), max_length=2, choices=RESULTS, default='NR')
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
+    #hackyhackhack
+    maxpoints = 10000
+    def getPointsExam(self):  return self.points%self.maxpoints
+    def getPointsOther(self): return self.points//self.maxpoints
+    def setPointsExam(self, p):
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = self.getPointsOther()*self.maxpoints + p;
+        print self.points
+    def setPointsOther(self, p): 
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = p*self.maxpoints + self.getPointsExam();
+    
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 

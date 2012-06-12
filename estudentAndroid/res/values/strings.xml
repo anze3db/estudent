@@ -12,6 +12,7 @@
     
     <string name="edit_text_username">Vpisna številka</string>
     <string name="edit_text_password">Geslo</string>
+    <string name="pavzer">pavziranje</string>
     
     <!-- oznake za glavni menu -->
     
@@ -42,7 +43,8 @@
     <string name="unapplyExam">Odjava od izpita</string>
     
     <string name="noExams">Nobena prijava na izpit ne obstaja.</string>
-    <string name="needToPay">Izpit je placljiv. Ali zelite nadaljevati?</string>
+    <string name="needToPayStatus">Izpit je placljiv. Ali zelite nadaljevati?</string>
+    <string name="needToPayNoStatus">Ker nimate statusa je izpit placljiv. Ali zelite nadaljevati?</string>
     <string name="Yes">Da</string>
     <string name="No">Ne</string>
     <string name="Back">Nazaj</string>
