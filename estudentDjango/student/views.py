@@ -367,7 +367,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 war=True
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked,'war':war}, RequestContext(request))
 
-            elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+            elif int(exam.nr_SignUp) <= len(ExamSignUp.objects.filter(examDate=exam)):
                 war= True
                 message["warning"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked, 'war':war}, RequestContext(request))
