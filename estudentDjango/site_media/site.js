@@ -54,7 +54,6 @@ $(document).ready(function() {
     	var getUrl = getUrl;
     	var field = field;
     	var all  = $(element + " option");
-    	console.log(all, element + " option");
     	var hash = createHash(all);
     };
     
@@ -95,9 +94,7 @@ $(document).ready(function() {
     });
 
 
-    console.log(document.URL.search(/student\/examdate\/add\//))
-    if(document.URL.search(/student\/examdate\/add\//) > 0){
-    	console.log("AAAA");
+    if(document.URL.search(/student\/examdate/) > 0){
     	var instructorsCFilter=new filter("#id_course", function(){
             return '/api/getFilterUserCourses/';
         }, function(i, all, hash, data){
