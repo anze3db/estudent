@@ -36,9 +36,11 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
     try:
         settings['showVP'] = showVP
         settings['l'] = int(l)
-        settings['onlyExam'] = Curriculum.objects.get(course=exam.course).only_exam
-    except:
-        pass
+        settings['firstyear'] = list(Enrollment.objects.order_by('study_year').filter(student=prijave[0].enroll.student))[0].study_year
+        settings['onlyExam'] = Curriculum.objects.filter(course=exam.course)[0].only_exam
+    except Exception, e:
+        print e
+    
     
     result = []
     for p in prijave:
@@ -94,10 +96,7 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
                 signup.VP = False
             signup.save()
     except Exception, e:#maybe an error msg?
-        print "////////////////////"
-        print e, "errorooro"
-        print "////////////////////"
-        pass
+        print e
     
     return exam_grades_view(request, exam_Id, l)
 
