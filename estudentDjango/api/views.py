@@ -219,6 +219,9 @@ def getFilteredCoursesModules(request):
     
     year = year if year != '' else 0
     
+    enrol_type = request.GET['vrsta'] if 'vrsta' in request.GET else ""
+    print "       vrsta vpisa: " + enrol_type
+    
     modules = request.GET['modules'].split(',') if request.GET['modules'] != 'null' else []
     student = request.GET['student'] if request.GET['student'] != ''and request.GET['student'] != '' else 0 
     id = request.GET['id'] if request.GET['id'] != 'add' else 0 
