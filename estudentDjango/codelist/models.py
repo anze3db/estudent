@@ -372,13 +372,13 @@ class Instructor(models.Model):
         csv_file.close()
         
         Instructor.objects.all().delete()
-        i=10000
+        i=630000
         for line in csv_data:
             if line == "" : continue
             l = line.split(',')
             if len(l)<2: continue
             c = Instructor()
-            c.instructor_code = "i"+str(i)
+            c.instructor_code = i
             c.name = l[1].strip().capitalize()
             c.surname = l[0].strip().capitalize()
             c.save()

@@ -82,17 +82,18 @@ $(document).ready(function() {
     			social.val(social.val().substring(0,7) + "000000");
     	}
     });
-    var instructorsFilter=new filter("#id_instructors", function(){
-        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
-            +$("#id_course").val();
-    }, function(i, all, hash, data){
-    	return all[hash[data[i]["pk"]]];
-    });
-    instructorsFilter.filter();
+    if(document.URL.search(/codelist\/course/) < 0){
+	    var instructorsFilter=new filter("#id_instructors", function(){
+	        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+	            +$("#id_course").val();
+	    }, function(i, all, hash, data){
+	    	return all[hash[data[i]["pk"]]];
+	    });
+	    instructorsFilter.filter();
+	}
     $("#id_course").busyChange(function(){
         instructorsFilter.filter();
     });
-
 
     if(document.URL.search(/student\/examdate/) > 0){
     	var instructorsCFilter=new filter("#id_course", function(){
@@ -103,7 +104,7 @@ $(document).ready(function() {
         instructorsCFilter.filter();    	
     	
     }
-    else{
+    else if(document.URL.search(/student\/curriculum/) < 0){
         var courseProgramFilter=new filter("#id_course", function(){
             return '/api/getFilteredCourses/?programId='
                 +$("#id_prog").val();
