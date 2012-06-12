@@ -23,7 +23,7 @@ $(document).ready(function() {
     
     
     
-    var filter = function(element, getUrl, field){
+    filter = function(element, getUrl, field){
     	/** 
     	 * Filters a select input by making a JSON request 
     	 * 	element - input selector

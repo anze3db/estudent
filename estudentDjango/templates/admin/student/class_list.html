@@ -1,7 +1,26 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
+<script>
+$(document).ready(function() {
+	
+    $("#id_prog").busyChange(function(){
+    	courseProgramFilter.filter();
+    });
+    $("#id_class_year").busyChange(function(){
+        courseProgramFilter.filter();
+    });
+    
+    var courseProgramFilter=new filter("#id_cour", function(){
+        return '/api/getFilteredCourses/?programId='+$("#id_prog").val()
+            +'&year='+$("#id_class_year").val();
+    }, function(i, all, hash, data){
+        return all[hash[data[i]['fields']['course']]];
+    });
+    courseProgramFilter.filter();
+});
 
+</script>
 <form action="/student/ClassList/" method="post">
 {% csrf_token %}
 {{ form.as_p }}

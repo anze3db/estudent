@@ -268,7 +268,10 @@ def getFilteredCourses(request):
     programId = request.GET['programId']
 
     courses = Curriculum.objects.filter(program = programId, mandatory = False)
-    print courses
+    
+    if 'year' in request.GET and request.GET['year'] != '':
+        courses = courses.filter(class_year=request.GET['year'])
+    
     return HttpResponse(serializers.serialize("json", courses))
 
 

@@ -78,8 +78,9 @@ def class_list(request):
             programs.append((p.pk, p.__unicode__()))
         
         prog = forms.ChoiceField(choices=programs, label="Program")
+        class_year = forms.IntegerField(label="letnik")
         cour = forms.ChoiceField(choices=choices, label="Izbirni predmet")
-        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010)], label="Leto")
+        year = forms.MultipleChoiceField(choices=[(2012, 2012), (2011, 2011), (2010, 2010), (2009, 2009)], label="Leto")
         
         
     students = []
