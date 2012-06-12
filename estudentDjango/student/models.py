@@ -480,8 +480,12 @@ class ExamSignUp(models.Model):
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
     #hackyhackhack
     maxpoints = 10000
-    def getPointsExam(self):  return self.points%self.maxpoints
-    def getPointsOther(self): return self.points//self.maxpoints
+    def getPointsExam(self):
+        if self.points == None: self.points = 0;
+        return self.points%self.maxpoints
+    def getPointsOther(self): 
+        if self.points == None: self.points = 0;
+        return self.points//self.maxpoints
     def setPointsExam(self, p):
         p = max(p, 0)
         p = min(p, self.examDate.total_points)
