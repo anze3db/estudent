@@ -30,13 +30,11 @@ def login(request):
 
     student = Student.authStudent(user, request.GET['password'])
     
-    
-    
     if student:
         response["name"] = student.name
         response["surname"] = student.surname
         response["login"] = True
-        response["pavzer"] = 0 < len(Enrollment.objects.filter(student=student,study_year=datetime.date.today().year-1))
+        response["pavzer"] = 0 == len(Enrollment.objects.filter(student=student,study_year=datetime.date.today().year-1))
     else:
         if fa is None or not fa.recent_failure() :
             fa = FailedAttempt(username=user, failures=0)
@@ -238,7 +236,7 @@ def getFilteredCoursesModules(request):
     
     for e in enrollments:
         # Dodamo vse izbirne predmete programov v katere je bil student vpisan:
-        currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, e.class_year)]))
+        currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, year)]))
         # gledam da ne brisemo predmetov iz programa in letnika ki ga ponavljamo
         if enrol_type == "V2" and str(e.class_year) == year and str(e.program.program_code) == program:
             continue
@@ -247,7 +245,6 @@ def getFilteredCoursesModules(request):
             continue
         attended = attended.union(set([c.course_code for c in e.courses.all()]))
     
-    for a in attended: print a
     # Dodamo izbirne predmete trenutnega programa:
     currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(program, year)]))
     # Dodamo morebitne predmete, ki so v trenutno izbranih modulih:
