@@ -145,7 +145,10 @@ def exam_sign_up(request, student_Id):
         form = EnrollForm(request.POST)
         enroll= Enrollment.objects.get(id=request.POST['enrolments'])
         classes=Course.objects.filter(curriculum__in=enroll.get_classes()  )
-        exams=ExamDate.objects.filter(course__in=classes)
+        examss=ExamDate.objects.filter(course__in=classes)
+        for e in examss:
+            if not e.already_positive(student) :
+                exams.append(e)
 
     else:
         form=EnrollForm()
