@@ -82,11 +82,17 @@ public class ExamDetailsFragment extends Fragment implements ResponseListener{
 							getString(R.string.loading_verifying_login), true);
 					Api.unapplyExam(mListener, ""+mExam.exam_key, StaticData.username, mEnrollmentId);
 				} else {
-					if(mExam.all_attempts - mExam.repeat_class_exams > 3) {
+					if(StaticData.pavzer) {
 						AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-						b.setMessage(getString(R.string.needToPay));
-						b.setPositiveButton(getString(R.string.Yes), dialogClickListener);
-						b.setNegativeButton(getString(R.string.No), dialogClickListener);
+						b.setMessage(R.string.needToPayNoStatus);
+						b.setPositiveButton(R.string.Yes, dialogClickListener);
+						b.setNegativeButton(R.string.No, dialogClickListener);
+						b.show();						
+					} else if(mExam.all_attempts - mExam.repeat_class_exams >= 3) {
+						AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+						b.setMessage(R.string.needToPayStatus);
+						b.setPositiveButton(R.string.Yes, dialogClickListener);
+						b.setNegativeButton(R.string.No, dialogClickListener);
 						b.show();
 					} else {
 						dialogClickListener.onClick(null, DialogInterface.BUTTON_POSITIVE);
