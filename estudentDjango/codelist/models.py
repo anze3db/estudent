@@ -372,7 +372,7 @@ class Instructor(models.Model):
         csv_file.close()
         
         Instructor.objects.all().delete()
-        i=63000
+        i=630000
         for line in csv_data:
             if line == "" : continue
             l = line.split(',')
