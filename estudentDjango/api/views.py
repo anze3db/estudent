@@ -70,7 +70,7 @@ def index(request):
         out['study_year'] = enroll.study_year
 
 
-        
+        enrollsV2 = Enrollment.objects.filter(student = student,class_year = enroll.class_year, program = enroll.program)
         courses = []
         classes = enroll.get_classes()
         courses2=Course.objects.filter(curriculum__in=classes)
@@ -81,30 +81,32 @@ def index(request):
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["predavatelj"]=p.predavatelji()
-                signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code,enroll=enroll).order_by('examDate__date')
-
+                
                 eno_pol=[]
-                for s in signups:
-                    if (s.result_exam == "NR" or s.VP == True):
-                        continue
-                    polaganje={}
-                    polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
-                    polaganje['izvajalci']=force_unicode(s.examDate.instructors)
-
-                    cur=Curriculum.objects.get(course=p, program=enroll.program,class_year=enroll.class_year)
-                    if(cur.only_exam==True):
-                        polaganje['ocena']=s.result_exam
-                    else:
-                        polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
-                    
-                    
-                    polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
-                    polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)+1
-
-                    eno_pol.append(polaganje)
+                for enrollV2 in enrollsV2:
+                    signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code,enroll=enrollV2).order_by('examDate__date')
+    
+                    for s in signups:
+                        if (s.result_exam == "NR" or s.VP == True):
+                            continue
+                        polaganje={}
+                        polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
+                        polaganje['izvajalci']=force_unicode(s.examDate.instructors)
+    
+                        cur=Curriculum.objects.get(course=p, program=enroll.program,class_year=enroll.class_year)
+                        if(cur.only_exam==True):
+                            polaganje['ocena']=s.result_exam
+                        else:
+                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
+                        
+                        
+                        polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
+                        polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)+1
+    
+                        eno_pol.append(polaganje)
 
                 course["polaganja"]=eno_pol
-                courses = courses+[course]
+                courses.append(course)
             except:
                 raise
         out["courses"]=courses
