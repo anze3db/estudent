@@ -6,4 +6,5 @@ public class User {
 	public String errors;
 	public boolean login;
 	public int numTries;
+	public boolean pavzer;
 }

@@ -77,6 +77,7 @@ public class LoginActivity extends Activity implements ResponseListener{
 				StaticData.firstName = user.name;
 				StaticData.lastName = user.surname;
 				StaticData.username = mEditUsername.getText().toString();
+				StaticData.pavzer = user.pavzer;
 				Intent intent = new Intent(this, MenuActivity.class);
 				startActivity(intent);
 			}else{

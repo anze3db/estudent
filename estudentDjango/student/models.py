@@ -329,11 +329,15 @@ class ExamDate(models.Model):
                 flag=True
                 ex=ExamSignUp.objects.filter(enroll__student=student, examDate__course=c)
                 for e in ex:
-                    if(e.result_exam=='NR'): flag=True
+                    if(e.result_exam =='NR'):
+                        flag=True
+                        if(e.VP==True): flag=False
                     #elif (len(list(ExamSignUp.object.filter(examDate=self)))!=0): flag=True
                     elif (int(e.result_exam)<=5): flag=False
+
                 for e in ex:
                     if e.examDate==self: flag=True
+
 
         return flag
 

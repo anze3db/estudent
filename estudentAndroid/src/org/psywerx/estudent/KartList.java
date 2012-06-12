@@ -30,7 +30,10 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 		super.onCreate(savedInstanceState);
 
 		Api.getIndex(this, StaticData.username);
-		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
+		if(StaticData.pavzer)
+			setTitle(String.format("%s %s (%s) - %s", StaticData.firstName, StaticData.lastName, StaticData.username, getString(R.string.pavzer)));
+		else
+			setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 
 	public void onServerResponse(Object o) {

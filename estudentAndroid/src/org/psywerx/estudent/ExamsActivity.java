@@ -37,7 +37,10 @@ public class ExamsActivity extends Activity implements ExamsFragment.OnExamSelec
 			ft.commit();
 		}
 		
-		setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
+		if(StaticData.pavzer)
+			setTitle(String.format("%s %s (%s) - %s", StaticData.firstName, StaticData.lastName, StaticData.username, getString(R.string.pavzer)));
+		else
+			setTitle(String.format("%s %s (%s)", StaticData.firstName, StaticData.lastName, StaticData.username));
 	}
 	
 	public void onExamSelected(int action) {
