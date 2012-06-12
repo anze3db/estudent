@@ -401,19 +401,20 @@ def getEnrollmentExamDates(request):
 
     for e in ExamDate.objects.filter(course__in=classes):
         if(e.date>datetime.date.today()):
-            ex={}
-            ex['exam_key']=e.pk
-            ex['course_key']=e.course.course_code
-            ex['course']=e.course.name
-            ex['date']=str(e.date)
-            ex['instructors']=str(e.instructors)
-            ex['signedup']=e.already_thisExam(enroll.student)
-            ex['all_attempts']=e.course.nr_attempts_all(student)
-            ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
-            ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
-            ex['enroll_type']=enroll.enrol_type
-            ex['repeat_class_exams']=e.repeat_class(student)
-            response.append(ex)
+            if not e.already_positive(student) : 
+                ex={}
+                ex['exam_key']=e.pk
+                ex['course_key']=e.course.course_code
+                ex['course']=e.course.name
+                ex['date']=str(e.date)
+                ex['instructors']=str(e.instructors)
+                ex['signedup']=e.already_thisExam(enroll.student)
+                ex['all_attempts']=e.course.nr_attempts_all(student)
+                ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
+                ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
+                ex['enroll_type']=enroll.enrol_type
+                ex['repeat_class_exams']=e.repeat_class(student)
+                response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
 

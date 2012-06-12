@@ -24,8 +24,8 @@ public class RequestAsyncTask extends AsyncTask<String, Void, Object> {
 
 //	private static final String SERVER_URL = "http://estudent.psywerx.net/api/";
 //	private static final String SERVER_URL = "http://zidar.me/api/";
-	private static final String SERVER_URL = "http://192.168.1.4:8000/api/";
-//	private static final String SERVER_URL = "http://192.168.1.102:8000/api/";
+//	private static final String SERVER_URL = "http://192.168.1.4:8000/api/";
+	private static final String SERVER_URL = "http://192.168.11.138:8000/api/";
 	private String mApiSubDir = "";
 	private Class mClass = Object.class;
 	
