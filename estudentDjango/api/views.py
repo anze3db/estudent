@@ -219,6 +219,9 @@ def getFilteredCoursesModules(request):
     
     year = year if year != '' else 0
     
+    enrol_type = request.GET['vrsta'] if 'vrsta' in request.GET else ""
+    print "       vrsta vpisa: " + enrol_type
+    
     modules = request.GET['modules'].split(',') if request.GET['modules'] != 'null' else []
     student = request.GET['student'] if request.GET['student'] != ''and request.GET['student'] != '' else 0 
     id = request.GET['id'] if request.GET['id'] != 'add' else 0 
@@ -233,7 +236,11 @@ def getFilteredCoursesModules(request):
     for e in enrollments:
         # Dodamo vse izbirne predmete programov v katere je bil student vpisan:
         currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, e.class_year)]))
-        # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
+        print "------checking previoush enrollments-----------"
+        print e.has_repeated_this_enrollment()
+        #TODO: pogledamo ali je ta program ponavlja
+        #if not e.has_repeated_this_enrollment():
+            # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
         attended = attended.union(set([c.course_code for c in e.courses.all()]))
     # Dodamo izbirne predmete trenutnega programa:
     currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(program, year)]))
@@ -368,10 +375,12 @@ def removeSignUp(request):
     
     examDateId = int(request.GET['exam_id'])
     student_id = request.GET['student_id']
+    enroll_id = request.GET['enroll_id']
     student = Student.objects.get(enrollment_number=student_id)
 
     exam=ExamDate.objects.get(id=examDateId);
     error_msgs = exam.signUp_allowed(student)
+    
     
     if error_msgs != None: 
         message["error"]= error_msgs[0]
@@ -382,11 +391,14 @@ def removeSignUp(request):
     elif exam.date < (datetime.date.today()+ datetime.timedelta(days=3)):
         message["error"]='Rok za odjavo izpita je potekel'        
     else:
-        enroll = list(Enrollment.objects.filter(student=student))[-1]
-        examSignUp = ExamSignUp.objects.get(enroll=enroll, examDate=exam)
-        examSignUp.delete()
-        message["msg"]='Uspesna odjava od izpita'+ str(exam)
-
+        enroll = Enrollment.objects.get(pk=enroll_id)
+        examSignUp = ExamSignUp.objects.filter(enroll=enroll, examDate=exam)
+        
+        if len(examSignUp) == 1:
+            examSignUp.delete()
+            message["msg"]='Uspesna odjava od izpita'+ str(exam)
+        else:
+            message["error"]='vpisa za '+str(enroll)+' - '+ str(exam)+" ni v bazi "
     return HttpResponse(json.dumps(message),mimetype="application/json")
 
 

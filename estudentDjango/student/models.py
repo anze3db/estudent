@@ -149,7 +149,6 @@ class Enrollment(models.Model):
     student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
     program = models.ForeignKey("codelist.StudyProgram",related_name="study_program", verbose_name=_("study program"))
     study_year = models.PositiveIntegerField(_("study year"))
-    class_year  = models.PositiveIntegerField(_("class year")) #letnik
     ENROL_CHOICES = (
         ('V1', 'Prvi vpis v letnik'),
         ('V2', 'Ponavljanje letnika'),
@@ -157,6 +156,7 @@ class Enrollment(models.Model):
         ('AB', 'Absolvent')
     )
     enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
+    class_year  = models.PositiveIntegerField(_("class year")) #letnik
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
     regular       = models.BooleanField(_("regular"), default=True)

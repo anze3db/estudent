@@ -126,7 +126,7 @@ $(document).ready(function() {
         	+$("#id_class_year").val()+'&modules='
         	+modules+'&student='
         	+$("#id_student").val()+'&id='
-        	+id;
+        	+id+'&vrsta='+$("#id_enrol_type").val();
         }, function(i, all, hash, data){
         	 return all[hash[data[i].fields["course"]]];
         });
@@ -143,7 +143,9 @@ $(document).ready(function() {
     	return all[hash[data[i]["pk"]]];
     });
     moduleFilter.filter();
-    
+    $("#id_enrol_type").busyChange(function(){
+    	courseFilter.filter();
+    });
     $("#id_class_year").busyChange(function(){
     	courseFilter.filter();
     	moduleFilter.filter();
