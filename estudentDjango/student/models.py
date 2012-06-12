@@ -465,6 +465,9 @@ class ExamSignUp(models.Model):
                 ('10', 'odlicno 10'),
             )
     result_exam = models.CharField(_("results exam"), max_length=2, choices=RESULTS, default='NR')
+    def resultNegative(self):
+        return self.result_exam in ['1', '2', '3', '4', '5']
+        
     result_practice = models.CharField(_("results practice"), max_length=2, choices=RESULTS, default='NR')
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
     #hackyhackhack

@@ -50,6 +50,19 @@
                     {% endfor %}
                     </select>
                 </td>
+                {% if p.negativno %}
+                <td>
+                    <select disabled="disabled">
+                    {% for choice in p.opcije %}
+                        <option value="{{ choice.0 }}"
+                        {% if choice.0 == "1" %}
+                         selected 
+                        {% endif %}  
+                        >{{ choice.1 }}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+                {% else %}
                 <td>
                     <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
                     {% for choice in p.opcije %}
@@ -61,6 +74,7 @@
                     {% endfor %}
                     </select>
                 </td>
+                {% endif %}
                 {% endif %}
                 {% if list == 2 %}
                 <td style="text-align: center;">{{ p.tockeIzpit }}</td>
