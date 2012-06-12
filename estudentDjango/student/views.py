@@ -198,7 +198,7 @@ def exam_sign_out(request, student_Id):
 
     exist=ExamSignUp.objects.filter(examDate__in=s.get_current_exam_dates())
 
-
+    #print str('neki')+str(exist)
     return render_to_response('admin/student/exam_sign_out.html', {'Prijave':exist}, RequestContext(request))
     
     
@@ -368,7 +368,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 war=True
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked,'war':war}, RequestContext(request))
 
-            elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+            elif int(exam.nr_SignUp) <= len(ExamSignUp.objects.filter(examDate=exam)):
                 war= True
                 message["warning"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked, 'war':war}, RequestContext(request))

@@ -362,7 +362,7 @@ def addSignUp(request):
         message["error"] = 'Rok za prijavo na izpit je potekel'
     elif len(ExamDate.objects.filter(examsignup=exam.last_try(student))) > 0 and exam.date < (ExamDate.objects.filter(examsignup=exam.last_try(student))[0].date + d14):
         message["error"] = 'Ni se preteklo 14 dni od zadnje prijave'
-    elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+    elif int(exam.nr_SignUp) <= len(ExamSignUp.objects.filter(examDate=exam)):
         message["error"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
     
     
