@@ -250,7 +250,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
 
                     from api.views import _getPolaganja
                     aaa = _getPolaganja(fsignup, student,s.examDate.date)
-                    course['polaganja'] = str(aaa[0]) + ("  "+str(aaa[1])) if aaa[1]>0 else ""
+                    course['polaganja'] = str(aaa[0]) + (("  "+str(aaa[1])) if aaa[1]>0 else "")
 
                     """if fsignup.examDate.repeat_class(student,0)>0:
                         course['odstevek_ponavljanja']=" - "+fsignup.examDate.course.nr_attempts_all(student)-fsignup.examDate.repeat_class(student,0)
@@ -270,9 +270,9 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 raise
                 pass
         out["courses"]=courses
-        out["povprecje_izpitov"]=enroll.get_exam_avg()
-        out["povprecje_vaj"]=enroll.get_practice_avg()
-        out["povprecje"]=enroll.get_avg()       
+        out["povprecje_izpitov"]=str(enroll.get_exam_avg())[0:5]
+        out["povprecje_vaj"]=str(enroll.get_practice_avg())[0:5]
+        out["povprecje"]=str(enroll.get_avg())[0:5]
         response = response + [out]
         
     return render_to_response('admin/student/student_index_list.html', {'student':student, 'data':response}, RequestContext(request))
