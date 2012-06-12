@@ -93,7 +93,6 @@ $(document).ready(function() {
         instructorsFilter.filter();
     });
 
-
     if(document.URL.search(/student\/examdate/) > 0){
     	var instructorsCFilter=new filter("#id_course", function(){
             return '/api/getFilterUserCourses/';
@@ -103,7 +102,7 @@ $(document).ready(function() {
         instructorsCFilter.filter();    	
     	
     }
-    else{
+    else if(document.URL.search(/student\/curriculum/) < 0){
         var courseProgramFilter=new filter("#id_course", function(){
             return '/api/getFilteredCourses/?programId='
                 +$("#id_prog").val();
