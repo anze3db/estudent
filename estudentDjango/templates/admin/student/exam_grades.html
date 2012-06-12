@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h2>Rezultati izpita: {{izpitnirok.course}}, {{izpitnirok.date|date:"d.m.Y" }}</h2>
+<h2>
+{% if s.l == 1 %}Seznam prijavljenih:{% endif %}
+{% if s.l == 0 %}Rezultati pisnega dela:{% endif %}
+{% if s.l == 2 %}Seznam rezultatov pisnega:{% endif %}
+{% if s.l == 3 %}Vpis koncnih ocen:{% endif %}
+{{izpitnirok.course}}, {{izpitnirok.date|date:"d.m.Y" }}</h2>
 
     {% if not prijave %}
     Ni prijav na ta izpit.
@@ -40,7 +45,7 @@
                 <td>{{p.vpisna_st}}</td>
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
-                <td>{{p.polaganja}}</td>
+                <td style="text-align:center">{{p.polaganja}}</td>
                 {% if s.l == 0 %}                
                     {% if p.VP %}
                         <td><!--<input type="text" id="p{{p.id}}" value="" />&nbsp;<button disabled="disabled">Potrdi</button>--></td>
