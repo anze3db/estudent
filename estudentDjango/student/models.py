@@ -170,25 +170,20 @@ class Enrollment(models.Model):
     def _priimek(self):
         return self.student.surname
     
-    
     def __unicode__(self):
         return u'%d %s %s %d (%d) %s' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year, self.program)
     
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
 
-
-
     def get_classes(self):
-
-        
         modules=Module.objects.filter(enrollment=self)
-        allInProgram=Curriculum.objects.filter(program=self.program)
+        allInProgram=Curriculum.objects.filter(program=self.program,class_year=self.class_year)
         selectiveCourse =  Course.objects.filter(enrollment=self)
 
         mandatory=allInProgram.filter(mandatory=1,class_year=self.class_year)
         mod = Curriculum.objects.filter(module__in=modules) #todo check if module is null
-        select=Curriculum.objects.filter(course__in=selectiveCourse)
+        select=Curriculum.objects.filter(course__in=selectiveCourse,class_year=self.class_year)
 
         result_list = list(chain(select,mandatory,mod))
 
@@ -256,9 +251,6 @@ class Enrollment(models.Model):
             return float(avg/i)
         else:
             return avg
-
-
-
 
     class Meta:
         verbose_name_plural = _("enrollments")

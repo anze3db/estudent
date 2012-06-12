@@ -27,13 +27,16 @@ def login(request):
                 return HttpResponse(json.dumps(response), mimetype="application/json")
     except:
         fa = None
-    print fa
-    auth = Student.authStudent(user, request.GET['password'])
+
+    student = Student.authStudent(user, request.GET['password'])
     
-    if auth:
-        response["name"] = auth.name
-        response["surname"] = auth.surname
+    
+    
+    if student:
+        response["name"] = student.name
+        response["surname"] = student.surname
         response["login"] = True
+        response["pavzer"] = 0 < len(Enrollment.objects.filter(student=student,study_year=datetime.date.today().year-1))
     else:
         if fa is None or not fa.recent_failure() :
             fa = FailedAttempt(username=user, failures=0)
@@ -236,21 +239,24 @@ def getFilteredCoursesModules(request):
     for e in enrollments:
         # Dodamo vse izbirne predmete programov v katere je bil student vpisan:
         currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(e.program, e.class_year)]))
-        print "------checking previoush enrollments-----------"
-        print e.has_repeated_this_enrollment()
-        #TODO: pogledamo ali je ta program ponavlja
-        #if not e.has_repeated_this_enrollment():
-            # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
+        # gledam da ne brisemo predmetov iz programa in letnika ki ga ponavljamo
+        if enrol_type == "V2" and str(e.class_year) == year and str(e.program.program_code) == program:
+            continue
+        # Dodamo vse izbirne predmete, ki jih je student ze opravljal:
+        if enrol_type != "V2" and int(e.class_year) >= int(year):
+            continue
         attended = attended.union(set([c.course_code for c in e.courses.all()]))
+    
+    for a in attended: print a
     # Dodamo izbirne predmete trenutnega programa:
     currs = currs.union(set([c.course.course_code for c in Curriculum.getNonMandatory(program, year)]))
     # Dodamo morebitne predmete, ki so v trenutno izbranih modulih:
     attended = attended.union(set([c.course.course_code for c in Curriculum.objects.filter(module__in = modules)]))
     
     # Filtriramo predmete, ki jih je student ze opravljal:
-    filter = currs.difference(attended)
+    filter_ = currs.difference(attended)
 
-    currs = Curriculum.objects.filter(course__course_code__in = filter)
+    currs = Curriculum.objects.filter(course__course_code__in = filter_)
     
     return HttpResponse(serializers.serialize("json", currs))
 
