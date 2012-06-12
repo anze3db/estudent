@@ -126,14 +126,14 @@ def getStudentEnrollments(request):
 
 
     for e in  Enrollment.objects.filter(student__enrollment_number=student_id):
-        enroll={}
-        enroll['key']=e.pk
-        enroll['study_program']=e.program.descriptor
-        enroll['study_year']=e.study_year
-        enroll['class_year']=e.class_year
-        print enroll
-        response.append(enroll)
-
+        if not e.repeated_this_class():
+            enroll={}
+            enroll['key']=e.pk
+            enroll['study_program']=e.program.descriptor
+            enroll['study_year']=e.study_year
+            enroll['class_year']=e.class_year
+            print enroll
+            response.append(enroll)
 
     return HttpResponse(json.dumps({"enrollments":response}),mimetype="application/json")
 

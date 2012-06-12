@@ -175,9 +175,16 @@ class Enrollment(models.Model):
     
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
+    
+    def repeated_this_class(self):
+        if self.enrol_type != "V2":
+            enrollments = Enrollment.objects.filter(student=self.student,program=self.program,class_year=self.class_year,enrol_type="V2")
+            return len(enrollments) > 0
+        return False
 
     def get_classes(self):
         modules=Module.objects.filter(enrollment=self)
+        #TODO: tuki mislm da manjka student=self.student
         allInProgram=Curriculum.objects.filter(program=self.program,class_year=self.class_year)
         selectiveCourse =  Course.objects.filter(enrollment=self)
 
