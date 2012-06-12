@@ -24,6 +24,7 @@ $(document).ready(function() {
 <form action="/student/ClassList/" method="post">
 {% csrf_token %}
 {{ form.as_p }}
+
 <input type="submit" value="Submit" />
 </form>
 <table>
@@ -32,13 +33,21 @@ $(document).ready(function() {
 <th>Vpisna številka</th>
 <th>Priimek</th>
 <th>Ime</th>
+<th>Študijsko leto</th>
+<th>Tip študija</th>
+<th>Izredni</th>
 </tr>
 {% for s in students %}
 <tr>
+{% load tags %}
 <td>{{forloop.counter}}</td>
 <td>{{s.student.enrollment_number}}</td>
 <td>{{s.student.surname}}</td>
 <td>{{s.student.name}}</td>
+<td style="text-align:right;">{{s.study_year|date_extend}}</td>
+<td>{{s.enrol_type|enrol}}</td>
+<td>{{s.regular|nacin_studija}}</td>
+
 </tr>
 {% endfor %}
 </table>
