@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     (r'^getEnrollmentExamDates/$', 'api.views.getEnrollmentExamDates'),
     (r'^getStudentEnrollments/$', 'api.views.getStudentEnrollments'),
     (r'^getStudentEnrollmentsForYear/$', 'api.views.getStudentEnrollmentsForYear'),
+	(r'^fillExamDates/$', 'api.views.fillExamDates'),
 
     # Examples:
     # url(r'^$', 'estudentDjango.views.home', name='home'),

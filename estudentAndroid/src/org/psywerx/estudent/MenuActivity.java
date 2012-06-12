@@ -143,15 +143,6 @@ public class MenuActivity extends ListActivity implements ResponseListener{
 				mEnrollments.put(e.key, e.study_program + "(" + e.study_year + ")");
 			}
 			getListView().showContextMenu();
-//		} else if (o != null && o instanceof EnrollmentExamDates) {
-//			EnrollmentExamDates le = (EnrollmentExamDates)o;
-//			StaticData.mEnrollmentExamDates.clear();
-//			for(Iterator<EnrollmentExamDate> i = le.EnrollmentExamDates.iterator(); i.hasNext(); ) {
-//				EnrollmentExamDate e = i.next();
-//				StaticData.mEnrollmentExamDates.put(e.exam_key, e);
-//			}
-//			Intent intent = new Intent(this, ExamsActivity.class);
-//			startActivity(intent);
 		} else {
 			Toast.makeText(this, getString(R.string.communication_error), 2000).show();
 		}

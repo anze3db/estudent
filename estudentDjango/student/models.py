@@ -209,6 +209,19 @@ class Enrollment(models.Model):
             return float(avg/i)
         else:
             return avg
+        
+    def get_kreditne_skupaj(self):
+        avg=0
+        i=0
+        classes=self.get_classes()
+        courses=Course.objects.filter(curriculum__in=classes)
+        exams=ExamSignUp.objects.filter(enroll=self, examDate__course__in=courses)
+        for e in exams:
+            if e.is_positive():
+                avg= avg+int(e.result_exam)
+                i=i+1
+
+        return i*6
 
     def get_practice_avg(self):
         avg=0

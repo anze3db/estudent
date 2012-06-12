@@ -312,15 +312,16 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
             elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
                 message["error"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
 
-            else:
-                print "aaa"
-                message["error"]='I was here'
-                ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
-                nr_all= exam.course.nr_attempts_all(student)
-                message["msg"]='Uspesna prijava na izpit'+ str(exam)
-                message["error"]='I was here'
+            #else:
+            print "test"
+            print "aaa"
+            message["error"]='I was here'
+            ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
+            nr_all= exam.course.nr_attempts_all(student)
+            message["msg"]='Uspesna prijava na izpit'+ str(exam)
+            message["error"]='I was here'
 
-                return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
+            return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
                 #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
 
@@ -328,13 +329,17 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
 
             return HttpResponseRedirect(reverse('student.views.exam_sign_up', args=(student.enrollment_number, )))
 
-
-    except :
+    
+    except BaseException as e:
         print traceback.format_exc()
         return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
 
     #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
+    print "----------------------------"
+    print message["error"]
+    print "----------------------------"
+    
 
 
     return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam}, RequestContext(request))

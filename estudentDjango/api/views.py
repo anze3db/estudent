@@ -73,7 +73,6 @@ def index(request):
         courses = []
         classes = enroll.get_classes()
         courses2=Course.objects.filter(curriculum__in=classes)
-        #courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
         
         for p in courses2:
             try:
@@ -90,8 +89,8 @@ def index(request):
                     polaganje={}
                     polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                     polaganje['izvajalci']=force_unicode(s.examDate.instructors)
-                    #if s.examDate.course.
-                    cur=Curriculum.objects.get(course=p, program=enroll.program)
+
+                    cur=Curriculum.objects.get(course=p, program=enroll.program,class_year=enroll.class_year)
                     if(cur.only_exam==True):
                         polaganje['ocena']=s.result_exam
                     else:
@@ -100,7 +99,7 @@ def index(request):
                     
                     polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
                     polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)+1
-                    #polaganje['stevilo_polaganj']
+
                     eno_pol.append(polaganje)
 
                 course["polaganja"]=eno_pol
@@ -109,6 +108,7 @@ def index(request):
                 raise
         out["courses"]=courses
         out['povprecje_izpitov']=enroll.get_exam_avg()
+        out['kreditne_skupaj']=enroll.get_kreditne_skupaj()
         out['povprecje_vaj']=enroll.get_practice_avg()
         out['povprecje']=enroll.get_avg()
 
@@ -421,3 +421,61 @@ def getStudentEnrollmentsForYear(request):
     year=request.GET['year']
     enroll = Enrollment.objects.filter(student__enrollment_number=student_id, study_year=year)
     return HttpResponse(serializers.serialize("json", enroll))
+
+
+
+@commit_on_success
+def fillExamDates(request):
+    from random import random
+    student_id = request.GET['student_id']
+    print "----------------------"
+    print student_id
+    print "----------------------"
+
+    
+    student = Student.objects.get(enrollment_number=student_id)
+    #enroll = Enrollment.objects.get(pk=enrollment_id)
+    
+    
+    enrolls = Enrollment.objects.filter(student=student).order_by('program', 'study_year', 'class_year')
+    print enrolls
+    
+    for enroll in enrolls:
+        courses =Course.objects.filter(curriculum__in=enroll.get_classes())
+        
+        response = [str(x) for x in courses]
+        print student
+        print enroll
+        ExamSignUp.objects.filter(enroll=enroll).delete()
+        for course in courses:
+            examDates = ExamDate.objects.filter(course=course)
+            print course
+            padu = random()
+            for ind,examDate in enumerate(examDates):
+                if examDate.date > datetime.date(min(enroll.study_year+2,2012),12,12) or\
+                examDate.date < datetime.date(enroll.study_year+1,1,1) or\
+                examDate.date > datetime.date.today() : continue
+                print padu, examDate
+                
+                exam = ExamSignUp()
+                exam.enroll = enroll
+                exam.examDate = examDate
+                if random()<0.0: #moznost da vrne prijavo
+                    exam.VP = True
+                    exam.save()
+                    continue
+                else:
+                    exam.VP = False
+                result = int(round(10-10.0*padu))
+                if ind==5:
+                    result = 6+int(round(random()*4))
+                exam.result_exam = result
+                exam.result_practice = 6+int(round(random()*4))
+                exam.paidfor = "N"
+                exam.save()
+                if result > 5:
+                    break;
+                padu -= padu*random()
+            
+    return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")
+
