@@ -149,7 +149,6 @@ class Enrollment(models.Model):
     student = models.ForeignKey("Student", verbose_name=_("student"), related_name="enrollment_student")
     program = models.ForeignKey("codelist.StudyProgram",related_name="study_program", verbose_name=_("study program"))
     study_year = models.PositiveIntegerField(_("study year"))
-    class_year  = models.PositiveIntegerField(_("class year")) #letnik
     ENROL_CHOICES = (
         ('V1', 'Prvi vpis v letnik'),
         ('V2', 'Ponavljanje letnika'),
@@ -157,6 +156,7 @@ class Enrollment(models.Model):
         ('AB', 'Absolvent')
     )
     enrol_type = models.CharField(_("enrollment type"), max_length=2, choices=ENROL_CHOICES, default='V1')
+    class_year  = models.PositiveIntegerField(_("class year")) #letnik
     courses = models.ManyToManyField("codelist.Course", null=True, blank=True)
     modules      = models.ManyToManyField("Module", null=True, blank=True)
     regular       = models.BooleanField(_("regular"), default=True)
@@ -475,6 +475,20 @@ class ExamSignUp(models.Model):
     result_exam = models.CharField(_("results exam"), max_length=2, choices=RESULTS, default='NR')
     result_practice = models.CharField(_("results practice"), max_length=2, choices=RESULTS, default='NR')
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
+    #hackyhackhack
+    maxpoints = 10000
+    def getPointsExam(self):  return self.points%self.maxpoints
+    def getPointsOther(self): return self.points//self.maxpoints
+    def setPointsExam(self, p):
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = self.getPointsOther()*self.maxpoints + p;
+        print self.points
+    def setPointsOther(self, p): 
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = p*self.maxpoints + self.getPointsExam();
+    
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 

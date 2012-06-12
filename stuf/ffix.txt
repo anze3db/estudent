@@ -12,3 +12,15 @@ ce ocena 1 <5, druga avtomatsko 0
 
     stevilo tock ostalo
     prvo leto poslusanja
+    
+    
+- kreditne tocke, dodaj (baza)
+- referentka:(filtriraj studijski program, zadnja polaganja)
+- osebni podatki studenta (slovenski format datuma, stalno bivalisce, vse podatki iz vpisnega lista, ki niso vezani na posamezni vpis, popravi datum, šifra študijska programa, v1 vrsto vpisa ni treba pisat )
+- pisana: izberi profesorja, študijsko leto, pokažejo se vsi predmeti, tega profesorja za to študijsko leto, izpisane kombinacije predavateljev, vpisan pred priimek in ime, študijsko leto poslušanja, checkbox vrnjena prijava,...
+- izbor: izberi profesor, studijsko leto, pri ocenah se mora izbrati se vrsto ocene.
+- tocke izpita + tocke ostalo pri vnosu ocen, VP
+- ce je ocena izpita 5 je ocena vaj obvezno 0
+- glava in noga remove pri natisni stran, dodaj izbrane atribute, profesor itd,...
+- 2x na isti rok, če ni ocene, referentka
+- polaganja 1,
