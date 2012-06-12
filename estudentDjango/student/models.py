@@ -172,7 +172,7 @@ class Enrollment(models.Model):
     
     
     def __unicode__(self):
-        return u'%d %s %s %d (%d)' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year)
+        return u'%d %s %s %d (%d) %s' % (self.student.enrollment_number, self.student.name, self.student.surname, self.study_year, self.class_year, self.program)
     
     def format_year(self):
         return u'%d/%d' % (self.study_year, self.study_year+1)
