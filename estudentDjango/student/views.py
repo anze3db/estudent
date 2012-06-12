@@ -39,30 +39,40 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['leto'] = str(p.enroll.study_year) + "/" + str(p.enroll.study_year + 1)
         prijava['vpisna_st'] = p.enroll.student.enrollment_number
         prijava['opcije']= p.RESULTS
-        prijava['tocke'] = "" if p.points == None else p.points
+        prijava['tockeIzpit'] = "0" if p.points == None else p.getPointsExam()
+        prijava['tockeOstalo'] = "0" if p.points == None else p.getPointsOther()
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
-        prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
+        polaganja = _getPolaganja(p, p.enroll.student, exam.date)
+        prijava['polaganja'] = str(polaganja[0]) + (("  "+str(polaganja[1])) if polaganja[1]>0 else "")
+        #prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
 
         result = result + [prijava]
 
     return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': int(l)}, RequestContext(request))
     
     
+
 def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list of all objects
     signup_Id = int(signup_Id)
     signup=ExamSignUp.objects.get(id=signup_Id)
 
-    if what=="1":
-        signup.result_exam = newValue
-        signup.save()
-    if what=="2":
-        signup.result_practice = newValue
-        signup.save()
-    if what=="3":
-        signup.points = newValue
-        signup.save()
-
+    try:
+        if what=="1":
+            signup.result_exam = newValue
+            signup.save()
+        if what=="2":
+            signup.result_practice = newValue
+            signup.save()
+        if what=="3":
+            signup.setPointsExam(int(newValue))
+            signup.save()
+        if what=="4":
+            signup.setPointsOther(int(newValue))
+            signup.save()
+    except:#maybe an error msg?
+        pass
+    
     return exam_grades_view(request, exam_Id, l)
 
 def class_list(request):

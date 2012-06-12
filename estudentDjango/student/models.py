@@ -471,6 +471,20 @@ class ExamSignUp(models.Model):
     result_exam = models.CharField(_("results exam"), max_length=2, choices=RESULTS, default='NR')
     result_practice = models.CharField(_("results practice"), max_length=2, choices=RESULTS, default='NR')
     points  = models.PositiveIntegerField(_("points"),null=True, blank=True)
+    #hackyhackhack
+    maxpoints = 10000
+    def getPointsExam(self):  return self.points%self.maxpoints
+    def getPointsOther(self): return self.points//self.maxpoints
+    def setPointsExam(self, p):
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = self.getPointsOther()*self.maxpoints + p;
+        print self.points
+    def setPointsOther(self, p): 
+        p = max(p, 0)
+        p = min(p, self.examDate.total_points)
+        self.points = p*self.maxpoints + self.getPointsExam();
+    
     paidfor = models.CharField(_("paid for"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
     valid = models.CharField(_("valid"),max_length=2, choices=(('Y', 'Yes'), ('N', 'No')), default='Y')
 

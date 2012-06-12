@@ -15,10 +15,14 @@
             <th>Ime</th>
             <th>Št. polaganj</th>
             {% if list == 2 %}
-            <th>Število Točk</th>
+            <th>Točke izpit</th>
+            <th>Točke ostalo</th>
             {% endif %}
             {% if list == 0 %}
-            <th>Število Točk</th>
+            <th>Točke izpit</th>
+            <th>Točke ostalo</th>
+            {% endif %}
+            {% if list == 3 %}
             <th>Ocena Izpit</th>
             <th>Ocena Vaje</th>
             {% endif %}
@@ -29,10 +33,14 @@
                 <td>{{p.vpisna_st}}</td>
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
+                <td>{{p.polaganja}}</td>
                 {% if list == 0 %}
-                <td><input type="text" id="p{{p.id}}" value="{{ p.tocke }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/3/{{p.id}}/'+document.getElementById('p{{p.id}}').value">Potrdi</button></td>
+                <td><input type="text" id="p{{p.id}}" value="{{ p.tockeIzpit }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/3/{{p.id}}/'+document.getElementById('p{{p.id}}').value">Potrdi</button></td>
+                <td><input type="text" id="p{{p.id}}2" value="{{ p.tockeOstalo }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/4/{{p.id}}/'+document.getElementById('p{{p.id}}2').value">Potrdi</button></td>
+                {% endif %}
+                {% if list == 3 %}
                 <td>
-                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/0/1/{{p.id}}/'+this.options[this.selectedIndex].value;">
+                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/1/{{p.id}}/'+this.options[this.selectedIndex].value;">
                     {% for choice in p.opcije %}
                         <option id="o{{p.id}}1" value="{{ choice.0 }}"
                         {% if choice.0 == p.ocena_izpita %}
@@ -43,7 +51,7 @@
                     </select>
                 </td>
                 <td>
-                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/0/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
+                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
                     {% for choice in p.opcije %}
                         <option id="o{{p.id}}2" value="{{ choice.0 }}"
                         {% if choice.0 == p.ocena_vaj %}
@@ -55,9 +63,10 @@
                 </td>
                 {% endif %}
                 {% if list == 2 %}
-                <td style="text-align: center;">{{ p.tocke }}</td>
+                <td style="text-align: center;">{{ p.tockeIzpit }}</td>
+                <td style="text-align: center;">{{ p.tockeOstalo }}</td>
                 {% endif %}
-                <td style="text-align: right;">{{p.stevilo_polaganj}} - {{p.odstevek_ponavljanja}}</td>
+                <!-- <td style="text-align: right;">{{p.stevilo_polaganj}} - {{p.odstevek_ponavljanja}}</td> -->
             </tr>
         {% endfor %}
     </table>
