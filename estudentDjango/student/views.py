@@ -286,60 +286,74 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     nr_all = exam.course.nr_attempts_all(student)
     d14 = datetime.timedelta(days=14)
     nr_repeat = exam.course.repeat_class(student)
+    clicked=False
+    war=False
 
 
-    message = {"msg":"","error":""}
+    message = {"msg":"","error":"", "warning":""}
 
 
-    try:
-        if 'prijava' in request.POST:
-            print "test"
-            #if error_msgs != None:
-             #   message["error"] = error_msgs[0]
+    #try:
+    if 'prijava' in request.POST:
+            clicked=True
+
             if exam.already_positive(student):
-                message["error"] = 'Za ta predmet ze obstaja pozitivna ocena'
+                message["error"] = 'Napaka: Za ta predmet obstaja pozitivna ocena.'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
             elif nr_this_year >= 3:
-                message["error"] = 'Ta predmet ste letos opravljali ze 3x. Prijava ni vec mogoca'
+                message["warning"] = 'Obstajajo vsaj 3 polaganja v tem letu.'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
+
             elif nr_all - nr_repeat >= 6:
-                message["error"] = 'Ta predmet ste  opravljali ze 6x. Prijava ni vec mogoca'
+                message["warning"] = 'Za ta predmet obstaja 6 polaganj.'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
+
             elif exam.already_signedUp(student):
-                message["error"] = 'Na ta predmet ste ze prijavljeni in se ni bila vnesena ocena'
-                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
+                message["error"] = 'Za ta predmet obstaja prijava, ki nima ocene'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
             elif exam.date < (datetime.date.today() + datetime.timedelta(days=3)):
-                message["error"] = 'Rok za prijavo na izpit je potekel'
+                war=True
+                message["warning"] = 'Rok za prijavo na izpit je potekel'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked, 'war':war}, RequestContext(request))
+
             elif len(ExamDate.objects.filter(examsignup=exam.last_try(student))) > 0 and exam.date < (ExamDate.objects.filter(examsignup=exam.last_try(student))[0].date + d14):
-                message["error"] = 'Ni se preteklo 14 dni od zadnje prijave'
+                message["warning"] = 'Ni preteklo 14 dni od zadnje prijave'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
+
             elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
-                message["error"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
+                message["warning"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
 
-            #else:
-            print "test"
-            print "aaa"
-            message["error"]='I was here'
-            ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
-            nr_all= exam.course.nr_attempts_all(student)
-            message["msg"]='Uspesna prijava na izpit'+ str(exam)
-            message["error"]='I was here'
 
-            return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
+            else:
+
+                ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
+                nr_all= exam.course.nr_attempts_all(student)
+                message["msg"]='To je prijava st.:'+ str(nr_all)
+                request.session['msg'] = message
+
+                return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
                 #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
 
-        elif 'nazaj' in request.POST:
+
+    elif 'nazaj' in request.POST:
 
             return HttpResponseRedirect(reverse('student.views.exam_sign_up', args=(student.enrollment_number, )))
 
-    
-    except BaseException as e:
-        print traceback.format_exc()
+    elif 'prijavaForce' in request.POST:
+        ExamSignUp.objects.create(enroll=enroll, examDate=exam).save()
+        nr_all= exam.course.nr_attempts_all(student)
+        message["msg"]='To je prijava st.:'+ str(nr_all)
+        request.session['msg'] = message
+
+        return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
+
+    else:
         return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
 
     #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
-    print "----------------------------"
-    print message["error"]
-    print "----------------------------"
-    
 
 
     return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam}, RequestContext(request))
@@ -347,7 +361,8 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
 def sign_up_success(request, student_Id, exam_Id):
     student = get_object_or_404(Student, enrollment_number=student_Id)
     exam=ExamDate.objects.get(pk=exam_Id)
-    return render_to_response('admin/student/exam_sign_up_success.html', {'Student':student, 'rok':exam}, RequestContext(request))
+    msg = request.session.get('msg', None)
+    return render_to_response('admin/student/exam_sign_up_success.html', {'Student':student, 'rok':exam, 'msg':msg}, RequestContext(request))
 
 def student_personal(request, student_Id):
     student= Student.objects.get(enrollment_number = student_Id)

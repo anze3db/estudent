@@ -1,12 +1,30 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
-    <h2>Ali res želite prijaviti študenta: {{Student}} na izpitni rok: {{rok}}</h2>
 
+    {% if clicked == False %}
+    <h2>Ali želite prijaviti študenta: {{Student}} na izpitni rok: {{rok}}</h2>
     <form action="" method="POST">{% csrf_token %}
     <input type="submit" value="Da, prijavi" name="prijava" />
-    <input type="submit" value="Ne, nazaj" name="nazaj"/>
+
+        </form>
+    {% endif %}
+
+
+    {% if war %}
+        <form action="" method="POST">{% csrf_token %}
+            <h2>Potrdite prijavo študenta: {{Student}} na izpitni rok: {{rok}}</h2>
+            <p>Opozorilo: {{msg.warning}}, želite vseeno prijaviti študenta?</p>
+            <input type="submit" value="Prijavi" name="prijavaForce" />
+
         </form>
 
-    <p>{{msg.error}}{{msg.msg}}</p>
+
+    {% endif %}
+    <p>{{msg.error}}</p>
+    <form action="" method="POST">{% csrf_token %}
+        <input type="submit" value="Nazaj" name="nazaj"/>
+    </form>
+
+
 {% endblock %}
