@@ -301,7 +301,8 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
     #try:
     if 'prijava' in request.POST:
             clicked=True
-
+            print exam.already_signedUp(student)
+            print message
             if exam.already_positive(student):
                 message["error"] = 'Napaka: Za ta predmet obstaja pozitivna ocena.'
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
@@ -314,6 +315,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
 
             elif exam.already_signedUp(student):
+
                 message["error"] = 'Za ta predmet obstaja prijava, ki nima ocene'
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
             elif exam.date < (datetime.date.today() + datetime.timedelta(days=3)):
@@ -323,7 +325,8 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
 
             elif len(ExamDate.objects.filter(examsignup=exam.last_try(student))) > 0 and exam.date < (ExamDate.objects.filter(examsignup=exam.last_try(student))[0].date + d14):
                 message["warning"] = 'Ni preteklo 14 dni od zadnje prijave'
-                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked}, RequestContext(request))
+                war=True
+                return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked,'war':war}, RequestContext(request))
 
             elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
                 message["warning"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
@@ -354,8 +357,9 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
 
         return HttpResponseRedirect(reverse('student.views.sign_up_success', args=[student.enrollment_number, int(exam_Id)]))
 
-    else:
-        return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
+#    else:
+#        print message
+#        return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message}, RequestContext(request))
 
     #return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message['msg']}, RequestContext(request))
 
