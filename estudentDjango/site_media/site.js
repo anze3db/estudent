@@ -82,13 +82,15 @@ $(document).ready(function() {
     			social.val(social.val().substring(0,7) + "000000");
     	}
     });
-    var instructorsFilter=new filter("#id_instructors", function(){
-        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
-            +$("#id_course").val();
-    }, function(i, all, hash, data){
-    	return all[hash[data[i]["pk"]]];
-    });
-    instructorsFilter.filter();
+    if(document.URL.search(/codelist\/course/) < 0){
+	    var instructorsFilter=new filter("#id_instructors", function(){
+	        return '/api/getFilteredGroupInstructorsForCourses/?courseId='
+	            +$("#id_course").val();
+	    }, function(i, all, hash, data){
+	    	return all[hash[data[i]["pk"]]];
+	    });
+	    instructorsFilter.filter();
+	}
     $("#id_course").busyChange(function(){
         instructorsFilter.filter();
     });

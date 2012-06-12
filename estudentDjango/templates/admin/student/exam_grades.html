@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h2>Rezultati izpita: {{izpitnirok.course}}, {{izpitnirok.date|date:"d.m.Y" }}</h2>
+<h2>
+{% if s.l == 1 %}Seznam prijavljenih:{% endif %}
+{% if s.l == 0 %}Rezultati pisnega dela:{% endif %}
+{% if s.l == 2 %}Seznam rezultatov pisnega:{% endif %}
+{% if s.l == 3 %}Vpis koncnih ocen:{% endif %}
+{{izpitnirok.course}}, {{izpitnirok.date|date:"d.m.Y" }}</h2>
 
     {% if not prijave %}
     Ni prijav na ta izpit.
@@ -13,32 +18,50 @@
             <th>Vpisna številka</th>
             <th>Priimek</th>
             <th>Ime</th>
+            <th>Poslušal</th>
             <th>Št. polaganj</th>
-            {% if list == 2 %}
+            {% if s.l == 2 %}
             <th>Točke izpit</th>
             <th>Točke ostalo</th>
             {% endif %}
-            {% if list == 0 %}
+            {% if s.l == 0 %}
             <th>Točke izpit</th>
+            {% if not s.onlyExam %}
             <th>Točke ostalo</th>
             {% endif %}
-            {% if list == 3 %}
+            {% endif %}
+            {% if s.l == 3 %}
             <th>Ocena Izpit</th>
+            {% if not s.onlyExam %}
             <th>Ocena Vaje</th>
+            {% endif %}
+            {% endif %}
+            {% if s.showVP %}
+            <th>VP</th>
             {% endif %}
         </tr>
         {% for p in prijave %}
             <tr class="{% cycle 'row1' 'row2' %}">
-                <td>{{forloop.counter}}</td>
-                <td>{{p.vpisna_st}}</td>
+                <td style="text-align:center"><strong>{{forloop.counter}}</strong></td>
+                <td style="text-align:center">{{p.vpisna_st}}</td>
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
-                <td>{{p.polaganja}}</td>
-                {% if list == 0 %}
-                <td><input type="text" id="p{{p.id}}" value="{{ p.tockeIzpit }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/3/{{p.id}}/'+document.getElementById('p{{p.id}}').value">Potrdi</button></td>
-                <td><input type="text" id="p{{p.id}}2" value="{{ p.tockeOstalo }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/4/{{p.id}}/'+document.getElementById('p{{p.id}}2').value">Potrdi</button></td>
+                <td style="text-align:center">{{s.firstyear}}</td>
+                <td style="text-align:center">{{p.polaganja}}</td>
+                {% if s.l == 0 %}                
+                    {% if p.VP %}
+                        <td><!--<input type="text" id="p{{p.id}}" value="" />&nbsp;<button disabled="disabled">Potrdi</button>--></td>
+                        {% if not p.onlyExam %}
+                        <td><!--<input type="text" id="p{{p.id}}2" value="" />&nbsp;<button disabled="disabled">Potrdi</button>--></td>
+                        {% endif %}
+                    {% else %}
+                        <td><input type="text" id="p{{p.id}}" value="{{ p.tockeIzpit }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/3/{{p.id}}/'+document.getElementById('p{{p.id}}').value">Potrdi</button></td>
+                        {% if not p.onlyExam %}
+                        <td><input type="text" id="p{{p.id}}2" value="{{ p.tockeOstalo }}" />&nbsp;<button onclick="location = '/student/ExamGrades/{{izpitnirok.id}}/0/4/{{p.id}}/'+document.getElementById('p{{p.id}}2').value">Potrdi</button></td>
+                        {% endif %}
+                    {% endif %}
                 {% endif %}
-                {% if list == 3 %}
+                {% if s.l == 3 %}
                 <td>
                     <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/1/{{p.id}}/'+this.options[this.selectedIndex].value;">
                     {% for choice in p.opcije %}
@@ -50,37 +73,49 @@
                     {% endfor %}
                     </select>
                 </td>
-                {% if p.negativno %}
-                <td>
-                    <select disabled="disabled">
-                    {% for choice in p.opcije %}
-                        <option value="{{ choice.0 }}"
-                        {% if choice.0 == "1" %}
-                         selected 
-                        {% endif %}  
-                        >{{ choice.1 }}</option>
-                    {% endfor %}
-                    </select>
+                {% if not p.onlyExam %}
+                    {% if p.negativno %}
+                    <td>
+                        <select disabled="disabled">
+                        {% for choice in p.opcije %}
+                            <option value="{{ choice.0 }}"
+                            {% if choice.0 == "1" %}
+                             selected 
+                            {% endif %}  
+                            >{{ choice.1 }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    {% else %}
+                    <td>
+                        <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
+                        {% for choice in p.opcije %}
+                            <option id="o{{p.id}}2" value="{{ choice.0 }}"
+                            {% if choice.0 == p.ocena_vaj %}
+                             selected 
+                            {% endif %}  
+                            >{{ choice.1 }}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
+                    {% endif %}
+                {% endif %}
+                {% endif %}
+                {% if s.l == 2 %}
+                    {% if p.VP %}
+                    <td style="text-align: center;"></td>
+                    <td style="text-align: center;"></td>
+                    {% else %}
+                    <td style="text-align: center;">{{ p.tockeIzpit }}</td>
+                    <td style="text-align: center;">{{ p.tockeOstalo }}</td>
+                    {% endif %}
+                {% endif %}
+                {% if s.showVP %}
+                <td style="text-align: center;">
+                    <input type="checkbox" id="vp{{p.id}}"onclick="state=document.getElementById('vp{{p.id}}').checked?0:1; location = '/student/ExamGrades/{{izpitnirok.id}}/{{s.l}}/5/{{p.id}}/'+state" {% if p.VP %}checked="checked"{% endif %} />
                 </td>
-                {% else %}
-                <td>
-                    <select onchange="location = '/student/ExamGrades/{{izpitnirok.id}}/3/2/{{p.id}}/'+this.options[this.selectedIndex].value;">
-                    {% for choice in p.opcije %}
-                        <option id="o{{p.id}}2" value="{{ choice.0 }}"
-                        {% if choice.0 == p.ocena_vaj %}
-                         selected 
-                        {% endif %}  
-                        >{{ choice.1 }}</option>
-                    {% endfor %}
-                    </select>
-                </td>
                 {% endif %}
-                {% endif %}
-                {% if list == 2 %}
-                <td style="text-align: center;">{{ p.tockeIzpit }}</td>
-                <td style="text-align: center;">{{ p.tockeOstalo }}</td>
-                {% endif %}
-                <!-- <td style="text-align: right;">{{p.stevilo_polaganj}} - {{p.odstevek_ponavljanja}}</td> -->
+
             </tr>
         {% endfor %}
     </table>

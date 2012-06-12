@@ -29,9 +29,22 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
     prijave = ExamSignUp.objects.order_by('enroll__student__surname').filter(examDate=exam) #TODO: Check if this works
 
     from api.views import _getPolaganja
+
+    showVP = (int(l) in [0,1,2])
+
+    settings = {}
+    try:
+        settings['showVP'] = showVP
+        settings['l'] = int(l)
+        settings['firstyear'] = list(Enrollment.objects.order_by('study_year').filter(student=prijave[0].enroll.student))[0].study_year
+        settings['onlyExam'] = Curriculum.objects.filter(course=exam.course)[0].only_exam
+    except Exception, e:
+        print e
+    
     
     result = []
     for p in prijave:
+        if not showVP and p.VP: continue
         prijava = {}
         prijava['id'] = p.id
         prijava['priimek'] = p.enroll.student.surname
@@ -47,10 +60,11 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         polaganja = _getPolaganja(p, p.enroll.student, exam.date)
         prijava['polaganja'] = str(polaganja[0]) + (("  "+str(polaganja[1])) if polaganja[1]>0 else "")
         #prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
+        prijava['VP'] = p.VP
 
         result = result + [prijava]
 
-    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 'list': int(l)}, RequestContext(request))
+    return render_to_response('admin/student/exam_grades.html', {'izpitnirok': exam, 'prijave':result, 's':settings}, RequestContext(request))
     
     
 
@@ -59,6 +73,7 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
     signup=ExamSignUp.objects.get(id=signup_Id)
 
     try:
+        #change data about signup
         if what=="1":
             signup.result_exam = newValue
             signup.save()
@@ -74,8 +89,14 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
         if what=="4":
             signup.setPointsOther(int(newValue))
             signup.save()
-    except:#maybe an error msg?
-        pass
+        if what=="5":
+            if newValue == "0":
+                signup.VP = True
+            else:
+                signup.VP = False
+            signup.save()
+    except Exception, e:#maybe an error msg?
+        print e
     
     return exam_grades_view(request, exam_Id, l)
 
