@@ -13,8 +13,10 @@ import org.psywerx.estudent.json.EnrollmentExamDates;
 import org.psywerx.estudent.json.EnrollmentExamDates.EnrollmentExamDate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -30,6 +32,8 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 	protected String mEnrollmentId;
 
 	protected int mLastPosition = 0;
+	
+	private boolean firstCall = true;
 
 	public interface OnExamSelectedListener {
 		public void onExamSelected(int action);
@@ -92,11 +96,24 @@ public class ExamsFragment extends ListFragment implements ResponseListener{
 			mMenuAdapter.getItem(mLastPosition).addIcon(R.drawable.check_no_128);
 		mMenuAdapter.notifyDataSetChanged();
 	}
+	
+	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int which) {
+	    	getActivity().finish();
+	    }
+	};
 
 	public void onServerResponse(Object response) {
 		if (response != null && response instanceof EnrollmentExamDates) {
 			mExamDates = (EnrollmentExamDates) response;
 			reloadData();
+			if(mMenuAdapter.isEmpty() && firstCall) {
+				firstCall = false;
+				AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
+				b.setMessage(R.string.noExams);
+				b.setPositiveButton(R.string.Back, dialogClickListener);
+				b.show();
+			}
 		}
 	}
 
