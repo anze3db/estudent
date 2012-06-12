@@ -43,6 +43,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['tockeOstalo'] = "0" if p.points == None else p.getPointsOther()
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
+        prijava['negativno'] = p.resultNegative()
         polaganja = _getPolaganja(p, p.enroll.student, exam.date)
         prijava['polaganja'] = str(polaganja[0]) + (("  "+str(polaganja[1])) if polaganja[1]>0 else "")
         #prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
@@ -61,6 +62,9 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
         if what=="1":
             signup.result_exam = newValue
             signup.save()
+            if signup.resultNegative():
+                signup.result_practice = "1"
+                signup.save()
         if what=="2":
             signup.result_practice = newValue
             signup.save()
