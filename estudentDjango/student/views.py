@@ -176,7 +176,7 @@ def exam_sign_out(request, student_Id):
 
     exist=ExamSignUp.objects.filter(examDate__in=s.get_current_exam_dates())
 
-
+    #print str('neki')+str(exist)
     return render_to_response('admin/student/exam_sign_out.html', {'Prijave':exist}, RequestContext(request))
     
     
