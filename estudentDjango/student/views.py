@@ -34,6 +34,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
 
     settings = {}
     try:
+        settings['examId'] = exam.id
         settings['showVP'] = showVP
         settings['l'] = int(l)
         settings['firstyear'] = list(Enrollment.objects.order_by('study_year').filter(student=prijave[0].enroll.student))[0].study_year
