@@ -107,8 +107,8 @@ public class KartList extends ExpandableListActivity implements ResponseListener
 			//TODO: kreditne ,.... vaje 0 ,... 
 			if (polaganje != null){
 				datum = polaganje.datum;
-				ocena = polaganje.ocena.split("/")[0];
-				polaganj = ""+polaganje.stevilo_polaganj+" - "+polaganje.polaganja_letos;
+				ocena = polaganje.ocena;
+				polaganj = ""+(polaganje.stevilo_polaganj-polaganje.odstevek_ponavljanja)+" - "+polaganje.polaganja_letos;
 				predavatelj = polaganje.izvajalci;
 			}
 

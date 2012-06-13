@@ -298,11 +298,9 @@ class ExamDate(models.Model):
         rep=0
 
         for x in all_signUps:
-            type=x.enroll.enrol_type
-            if type == 'V2':
+            if str(x.enroll.enrol_type) != 'V2':
                 rep=rep+1
 
-        ost=all-rep
         if retrn == 0:
             return rep
         else:
@@ -543,7 +541,7 @@ class Curriculum(models.Model):
     mandatory = models.BooleanField(_("mandatory"))
     valid = models.BooleanField(_("valid"),default=True)
     module = models.ForeignKey("Module", null=True, blank=True)
-    only_exam   = models.BooleanField()
+    only_exam = models.BooleanField()
 
     @staticmethod
     def getNonMandatory(program, year):

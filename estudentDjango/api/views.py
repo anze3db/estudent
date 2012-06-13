@@ -47,9 +47,9 @@ def login(request):
 
 
 def _getPolaganja(s, student,nowdate):
-    attempts = s.examDate.course.nr_attempts_all_till_now(student,nowdate)+1
+    attempts = s.examDate.course.nr_attempts_all_till_now(student,nowdate)
     if s.examDate.repeat_class(student,0)>0:
-        repeated = s.examDate.repeat_class(student,0)+1
+        repeated = s.examDate.repeat_class(student,0)
     else:
         repeated = 0    
     return attempts, repeated
@@ -74,7 +74,11 @@ def index(request):
         courses = []
         classes = enroll.get_classes()
         courses2=Course.objects.filter(curriculum__in=classes)
-        
+        ocene_izpitov = 0
+        ocene_vaj = 0
+        stevec_izpitov = 0
+        stevec_vaj = 0
+        kreditne_tocke = 0
         for p in courses2:
             try:
                 course={}
@@ -95,14 +99,24 @@ def index(request):
     
                         cur=Curriculum.objects.get(course=p, program=enroll.program,class_year=enroll.class_year)
                         if(cur.only_exam==True):
-                            polaganje['ocena']=s.result_exam
+                            polaganje['ocena']=str(s.result_exam)
                         else:
-                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
+                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if int(s.result_exam) > 5 else 0))
                         
-                        
+                        if int(s.result_practice) > 5 and int(s.result_exam) > 5 : 
+                            kreditne_tocke += 1
+                            if(cur.only_exam==True):
+                                ocene_izpitov += int(s.result_exam)
+                                stevec_izpitov += 1
+                            else:
+                                ocene_izpitov += int(s.result_exam)
+                                stevec_izpitov += 1
+                                ocene_vaj += int(s.result_practice)
+                                stevec_vaj += 1
+                                
                         polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
-                        polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)+1
-    
+                        polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)
+                        polaganje['odstevek_ponavljanja'] = polaganje['odstevek_ponavljanja'] if str(enrollV2.enrol_type) == "V2" else 0
                         eno_pol.append(polaganje)
 
                 course["polaganja"]=eno_pol
@@ -110,10 +124,10 @@ def index(request):
             except:
                 raise
         out["courses"]=courses
-        out['povprecje_izpitov']=enroll.get_exam_avg()
-        out['kreditne_skupaj']=enroll.get_kreditne_skupaj()
-        out['povprecje_vaj']=enroll.get_practice_avg()
-        out['povprecje']=enroll.get_avg()
+        out['povprecje_izpitov']=float(ocene_izpitov)/stevec_izpitov if stevec_izpitov > 0 else 0
+        out['kreditne_skupaj']=kreditne_tocke * 6
+        out['povprecje_vaj']=float(ocene_vaj)/stevec_vaj if stevec_vaj > 0 else 0
+        out['povprecje']=float(ocene_izpitov+ocene_vaj)/float(stevec_izpitov+stevec_vaj) if stevec_vaj+stevec_izpitov > 0 else 0
 
         response.append(out)
 
@@ -426,11 +440,15 @@ def getEnrollmentExamDates(request):
                 ex['date']=str(e.date)
                 ex['instructors']=str(e.instructors)
                 ex['signedup']=e.already_thisExam(enroll.student)
-                ex['all_attempts']=e.course.nr_attempts_all(student)
-                ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
-                ex['attempts_this_enrollment']=e.course.nr_attempts_this_enroll(student)
                 ex['enroll_type']=enroll.enrol_type
-                ex['repeat_class_exams']=e.repeat_class(student)
+                
+                ex['attempts_this_year']=e.course.nr_attempts_this_year(student)
+                ex['all_attempts'] = e.course.nr_attempts_all(student)
+                if e.repeat_class(student,0)>0 and str(enroll.enrol_type) == "V2":
+                    ex['repeat_class_exams'] = e.repeat_class(student,0)
+                else:
+                    ex['repeat_class_exams'] = 0    
+                                
                 response.append(ex)
 
     return HttpResponse(json.dumps({"EnrollmentExamDates":response}),mimetype="application/json")

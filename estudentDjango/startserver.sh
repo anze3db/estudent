@@ -9,4 +9,4 @@ then
 	$p manage.py loaddata auth/fixtures/initial_data.json
 fi
 
-$p manage.py runserver 0.0.0.0:8000
+sudo $p manage.py runserver 0.0.0.0:80

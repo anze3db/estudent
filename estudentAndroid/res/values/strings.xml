@@ -42,7 +42,7 @@
     <string name="applyExam">Prijava na izpit</string>
     <string name="unapplyExam">Odjava od izpita</string>
     
-    <string name="noExams">Nobena prijava na izpit ne obstaja.</string>
+    <string name="noExams">Za izbrani vpis ste opravili že vse izpite.</string>
     <string name="needToPayStatus">Izpit je placljiv. Ali zelite nadaljevati?</string>
     <string name="needToPayNoStatus">Ker nimate statusa je izpit placljiv. Ali zelite nadaljevati?</string>
     <string name="Yes">Da</string>

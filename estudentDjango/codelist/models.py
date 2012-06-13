@@ -89,8 +89,7 @@ class Course(models.Model):
         rep=0
 
         for x in all_signUps:
-            type=x.enroll.enrol_type
-            if type == 'V2':
+            if str(x.enroll.enrol_type) != 'V2':
                 rep=rep+1
 
         ost=all-rep
@@ -105,21 +104,13 @@ class Course(models.Model):
 
 
         year=datetime.date.today().year
-#        month_today=datetime.date.today().month
-#        begin=datetime.date(year-1, 10, 1)
-#        end=datetime.date(year, 9, 31)
-#        if 10<=month_today<=12:
-#            begin=datetime.date(year, 10, 1)
-#            end=datetime.date(year+1,9, 31)
 
         exSig= ExamSignUp.objects.filter(enroll__student=student, VP=False, examDate__course=self)
         nr_try=0
-        y=0
 
         for t in exSig:
             if t.examDate.date.year==year:
                 nr_try=nr_try+1
-                y=t.examDate.date.year
 
 
         return nr_try
@@ -131,7 +122,7 @@ class Course(models.Model):
         nr_try=0
 
         for t in exSig:
-            if t.examDate.date.year==nowdate.year and t.examDate.date<nowdate:
+            if t.examDate.date.year==nowdate.year and t.examDate.date<=nowdate:
                 nr_try=nr_try+1
 
 
@@ -154,7 +145,7 @@ class Course(models.Model):
         #print "\n\n"
         i=0
         for a in all_signUps:
-            if a.VP==False and a.examDate.date < nowdate:
+            if a.VP==False and a.examDate.date <= nowdate:
                 i=i+1
         return i    
 
