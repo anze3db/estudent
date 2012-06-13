@@ -34,11 +34,14 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
 
     settings = {}
     try:
+        settings['examId'] = exam.id
         settings['showVP'] = showVP
         settings['l'] = int(l)
-        settings['onlyExam'] = Curriculum.objects.get(course=exam.course).only_exam
-    except:
-        pass
+        settings['firstyear'] = list(Enrollment.objects.order_by('study_year').filter(student=prijave[0].enroll.student))[0].study_year
+        settings['onlyExam'] = Curriculum.objects.filter(course=exam.course)[0].only_exam
+    except Exception, e:
+        print e
+    
     
     result = []
     for p in prijave:
@@ -94,10 +97,7 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
                 signup.VP = False
             signup.save()
     except Exception, e:#maybe an error msg?
-        print "////////////////////"
-        print e, "errorooro"
-        print "////////////////////"
-        pass
+        print e
     
     return exam_grades_view(request, exam_Id, l)
 
@@ -198,7 +198,7 @@ def exam_sign_out(request, student_Id):
 
     exist=ExamSignUp.objects.filter(examDate__in=s.get_current_exam_dates())
 
-
+    #print str('neki')+str(exist)
     return render_to_response('admin/student/exam_sign_out.html', {'Prijave':exist}, RequestContext(request))
     
     
@@ -368,7 +368,7 @@ def sign_up_confirm(request, student_Id, exam_Id, enroll_Id):
                 war=True
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked,'war':war}, RequestContext(request))
 
-            elif int(exam.nr_SignUp) < len(ExamSignUp.objects.filter(examDate=exam)):
+            elif int(exam.nr_SignUp) <= len(ExamSignUp.objects.filter(examDate=exam)):
                 war= True
                 message["warning"] = 'Omejitev dovoljenih prijav za ta izpitni rok'
                 return render_to_response('admin/student/exam_sign_up_confirm.html', {'Student':student, 'rok':exam, 'msg':message, 'clicked':clicked, 'war':war}, RequestContext(request))

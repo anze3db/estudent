@@ -18,6 +18,7 @@
             <th>Vpisna številka</th>
             <th>Priimek</th>
             <th>Ime</th>
+            <th>Poslušal</th>
             <th>Št. polaganj</th>
             {% if s.l == 2 %}
             <th>Točke izpit</th>
@@ -42,9 +43,10 @@
         {% for p in prijave %}
             <tr class="{% cycle 'row1' 'row2' %}">
                 <td style="text-align:center"><strong>{{forloop.counter}}</strong></td>
-                <td>{{p.vpisna_st}}</td>
+                <td style="text-align:center">{{p.vpisna_st}}</td>
                 <td>{{p.priimek}}</td>
                 <td>{{p.ime}}</td>
+                <td style="text-align:center">{{s.firstyear}}</td>
                 <td style="text-align:center">{{p.polaganja}}</td>
                 {% if s.l == 0 %}                
                     {% if p.VP %}
@@ -118,7 +120,8 @@
         {% endfor %}
     </table>
     {% endif %}
-
+<br>
+<div><a href="/student/examdate/?id={{ s.examId }}">Nazaj</a></div>
 
 
 {% endblock %}
