@@ -30,7 +30,7 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
 
     from api.views import _getPolaganja
 
-    showVP = (int(l) in [0,1,2])
+    showVP = (int(l) in [1])
 
     settings = {}
     try:
@@ -58,8 +58,18 @@ def exam_grades_view(request, exam_Id, l): #show list of all objects
         prijava['ocena_izpita'] = p.result_exam
         prijava['ocena_vaj']=p.result_practice
         prijava['negativno'] = p.resultNegative()
-        polaganja = _getPolaganja(p, p.enroll.student, exam.date)
-        prijava['polaganja'] = str(polaganja[0]) + (("  "+str(polaganja[1])) if polaganja[1]>0 else "")
+
+        stevilo_polaganj, odstevek_ponavljanja = _getPolaganja(p, p.enroll.student, exam.date) 
+        polaganja_letos=exam.course.nr_attempts_this_year_till_now(p.enroll.student,exam.date)
+        odstevek_ponavljanja = odstevek_ponavljanja if str(p.enroll.enrol_type) == "V2" else 0
+        
+        #aaa = (stevilo_polaganj - odstevek_ponavljanja, polaganja_letos)
+        aaa = (stevilo_polaganj, polaganja_letos)
+        
+        prijava['polaganja'] = str(aaa[0]) + ((" - "+str(aaa[1])) if aaa[1]>0 else "")
+
+        #polaganja = _getPolaganja(p, p.enroll.student, exam.date)
+        #prijava['polaganja'] = str(polaganja[0]) + (("  "+str(polaganja[1])) if polaganja[1]>0 else "")
         #prijava['stevilo_polaganj'], prijava['odstevek_ponavljanja'] = _getPolaganja(p, p.enroll.student,p.examDate.date) 
         prijava['VP'] = p.VP
 
@@ -79,11 +89,17 @@ def exam_grades_fix(request, exam_Id, l, what, signup_Id, newValue): #show list 
             signup.result_exam = newValue
             signup.save()
             if signup.resultNegative():
-                signup.result_practice = "1"
+                signup.result_practice = "NR"
                 signup.save()
         if what=="2":
             signup.result_practice = newValue
             signup.save()
+            try:
+                if int(newValue) <= 5:
+                    signup.result_practice = "NR"
+                    signup.save()
+            except:
+                pass
         if what=="3":
             signup.setPointsExam(int(newValue))
             signup.save()
@@ -293,7 +309,8 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                         polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)
                         polaganje['odstevek_ponavljanja'] = polaganje['odstevek_ponavljanja'] if str(enrollV2.enrol_type) == "V2" else 0
                         
-                        aaa = (polaganje['stevilo_polaganj'] - polaganje['odstevek_ponavljanja'], polaganje['polaganja_letos'])
+                        #aaa = (polaganje['stevilo_polaganj'] - polaganje['odstevek_ponavljanja'], polaganje['polaganja_letos'])
+                        aaa = (polaganje['stevilo_polaganj'], polaganje['polaganja_letos'])
                         
                         polaganje['polaganja'] = str(aaa[0]) + ((" - "+str(aaa[1])) if aaa[1]>0 else "")
                        

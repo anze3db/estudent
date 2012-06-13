@@ -79,7 +79,7 @@
                         <select disabled="disabled">
                         {% for choice in p.opcije %}
                             <option value="{{ choice.0 }}"
-                            {% if choice.0 == "1" %}
+                            {% if choice.0 == "NR" %}
                              selected 
                             {% endif %}  
                             >{{ choice.1 }}</option>
