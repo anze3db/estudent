@@ -254,6 +254,7 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
         courses = []
         classes = enroll.get_classes()
         courses2 = Course.objects.filter(curriculum__in=classes).order_by('course_code')
+        enrollsV2 = Enrollment.objects.filter(student = student,class_year = enroll.class_year, program = enroll.program)
         
         cntr = 0
         
@@ -265,37 +266,38 @@ def student_index_list(request, student_Id, display): #0=all, 1=last
                 course["name"]=p.name
                 course["sifra_predmeta"]=p.course_code
                 course["izvajalci"]=p.predavatelji()
-                signups = ExamSignUp.objects.filter(enroll=enroll).order_by('examDate__date')
-                signups = filter(lambda s: s.examDate.course.name == p.name, signups)
-                signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
                 
                 signs = []
-                if len(signups) > 0:
-                    fsignup = signups[0]
+                for enrollV2 in enrollsV2:
+                    signups = ExamSignUp.objects.filter(examDate__course__course_code=p.course_code,enroll=enrollV2).order_by('examDate__date')
+                    #signups = ExamSignUp.objects.filter(enroll=enrollV2).order_by('examDate__date')
+                    signups = filter(lambda s: s.examDate.course.name == p.name, signups)
+                    signups = filter(lambda s: (s.result_exam != "NR" and s.VP != True), signups)
+                    
                     for s in signups:
                         polaganje={}
                         polaganje['datum']=s.examDate.date.strftime("%d.%m.%Y")
                         polaganje['izvajalci']=s.examDate.instructors
                         if(polaganje['izvajalci']==None):
                             polaganje['izvajalci']=p.predavatelji()
-                        cur=Curriculum.objects.all().filter(course=p, program=enroll.program)[0]
+                        cur=Curriculum.objects.all().filter(course=p, program=enrollV2.program)[0]
                         if(cur.only_exam==True):
                             polaganje['ocena']=s.result_exam
                         else:
-                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if s.result_exam > 5 else 0))
+                            polaganje['ocena']=str(s.result_exam)+"/"+ str((s.result_practice if int(s.result_exam) > 5 else 0))
+
+                        from api.views import _getPolaganja
+                        aaa = _getPolaganja(s, student, s.examDate.date)
+
+                        polaganje['stevilo_polaganj'], polaganje['odstevek_ponavljanja'] = _getPolaganja(s, student,s.examDate.date) 
+                        polaganje['polaganja_letos']=s.examDate.course.nr_attempts_this_year_till_now(student,s.examDate.date)
+                        polaganje['odstevek_ponavljanja'] = polaganje['odstevek_ponavljanja'] if str(enrollV2.enrol_type) == "V2" else 0
+                        
+                        aaa = (polaganje['stevilo_polaganj'] - polaganje['odstevek_ponavljanja'], polaganje['polaganja_letos'])
+                        
+                        polaganje['polaganja'] = str(aaa[0]) + ((" - "+str(aaa[1])) if aaa[1]>0 else "")
+                       
                         signs.append(polaganje)
-
-                    from api.views import _getPolaganja
-                    aaa = _getPolaganja(fsignup, student,s.examDate.date)
-                    course['polaganja'] = str(aaa[0]) + (("  "+str(aaa[1])) if aaa[1]>0 else "")
-
-                    """if fsignup.examDate.repeat_class(student,0)>0:
-                        course['odstevek_ponavljanja']=" - "+fsignup.examDate.course.nr_attempts_all(student)-fsignup.examDate.repeat_class(student,0)
-                    else:
-                        course['odstevek_ponavljanja']=""
-                    course['polaganja_letos']=fsignup.examDate.course.nr_attempts_this_year(student)
-                    course['stevilo_polaganj']=fsignup.examDate.course.nr_attempts_all(student)
-                    #polaganje['stevilo_polaganj']"""
 
                 if (display == "1" and len(signs)>1):
                     signs = signs[-1:]

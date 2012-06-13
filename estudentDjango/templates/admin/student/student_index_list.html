@@ -53,7 +53,9 @@
                     {% endfor %}
                     </td>
                     <td>
-                    {{c.polaganja}}
+                    {% for s in c.signups %}
+                        {{s.polaganja}}<br>
+                    {% endfor %}
                     </td>
                 {% else %}
                     <td></td>
